@@ -1,0 +1,15 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "test-on-save",
+      "trigger": "PostFileSave",
+      "description": "Run pytest whenever a Python file is saved",
+      "matcher": "\\.py$",
+      "action": {
+        "type": "command",
+        "command": "uv run pytest"
+      }
+    }
+  ]
+}

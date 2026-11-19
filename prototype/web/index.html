@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFFFFF">
+<title>Belka · เพื่อนคู่คิด SME</title>
+<link rel="icon" href="/brand/belka-app-icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* สีจาก brand/tokens.json (พรีเซนต์ของทีม) */
+  :root {
+    --navy:#1C3C94; --blue:#2F6FEB; --orange:#F6871F; --amber:#F8C13A; --teal:#DDF1EE;
+    --cream:#FBF7F1; --ink:#1D2733; --muted:#73808F; --line:#ECECEC; --green:#1AA260; --red:#E5484D;
+    --page:#F4F5F8; --card:#FFFFFF; --chip:#E8EEFB; --orange-soft:#FFF1E2; --amber-soft:#FFF6DC;
+    --radius:20px; --shadow:0 4px 18px rgba(28,60,148,.07);
+  }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  html,body { margin:0; background:#E9ECF3; color:var(--ink); }
+  body { font-family:"IBM Plex Sans Thai",system-ui,-apple-system,"Segoe UI",sans-serif; font-size:16px; line-height:1.55; }
+  .phone { max-width:430px; margin:0 auto; min-height:100dvh; background:var(--page); position:relative; display:flex; flex-direction:column; }
+  @media (min-width:600px){ .phone{ margin:24px auto; min-height:calc(100dvh - 48px); border-radius:36px; overflow:hidden; box-shadow:0 20px 60px rgba(28,60,148,.18);} }
+  header.top { background:#fff; padding:16px 18px 12px; display:flex; align-items:center; gap:10px; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:5; }
+  header.top h1 { font-size:21px; margin:0; color:var(--ink); flex:1; }
+  header.top img { width:34px; height:34px; border-radius:10px; }
+  .bell { position:relative; font-size:20px; } .bell b { position:absolute; top:-4px; right:-8px; background:var(--red); color:#fff; font-size:11px; border-radius:999px; padding:0 5px; }
+  main { flex:1; padding:14px 16px 110px; overflow-y:auto; }
+  nav.tabs { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:100%; max-width:430px; background:#fff; border-top:1px solid var(--line); display:flex; padding:6px 0 calc(8px + env(safe-area-inset-bottom)); z-index:6; }
+  @media (min-width:600px){ nav.tabs{ position:absolute; bottom:0; } }
+  nav.tabs button { flex:1; background:none; border:0; font:inherit; font-size:12.5px; color:var(--muted); display:flex; flex-direction:column; align-items:center; gap:2px; padding:4px 0; cursor:pointer; min-height:48px; }
+  nav.tabs button .i { font-size:21px; filter:grayscale(1); opacity:.6; } nav.tabs button .i img { width:28px; height:28px; display:block; }
+  nav.tabs button.on { color:var(--orange); font-weight:600; } nav.tabs button.on .i { filter:none; opacity:1; }
+  .fab { position:fixed; right:max(16px, calc(50% - 199px)); bottom:84px; z-index:7; background:var(--navy); color:#fff; border:0; border-radius:999px; padding:10px 16px 10px 10px; display:flex; align-items:center; gap:8px; font:inherit; font-weight:600; box-shadow:0 8px 22px rgba(28,60,148,.35); cursor:pointer; }
+  @media (min-width:600px){ .fab{ position:absolute; right:16px; } }
+  .fab img { width:30px; height:30px; border-radius:50%; background:#fff; }
+  h2 { font-size:20px; margin:4px 0 4px; } h3 { font-size:17px; margin:0 0 4px; }
+  .sub { color:var(--muted); font-size:14px; margin:0 0 12px; }
+  .card { background:var(--card); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow); margin-bottom:12px; border:1px solid #EEF0F5; }
+  .card.hl { border:2px solid var(--amber); background:#FFFCF3; }
+  .btn { display:flex; align-items:center; justify-content:center; gap:8px; width:100%; min-height:52px; border-radius:16px; border:0; font:inherit; font-weight:600; font-size:17px; cursor:pointer; }
+  .btn.primary { background:var(--orange); color:#fff; } .btn.ghost { background:#fff; color:var(--navy); border:1.5px solid var(--navy); }
+  .btn.ok { background:var(--green); color:#fff; } .btn[disabled]{ opacity:.45; cursor:default; }
+  .btn.sm { min-height:40px; font-size:15px; border-radius:12px; width:auto; padding:0 14px; }
+  .row { display:flex; gap:10px; } .row>* { flex:1; } .between { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; margin:6px 0; }
+  .chip { font-size:13px; padding:3px 11px; border-radius:999px; background:var(--chip); color:var(--navy); font-weight:500; border:1px solid transparent; }
+  .chip.o { background:#fff; border-color:var(--orange); color:var(--orange); } .chip.g { background:var(--teal); color:#0d6b4a; }
+  .chip.a { background:var(--amber-soft); color:#8a5a00; } .chip.r { background:#FDECEC; color:var(--red); } .chip.n { background:var(--navy); color:#fff; }
+  .filters { display:flex; gap:8px; overflow-x:auto; padding-bottom:4px; margin-bottom:10px; }
+  .filters button { flex:none; border:1.5px solid var(--line); background:#fff; border-radius:999px; padding:7px 16px; font:inherit; font-size:15px; cursor:pointer; color:var(--ink); }
+  .filters button.on { background:var(--orange-soft); border-color:var(--orange); color:var(--orange); font-weight:600; }
+  .kv { display:flex; justify-content:space-between; gap:12px; font-size:14.5px; padding:4px 0; } .kv span:first-child { color:var(--muted); } .kv span:last-child { text-align:right; font-weight:500; }
+  .big { font-size:34px; font-weight:700; line-height:1.1; } .big.o { color:var(--orange); } .big.b { color:var(--blue); } .big.g { color:var(--green); } .big.r { color:var(--red); }
+  .caption { background:var(--page); border-radius:14px; padding:12px; margin:10px 0; }
+  .caption .lbl { display:flex; justify-content:space-between; font-size:13px; color:var(--muted); margin-bottom:4px; } .pass { color:var(--green); font-weight:600; }
+  ol.steps { list-style:none; padding:0; margin:10px 0 0; display:grid; gap:8px; } ol.steps li { display:flex; gap:10px; cursor:pointer; }
+  ol.steps .box { flex:0 0 24px; height:24px; border-radius:7px; border:2px solid var(--line); display:flex; align-items:center; justify-content:center; color:#fff; font-size:14px; }
+  ol.steps li.on .box { background:var(--green); border-color:var(--green); } ol.steps li.on span { color:var(--muted); text-decoration:line-through; }
+  details.why summary { cursor:pointer; color:var(--orange); font-weight:600; list-style:none; margin-top:10px; } details.why summary::-webkit-details-marker{display:none}
+  details.why p { color:var(--muted); margin:6px 0 0; font-size:14.5px; }
+  .progress { display:flex; gap:6px; align-items:center; color:var(--muted); font-size:13px; }
+  .progress i { width:20px; height:20px; border-radius:50%; border:2px solid var(--line); display:inline-flex; align-items:center; justify-content:center; font-style:normal; font-size:11px; background:#fff; }
+  .progress i.done { background:var(--green); border-color:var(--green); color:#fff; } .progress i.skipped { background:var(--line); }
+  .mini { display:flex; gap:8px; } .mini button { flex:1; min-height:42px; border-radius:12px; border:1.5px solid var(--line); background:#fff; font:inherit; font-size:15px; cursor:pointer; }
+  .avatar { width:46px; height:46px; border-radius:50%; background:var(--teal); display:flex; align-items:center; justify-content:center; font-size:24px; flex:none; }
+  .rank { color:var(--orange); font-weight:700; }
+  .swipe { display:flex; justify-content:center; gap:18px; margin-top:12px; }
+  .swipe button { width:56px; height:56px; border-radius:50%; border:1.5px solid var(--line); background:#fff; font-size:22px; cursor:pointer; }
+  .swipe button.yes { background:var(--amber); border-color:var(--amber); }
+  .swipe small { display:block; text-align:center; font-size:11.5px; color:var(--muted); margin-top:4px; }
+  .bars { display:flex; align-items:flex-end; gap:6px; height:120px; margin-top:10px; }
+  .bars div { flex:1; border-radius:6px 6px 0 0; position:relative; } .bars div span { position:absolute; top:-18px; width:100%; text-align:center; font-size:11px; color:var(--muted); }
+  .range { height:10px; border-radius:999px; background:var(--line); position:relative; margin:12px 0 6px; } .range .fill { position:absolute; top:0; bottom:0; border-radius:999px; background:var(--green); } .range .mid { position:absolute; top:-5px; width:3px; height:20px; background:var(--navy); border-radius:2px; } .range .zero { position:absolute; top:-6px; width:1px; height:22px; background:var(--red); }
+  table.t { width:100%; border-collapse:collapse; font-size:14px; } table.t th, table.t td { padding:6px 4px; border-bottom:1px solid var(--line); text-align:right; } table.t th:first-child, table.t td:first-child { text-align:left; } table.t th { color:var(--muted); font-weight:500; font-size:12.5px; }
+  input, textarea, select { font:inherit; font-size:16px; border:1.5px solid var(--line); border-radius:12px; padding:9px 11px; width:100%; background:#fff; color:var(--ink); }
+  label.f { font-size:13px; color:var(--muted); display:block; margin:8px 0 3px; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:8px; } .grid3 { display:grid; grid-template-columns:2fr 1fr 1fr auto; gap:6px; align-items:center; }
+  .notice { background:var(--amber-soft); border-radius:14px; padding:10px 12px; font-size:14px; margin-bottom:12px; }
+  .ok-box { background:var(--teal); border-radius:14px; padding:10px 12px; font-size:14px; color:#0d6b4a; }
+  .issues { background:#FDECEC; color:var(--red); border-radius:12px; padding:10px; font-size:14px; margin-top:8px; }
+  .lock { opacity:.75; } .lock h3 { color:var(--muted); }
+  .center { text-align:center; } .mascot { width:150px; display:block; margin:8px auto; }
+  .stk { display:block; object-fit:contain; pointer-events:none; user-select:none; }
+  .card { position:relative; } .card .corner { position:absolute; right:10px; top:-18px; width:64px; height:64px; filter:drop-shadow(0 4px 6px rgba(28,60,148,.15)); }
+  .card .corner + * { padding-right:56px; }
+  .avatar.stkav { background:var(--teal); overflow:hidden; } .avatar.stkav img { width:42px; height:42px; }
+  .choice .em img { width:40px; height:40px; display:block; }
+  .loader { display:flex; flex-direction:column; align-items:center; gap:4px; margin:28px 0; } .loader img { width:110px; animation:bob 1.1s ease-in-out infinite; } @keyframes bob { 50% { transform:translateY(-8px); } }
+  .botrow { display:flex; gap:8px; align-items:flex-end; } .botrow img { width:34px; height:34px; flex:none; }
+  .stkrow { display:flex; justify-content:center; gap:4px; margin-top:6px; } .stkrow img { width:54px; height:54px; }
+  .ob .hero { width:120px; margin:4px auto 0; }
+  /* onboarding */
+  .ob { background:#fff; flex:1; display:flex; flex-direction:column; padding:20px 18px 24px; }
+  .dots { display:flex; gap:6px; margin:4px 0 16px; } .dots span { height:6px; flex:1; border-radius:3px; background:var(--line); } .dots span.on { background:var(--orange); }
+  .choices { display:grid; grid-template-columns:1fr 1fr; gap:12px; } .choices.one { grid-template-columns:1fr; }
+  .choice { background:#fff; border:2px solid var(--line); border-radius:18px; padding:16px 14px; text-align:left; font:inherit; cursor:pointer; display:flex; gap:12px; align-items:center; min-height:72px; }
+  .choice .em { font-size:28px; } .choice b { display:block; font-size:17px; } .choice small { color:var(--muted); }
+  .choice.on { border-color:var(--orange); background:var(--orange-soft); }
+  .sheet { position:fixed; inset:0; background:rgba(20,30,60,.45); z-index:20; display:flex; align-items:flex-end; justify-content:center; }
+  .sheet .panel { background:#fff; width:100%; max-width:430px; border-radius:24px 24px 0 0; max-height:85dvh; display:flex; flex-direction:column; }
+  .chat { flex:1; overflow-y:auto; padding:14px; display:flex; flex-direction:column; gap:8px; }
+  .msg { max-width:85%; padding:10px 12px; border-radius:16px; white-space:pre-wrap; font-size:15px; } .msg.me { align-self:flex-end; background:var(--orange); color:#fff; border-bottom-right-radius:4px; } .msg.bot { align-self:flex-start; background:var(--page); border-bottom-left-radius:4px; }
+  .toast { position:fixed; left:50%; bottom:96px; transform:translateX(-50%); background:var(--ink); color:#fff; padding:9px 16px; border-radius:999px; font-size:14px; opacity:0; transition:opacity .2s; pointer-events:none; z-index:30; } .toast.show { opacity:1; }
+  .spin { width:28px; height:28px; border:3px solid var(--line); border-top-color:var(--orange); border-radius:50%; animation:sp 1s linear infinite; margin:20px auto; } @keyframes sp { to { transform:rotate(360deg); } }
+  .muted { color:var(--muted); } .small { font-size:13px; }
+  .pk { display:flex; gap:12px; align-items:center; width:100%; text-align:left; background:#fff; border:2px solid var(--line); border-radius:18px; padding:12px; font:inherit; cursor:pointer; margin-bottom:10px; }
+  .pk.on { border-color:var(--orange); background:var(--orange-soft); } .pk .av { width:56px; height:56px; border-radius:50%; background:var(--teal); display:flex; align-items:center; justify-content:center; flex:none; overflow:hidden; } .pk .av img { width:50px; height:50px; }
+  .pk b { display:block; font-size:16px; } .pk .tick { margin-left:auto; width:28px; height:28px; border-radius:50%; border:2px solid var(--line); display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700; flex:none; } .pk.on .tick { background:var(--orange); border-color:var(--orange); }
+  .cal { user-select:none; } .cal .hd { display:flex; align-items:center; justify-content:space-between; margin-bottom:6px; } .cal .hd b { font-size:16px; color:var(--navy); }
+  .cal .g { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; } .cal .w { text-align:center; font-size:12px; color:var(--muted); padding:2px 0; }
+  .cal button.d { aspect-ratio:1; border:0; border-radius:12px; background:var(--page); font:inherit; font-size:15px; color:var(--ink); cursor:pointer; min-height:38px; }
+  .cal button.d.o { background:var(--orange); color:#fff; font-weight:700; } .cal button.d.n { background:var(--blue); color:#fff; font-weight:700; } .cal button.d.t { outline:2px solid var(--navy); } .cal button.d:disabled { opacity:.3; cursor:default; } .cal i.e { visibility:hidden; }
+  .lg { display:flex; gap:12px; flex-wrap:wrap; font-size:13px; color:var(--muted); margin:8px 0; } .lg span::before { content:""; display:inline-block; width:12px; height:12px; border-radius:4px; margin-right:5px; vertical-align:-1px; background:var(--page); } .lg .o::before { background:var(--orange); } .lg .n::before { background:var(--blue); }
+  .dayrow { display:flex; align-items:center; gap:10px; padding:6px 0; border-top:1px solid var(--line); } .dayrow .tag { font-size:12px; font-weight:700; color:#fff; border-radius:999px; padding:2px 9px; } .dayrow .tag.o { background:var(--orange); } .dayrow .tag.n { background:var(--blue); } .dayrow input { width:90px; margin-left:auto; }
+  .opt { display:flex; gap:12px; align-items:center; width:100%; text-align:left; background:#fff; border:2px solid var(--line); border-radius:18px; padding:12px; font:inherit; cursor:pointer; margin-bottom:10px; } .opt b { display:block; font-size:16px; } .opt img { width:52px; height:52px; flex:none; }
+  .arow { display:flex; gap:10px; align-items:center; padding:8px 0; border-top:1px solid var(--line); } .arow img { width:40px; height:40px; flex:none; } .arow .t { flex:1; min-width:0; } .arow .t b { display:block; font-size:15px; }
+</style>
+</head>
+<body>
+<div class="phone" id="phone"></div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* Belka web app — แท็บ ร้าน · ลูกค้า · ไอเดีย · วิเคราะห์ + ถาม Belka
+ * AI (Bedrock): /api/plan, /api/ask · โค้ดล้วน: /api/calc/*, /api/personas, /api/ideas, /api/trends, /api/memory, /api/redline */
+/* กันลิงก์ปลอม ?api=เว็บคนอื่น: ใช้ ?api= ได้เฉพาะตอนเปิดไฟล์จากเครื่อง และชี้ได้แค่ 127.0.0.1 / localhost */
+const API = (() => { if (location.protocol !== "file:") return ""; const q = (new URLSearchParams(location.search).get("api") || "").replace(/\/$/, ""); return /^http:\/\/(127\.0\.0\.1|localhost)(:\d{2,5})?$/.test(q) ? q : "http://127.0.0.1:8000"; })();
+const BRAND = API + "/brand";
+const stk = (n, cls = "", st = "") => `<img class="stk ${cls}" src="${BRAND}/stickers/${n}.png" alt="" style="${st}" loading="lazy">`;
+const loader = t => `<div class="loader">${stk("laptop-trend")}<p class="center muted">${t}</p></div>`;
+const SEG_STK = { "นักศึกษา":"backpack", "วัยทำงาน":"laptop", "ครอบครัว":"shop-hug", "วัยอาวุโส":"reading", "นักท่องเที่ยว":"backpack-wink", "สายสุขภาพ":"gardener", "พรีเมียม":"sunglasses-coins", "องค์กร/พ่อค้าแม่ค้า":"tablet-tie" };
+const GROUP_STK = { A:"megaphone", B:"heart", C:"icon-map-pin", D:"phone-check", E:"coin-hold", F:"shop-sale", G:"icon-market" };
+const OPT_STK = { drink:"icon-cafe", bakery:"coffee-stall", food:"market-stall", workers:"laptop", students:"backpack", locals:"shop-hug", tourists:"backpack-wink", line:"phone-check-2", facebook:"megaphone", google_maps:"icon-map-pin", delivery:"icon-truck", none:"plant-pot" };
+const STEP_STK = ["sme-shop", "heart", "online-order", "icon-heart-board", "coin-stack"];
+const ARCH_STK = { "คนซื้อของฝากไปบ้าน":"basket", "ครอบครัวมื้อเย็นวันหยุด":"shop-hug", "พ่อแม่รับส่งลูก":"backpack",
+  "คนเดินทางผ่านย่าน":"backpack-wink", "นักท่องเที่ยวต่างชาติสายสตรีทฟู้ด":"market-stall", "นักท่องเที่ยวไทยสายคาเฟ่":"bubble-tea",
+  "นักศึกษากิจกรรมชมรม":"megaphone", "นักศึกษาสายคอนเทนต์/ครีเอเตอร์":"phone-check", "นักศึกษาสายติวหนังสือ":"reading", "นักศึกษาหอพักงบจำกัด":"piggy-bank",
+  "นักชิมขนมอบ":"wink", "ผู้บริหารสายกาแฟพิเศษ":"tablet-tie", "สายของขวัญพรีเมียม":"money-bag",
+  "พนักงานทำงานที่บ้าน":"laptop-sit", "พนักงานกะดึก":"laptop-blue", "พนักงานออฟฟิศพักเที่ยง":"laptop", "ฟรีแลนซ์นั่งทำงานในคาเฟ่":"laptop-trend",
+  "ผู้สูงวัยตลาดเช้า":"gardener", "ผู้เกษียณเดินออกกำลังกาย":"happy", "ลูกค้าประจำย่านเก่า":"heart",
+  "สายฟิตเนสหลังออกกำลังกาย":"growth-chart", "สายมังสวิรัติ":"plant-basket", "สายลดหวานลดมัน":"checklist",
+  "ฝ่ายบุคคลจัดเลี้ยงพนักงาน":"tablet", "พ่อค้าแม่ค้าในตลาด":"shop-sale", "แอดมินสั่งของว่างประชุม":"online-order" };
+const archStk = c => ARCH_STK[c.archetype] || SEG_STK[c.segment] || "wink";
+const TH_DOW = ["อา","จ","อ","พ","พฤ","ศ","ส"], TH_MON = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน","กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม"], TH_MON_S = ["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
+const iso = (y, m, d) => `${y}-${String(m + 1).padStart(2, "0")}-${String(d).padStart(2, "0")}`;
+const dayLabel = s => { const [y, m, d] = s.split("-").map(Number); return `${TH_DOW[new Date(y, m - 1, d).getDay()]} ${d} ${TH_MON_S[m - 1]}`; };
+const pickOf = c => ({ archetype: c.archetype, segment: c.segment, likes: (c.likes || []).slice(0, 4), objection: (c.objection || "").slice(0, 80), post_time: c.post_time || null });
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+const fmt = n => (n == null || isNaN(n)) ? "–" : Number(n).toLocaleString("th-TH", { maximumFractionDigits: 2 });
+const pct = n => (n == null) ? "–" : Math.round(n * 100) + "%";
+const store = {
+  get(k, d) { try { const v = localStorage.getItem("belka:" + k); return v ? JSON.parse(v) : d; } catch { return d; } },
+  set(k, v) { try { localStorage.setItem("belka:" + k, JSON.stringify(v)); } catch {} },
+  clear() { try { Object.keys(localStorage).filter(k => k.startsWith("belka:")).forEach(k => localStorage.removeItem(k)); } catch {} },
+};
+async function api(path, body) {
+  const res = await fetch(API + path, body ? { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) } : {});
+  if (res.status === 429) {   // ชั้นป้องกันฝั่งเซิร์ฟเวอร์จำกัดจำนวนครั้ง: บอกผู้ใช้ตรง ๆ
+    let d = "ใช้ถี่เกินไป รอสักครู่แล้วลองใหม่"; try { d = (await res.json()).detail || d; } catch {}
+    S._rl = Date.now(); S._rlMsg = d; toast(d); const e = new Error(d); e.status = 429; throw e;
+  }
+  if (!res.ok) throw new Error("HTTP " + res.status);
+  return res.json();
+}
+function toast(m) { if (S._rl && Date.now() - S._rl < 1200 && m !== S._rlMsg) return; const t = document.getElementById("toast"); t.textContent = m; t.classList.add("show"); clearTimeout(t._h); t._h = setTimeout(() => t.classList.remove("show"), 1900); }
+const todayISO = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; };
+
+const DEFAULT_MENU = { drink: [["ลาเต้", 60, 24], ["ชาไทย", 45, 15], ["อเมริกาโน่", 50, 18]],
+                       bakery: [["ครัวซองต์", 55, 20], ["บราวนี่", 45, 18], ["ชีสเค้ก", 85, 35]],
+                       food: [["ข้าวกะเพรา", 60, 25], ["ข้าวมันไก่", 55, 22], ["ก๋วยเตี๋ยว", 50, 20]] };
+const S = {
+  tab: store.get("tab", "home"),
+  profile: store.get("profile", null),
+  shopId: store.get("shopId", "shop-" + Math.random().toString(36).slice(2, 8)),
+  plan: store.get("plan", null), status: store.get("status", {}), ticks: store.get("ticks", {}),
+  menu: store.get("menu", null), gp: store.get("gp", { "หน้าร้าน": 0, "Grab": 30, "LINE MAN": 30 }),
+  ob: { step: 0, p: { shop_type: null, customer: null, channels: [] } },
+  focus: null, editing: null, draft: null, issues: null,
+  personas: null, ideas: null, filter: "ทั้งหมด", trends: null, chat: store.get("chat", []), chatOpen: false,
+  menuCalc: null, promo: null, promoItem: 0, sb: null, loading: {},
+  history: store.get("history", []), week: store.get("week", 1), pinned: store.get("pinned", []),
+  sbDays: store.get("sbDays", {}), cal: { y: new Date().getFullYear(), m: new Date().getMonth() }, sheet: null, qDraft: "",
+};
+store.set("shopId", S.shopId);
+function save() { ["tab","profile","plan","status","ticks","menu","gp","chat","history","week","pinned","sbDays"].forEach(k => store.set(k, S[k])); }
+function menuItems() { const p = S.profile || S.ob.p; const m = S.menu || (p ? DEFAULT_MENU[p.shop_type] || [] : []); return m.map(([name, price, cost]) => ({ name, price: price === "" || price == null ? null : +price, cost: cost === "" || cost == null ? null : +cost })); }
+function shopCtx() {
+  const items = menuItems().filter(i => String(i.name).trim()); const prices = items.map(i => i.price).filter(Boolean);
+  return { ...S.profile, shop_id: S.shopId, menu: items.map(i => i.name), avg_price: prices.length ? prices.reduce((a,b)=>a+b,0)/prices.length : null,
+           has_costs: items.some(i => i.cost != null) };
+}
+const CH_LABEL = { line: "LINE", facebook: "Facebook", google_maps: "Google Maps", delivery: "Grab / LINE MAN" };
+const SEG_ICON = { "นักศึกษา":"🎓", "วัยทำงาน":"💼", "ครอบครัว":"👨‍👩‍👧", "วัยอาวุโส":"🧓", "นักท่องเที่ยว":"🧳", "สายสุขภาพ":"🥗", "พรีเมียม":"✨", "องค์กร/พ่อค้าแม่ค้า":"🏢" };
+const TABS = [["home","icon-shop-front","ร้าน"],["customers","icon-heart-board","ลูกค้า"],["ideas","icon-open-sign","ไอเดีย"],["discounts","money-bag","ส่วนลด"],["analysis","icon-laptop-cart","วิเคราะห์"]];
+const TITLES = { home: "ร้านของฉัน", customers: "ลูกค้าจำลอง", ideas: "ไอเดียในการทำคอนเทนต์", discounts: "ส่วนลดรายเมนู", analysis: "วิเคราะห์ร้าน" };
+
+/* ---------- onboarding ---------- */
+const STEPS = [
+  { key: "shop_type", title: "ร้านคุณขายอะไร?", sub: "แตะเลือก 1 อย่าง ไม่ต้องพิมพ์", multi: false, one: true, options: [
+    ["drink","☕","เครื่องดื่ม","กาแฟ ชา น้ำปั่น"],["bakery","🍰","เบเกอรี่","ขนมอบ เค้ก ขนมปัง"],["food","🍜","อาหาร","อาหารจานเดียว ร้านข้าว"]] },
+  { key: "customer", title: "ลูกค้าส่วนใหญ่คือใคร?", sub: "Belka จะเลือกเวลาโพสต์ให้ตรงกับตอนที่เขาว่าง", multi: false, options: [
+    ["workers","💼","คนทำงาน",""],["students","🎓","นักศึกษา",""],["locals","🏠","คนในย่าน",""],["tourists","🧳","นักท่องเที่ยว",""]] },
+  { key: "channels", title: "ตอนนี้ร้านใช้ช่องทางไหนบ้าง?", sub: "เลือกได้หลายอัน", multi: true, options: [
+    ["line","💬","LINE",""],["facebook","📘","Facebook",""],["google_maps","📍","Google Maps",""],["delivery","🛵","Grab / LINE MAN",""],["none","🌱","ยังไม่มีเลย",""]] },
+];
+function renderWelcome() {
+  return `<div class="ob center"><img src="${BRAND}/belka-app-icon-512.png" alt="Belka" style="width:88px;height:88px;border-radius:24px;margin:26px auto 0;box-shadow:0 10px 24px rgba(28,60,148,.25)">
+    <h2 style="font-size:28px;color:var(--navy);margin-top:14px">Belka</h2><p class="sub" style="color:var(--orange);font-weight:600;margin:0">เพื่อนคู่คิด SME</p>
+    <img class="mascot" src="${BRAND}/mascot/flag-go.png" alt="" style="width:180px;margin-top:14px"><div class="stkrow">${["coin-hold","laptop","megaphone","growth-chart"].map(n => stk(n)).join("")}</div>
+    <h2>ตอบไม่กี่ข้อ แล้วเจอลูกค้าของร้าน</h2><p class="sub">แตะเลือกลูกค้าที่ใช่ ใส่เมนูกับต้นทุนครั้งเดียว (ถ่ายรูปเมนูได้) แล้วรับแผนการตลาดสัปดาห์นี้ วันละไม่เกิน 10 นาที</p>
+    <div style="flex:1"></div><button class="btn primary" data-a="ob-start">เริ่มเลย</button></div>`;
+}
+function renderPersonaStep() {
+  const cards = S.ob.cards, sel = S.ob.sel || [];
+  const head = `<div class="between"><button class="btn sm ghost" style="border:0" data-a="ob-back">‹ ย้อนกลับ</button><span class="muted small">ขั้น 4 จาก 5</span></div>
+    <div class="dots">${[0,1,2,3,4].map(i => `<span class="${i <= 3 ? "on" : ""}"></span>`).join("")}</div>`;
+  if (!cards) return `<div class="ob">${head}${S.error ? `<p class="center" style="color:var(--red)">${esc(S.error)}</p><button class="btn primary" data-a="ob-personas">ลองอีกครั้ง</button>` : loader("กำลังหาลูกค้าที่ตรงกับร้านคุณ จากลูกค้าจำลอง 10,000 คน…")}</div>`;
+  return `<div class="ob">${head}${stk(STEP_STK[3], "hero")}<h2 style="font-size:24px">เจอแล้ว ลูกค้าของร้านคุณ</h2>
+    <p class="sub">แตะเลือก 1–3 กลุ่มที่ใช่ที่สุด Belka จะเขียนแผนให้ตรงกับเขา (ลูกค้าจำลอง ไม่ใช่ข้อมูลลูกค้าจริง)</p>
+    ${cards.map(c => `<button class="pk ${sel.includes(c.archetype) ? "on" : ""}" data-a="ob-pk" data-arch="${esc(c.archetype)}"><span class="av">${stk(archStk(c))}</span>
+      <span><b>${esc(c.archetype)}</b><span class="small muted">${esc(c.segment)} · อายุ ${c.age_range[0]}–${c.age_range[1]} · งบ ${fmt(c.budget_per_visit[0])}–${fmt(c.budget_per_visit[1])} บาท</span><br><span class="small muted">ชอบ: ${c.likes.map(esc).join(" · ")} · ออนไลน์ ${esc(c.post_time)}</span></span>
+      <span class="tick">${sel.includes(c.archetype) ? "✓" : ""}</span></button>`).join("")}
+    <div style="flex:1"></div><button class="btn primary" data-a="ob-menu" ${sel.length ? "" : "disabled"} style="margin-top:8px">ต่อไป: ใส่เมนูและต้นทุน › (${sel.length}/3)</button></div>`;
+}
+function renderStep() {
+  if (S.ob.step === 3) return renderPersonaStep();
+  if (S.ob.step === 4) return renderMenuStep();
+  const s = STEPS[S.ob.step], v = S.ob.p[s.key], on = x => s.multi ? (v || []).includes(x) : v === x;
+  return `<div class="ob"><div class="between"><button class="btn sm ghost" style="border:0" data-a="ob-back">‹ ย้อนกลับ</button><span class="muted small">ขั้น ${S.ob.step+1} จาก 5</span></div>
+    <div class="dots">${[0,1,2,3,4].map(i => `<span class="${i <= S.ob.step ? "on" : ""}"></span>`).join("")}</div>
+    ${stk(STEP_STK[S.ob.step], "hero")}<h2 style="font-size:24px">${s.title}</h2><p class="sub">${s.sub}</p>
+    <div class="choices ${s.one ? "one" : ""}">${s.options.map(([val, em, t, sub]) => `<button class="choice ${on(val) ? "on" : ""}" data-a="ob-pick" data-v="${val}"><span class="em">${OPT_STK[val] ? stk(OPT_STK[val]) : em}</span><span><b>${t}</b>${sub ? `<small>${sub}</small>` : ""}</span></button>`).join("")}</div>
+    <div style="flex:1"></div>${s.multi ? `<button class="btn primary" data-a="ob-personas" ${(v || []).length ? "" : "disabled"} style="margin-top:18px">ต่อไป: ดูลูกค้าของร้าน ›</button>` : ""}
+    ${S.error ? `<p class="center" style="color:var(--red)">${esc(S.error)}</p>` : ""}</div>`;
+}
+
+/* ---------- ตัวแก้เมนูที่ใช้ร่วมกัน (หน้าเริ่มต้น + แท็บส่วนลด) ---------- */
+const menuValid = () => menuItems().filter(i => String(i.name).trim() && i.price > 0 && i.cost != null && i.cost >= 0).length;
+function menuPhotoBox() {
+  const b = S.loading.menuPhoto, dis = b ? "disabled" : "";
+  return `<div style="margin:0 0 12px"><div class="row"><button class="btn sm" data-a="menu-cam" ${dis}>📷 ถ่ายรูปเมนู</button><button class="btn sm ghost" data-a="menu-photo" ${dis}>🖼️ เลือกรูปจากเครื่อง</button></div>
+    <input id="menu-photo" type="file" accept="image/*" hidden><input id="menu-cam-file" type="file" accept="image/*" capture="environment" hidden>
+    ${b ? `<p class="small" style="margin:8px 0 0">Belka กำลังอ่านเมนู…</p>` : S.menuNote ? `<p class="small" style="margin:8px 0 0;color:${S.menuNote.warn ? "#b06b00" : "var(--ink)"}">${esc(S.menuNote.text)}</p>` : `<p class="small muted" style="margin:6px 0 0">ถ่ายหรือเลือกรูปเมนู Belka จะถอดชื่อกับราคาให้ แล้วคุณตรวจแก้และใส่ต้นทุนเอง</p>`}</div>`;
+}
+function menuRowsHtml(req) {
+  const warn = 'style="border-color:#e0a000"';
+  return menuItems().map((it, i) => { const used = String(it.name).trim() || it.price != null || it.cost != null;
+    return `<div class="grid3"><input data-m="${i}" data-k="0" value="${esc(it.name)}" placeholder="ชื่อเมนู" maxlength="60" aria-label="ชื่อเมนู"><input data-m="${i}" data-k="1" type="number" inputmode="decimal" min="0" value="${it.price ?? ""}" ${used && !(it.price > 0) ? warn : ""} placeholder="ราคา" aria-label="ราคา"><input data-m="${i}" data-k="2" type="number" inputmode="decimal" min="0" value="${it.cost ?? ""}" ${req && used && it.cost == null ? warn : ""} placeholder="${req ? "ต้นทุน" : "ใส่ให้ครบ"}" aria-label="ต้นทุน"><button class="btn sm ghost" style="border:0" data-a="menu-del" data-i="${i}" aria-label="ลบเมนู">✕</button></div>`; }).join("");
+}
+function renderMenuStep() {
+  const n = menuValid();
+  return `<div class="ob"><div class="between"><button class="btn sm ghost" style="border:0" data-a="ob-back">‹ ย้อนกลับ</button><span class="muted small">ขั้น 5 จาก 5</span></div>
+    <div class="dots">${[0,1,2,3,4].map(() => `<span class="on"></span>`).join("")}</div>
+    ${stk(STEP_STK[4], "hero")}<h2 style="font-size:24px">เมนูและต้นทุนของร้าน</h2>
+    <p class="sub">ใส่ชื่อ ราคา และต้นทุนต่อชิ้นของเมนูหลักอย่างน้อย 1 อย่าง Belka ใช้คิดส่วนลดที่ไม่ทำให้ขาดทุน (ต้นทุน = ค่าวัตถุดิบและบรรจุภัณฑ์ต่อ 1 ชิ้น)</p>
+    ${menuPhotoBox()}<div class="grid3 small muted"><span>เมนู</span><span>ราคา</span><span>ต้นทุน</span><span></span></div>${menuRowsHtml(true)}
+    <div class="row" style="margin:8px 0"><button class="btn sm ghost" data-a="menu-add">+ เพิ่มเมนู</button><button class="btn sm ghost" data-a="menu-sample">ลองด้วยเมนูตัวอย่าง</button></div>
+    <p class="small muted" style="margin:0">เมนูกับต้นทุนเก็บไว้ในเครื่องนี้ รูปเมนูจะส่งให้ AI อ่านครั้งเดียวและไม่ถูกเก็บ</p>
+    <div style="flex:1"></div><button class="btn primary" data-a="ob-plan" ${n && !S.loading.plan ? "" : "disabled"} style="margin-top:14px">รับแผนของร้าน ✨${n ? ` (${n} เมนูพร้อมแล้ว)` : ""}</button>
+    ${S.loading.plan ? loader("Belka กำลังคิดแผนให้ร้านคุณ…") : ""}${S.error ? `<p class="center" style="color:var(--red)">${esc(S.error)}</p>` : ""}</div>`;
+}
+function renderDiscounts() {
+  const d = S.disc, ready = menuItems().filter(i => i.price > 0 && i.cost != null).length;
+  const cards = d ? d.items.map(r => { const x = r.recommendation;
+    if (!x) return `<div class="card"><b>${esc(r.name)}</b><p class="small muted" style="margin:6px 0 0">${esc(r.note || "")}</p></div>`;
+    if (!x.eligible) return `<div class="card"><b>${esc(r.name)}</b> <span class="muted small">ราคา ${fmt(r.price)} · ต้นทุน ${fmt(r.cost)}</span><div class="issues" style="margin-top:8px">ไม่ควรลดราคา: ${esc(x.reason)}</div></div>`;
+    return `<div class="card"><div class="between"><div><b>${esc(r.name)}</b><div class="small muted">ปกติ ${fmt(x.price)} · ต้นทุน ${fmt(r.cost)} บาท</div></div><span class="chip ${x.label === "คุ้ม" ? "g" : x.label === "ลุ้น" ? "a" : "r"}" style="font-size:15px">${esc(x.label)}</span></div>
+      <div class="between" style="margin-top:8px"><div><div class="small muted">ราคาโปรที่แนะนำ</div><div class="big o">${fmt(x.promo_price)} บาท</div></div><div class="small muted" style="text-align:right">ลด ${fmt(x.discount_baht)} บาท (${pct(x.discount_pct)})</div></div>
+      <div class="kv"><span>กำไรต่อชิ้น</span><span>${fmt(x.unit_profit_before)} → ${fmt(x.unit_profit_after)} บาท</span></div>
+      <div class="kv"><span>ต้องขายเพิ่มเพื่อคุ้มทุน</span><span>${x.lift_needed == null ? "ไม่คุ้ม" : "+" + pct(x.lift_needed)}</span></div></div>`; }).join("") : "";
+  return `<div class="card" style="margin-top:22px">${stk("money-bag", "corner")}<h3>🏷️ ส่วนลดรายเมนู</h3>
+    <p class="small muted" style="margin:0 0 8px">ใส่ราคาและต้นทุนของแต่ละเมนู Belka บอกราคาโปรที่คุ้มให้ทีละเมนู ไม่ลดเท่ากันทั้งร้าน เมนูที่กำไรต่ำกว่า 20% จะไม่แนะนำให้ลด</p>
+    ${menuPhotoBox()}<div class="grid3 small muted"><span>เมนู</span><span>ราคา</span><span>ต้นทุน</span><span></span></div>${menuRowsHtml(false)}
+    <button class="btn sm ghost" style="margin:8px 0" data-a="menu-add">+ เพิ่มเมนู</button>
+    <label class="f">คาดว่ายอดจะเพิ่มเท่าไหร่ถ้าลดราคา (%)</label><input id="lift" type="number" value="${esc(store.get("lift", 30))}">
+    <button class="btn primary" style="margin-top:10px" data-a="calc-disc" ${ready && !S.loading.disc ? "" : "disabled"}>ดูส่วนลดทุกเมนู${ready ? ` (${ready} เมนู)` : ""}</button>
+    ${ready ? "" : `<p class="small muted" style="margin:8px 0 0">ใส่ราคาและต้นทุนอย่างน้อย 1 เมนู ปุ่มจะใช้ได้</p>`}</div>
+    ${S.loading.disc ? loader("Belka กำลังคิดราคาโปรให้ทีละเมนู…") : ""}${cards}`;
+}
+async function calcDiscounts() {
+  const el = document.getElementById("lift"), lift = Math.min(300, Math.max(1, +(el ? el.value : store.get("lift", 30)) || 30)) / 100;
+  S.loading.disc = true; render();
+  try { S.disc = await api("/api/calc/discounts", { expected_lift: lift, items: menuItems().filter(i => String(i.name).trim() && i.price > 0).map(i => ({ name: String(i.name).trim().slice(0, 60), price: i.price, cost: i.cost })) }); }
+  catch (e) { if (e.status !== 429) toast("คำนวณไม่ได้ ตรวจตัวเลขอีกครั้ง"); }
+  S.loading.disc = false; render();
+}
+
+/* ---------- tab: ร้าน ---------- */
+function current() {
+  const t = S.plan.tasks, today = todayISO(), todo = x => !S.status[x.slot];
+  if (S.focus) return [t.find(x => x.slot === S.focus), "focus"];
+  let x = t.find(x => x.date === today && todo(x)); if (x) return [x, "today"];
+  x = t.find(x => x.date < today && todo(x)); if (x) return [x, "overdue"];
+  x = t.find(todo); if (x) return [x, "rest"]; return [null, "complete"];
+}
+function taskCard(t, label) {
+  const ticks = S.ticks[t.slot] || [], editing = S.editing === t.slot;
+  const cap = editing ? `<div class="caption"><div class="lbl">แก้แคปชัน</div><textarea id="ed" rows="4">${esc(S.draft ?? t.caption)}</textarea>
+      ${S.issues ? `<div class="issues"><b>ยังใช้ไม่ได้</b>${S.issues.map(i => `<div>“${esc(i.term)}” ${esc(i.reason)} → ${esc(i.suggestion)}</div>`).join("")}</div>` : ""}</div>
+      <div class="mini"><button data-a="ed-cancel">ยกเลิก</button><button data-a="ed-save" data-s="${t.slot}" style="background:var(--orange);color:#fff;border-color:var(--orange)">ตรวจและบันทึก</button></div>`
+    : `<div class="caption"><div class="lbl"><span>💬 แคปชันพร้อมใช้</span>${t.redline.passed ? `<span class="pass">ผ่านการตรวจแล้ว ✓</span>` : ""}</div><div>${esc(t.caption)}</div></div>
+      <div class="mini"><button data-a="copy" data-s="${t.slot}">📋 คัดลอก</button><button data-a="ed" data-s="${t.slot}">✏️ แก้</button></div>`;
+  return `<div class="card hl">${stk("checklist", "corner")}<div class="chips"><span class="chip o">${esc(t.channel_label)}</span><span class="chip">🕒 ${esc(t.time_window)}</span><span class="chip">⏱️ ${t.minutes} นาที</span></div>
+    ${label ? `<p class="small muted" style="margin:0">${label}</p>` : ""}<h3>${esc(t.title)}</h3>${cap}
+    <ol class="steps">${t.steps.map((s, i) => `<li class="${ticks.includes(i) ? "on" : ""}" data-a="tick" data-s="${t.slot}" data-i="${i}"><span class="box">${ticks.includes(i) ? "✓" : ""}</span><span>${esc(s)}</span></li>`).join("")}</ol>
+    <details class="why"><summary>❓ ทำไมต้องทำ?</summary><p>${esc(t.why)}</p></details></div>
+    <p class="center small muted">${t.source === "ai" ? "✨ Belka คิดให้ร้านคุณโดยเฉพาะ" : "📘 แผนมาตรฐานของ Belka"}</p>
+    <div class="row"><button class="btn ghost" data-a="skip" data-s="${t.slot}">⏭️ ข้าม</button><button class="btn ok" data-a="done" data-s="${t.slot}">✅ ทำแล้ว</button></div>`;
+}
+function renderHome() {
+  if (!S.plan || S.loading.plan) return loader("Belka กำลังคิดแผนให้ร้านคุณ…");
+  const [t, mode] = current(), done = S.plan.tasks.filter(x => S.status[x.slot] === "done").length;
+  const prog = `<div class="progress">${S.plan.tasks.map(x => `<i class="${S.status[x.slot] || ""}">${S.status[x.slot] === "done" ? "✓" : ""}</i>`).join("")}<span>${done}/3</span></div>`;
+  let body;
+  if (mode === "complete") body = `<div class="card center">${stk("coin-tower", "mascot")}<h2>ครบทั้งสัปดาห์แล้ว</h2><p class="sub">ทำไปแล้ว ${done} จาก 3 งาน</p><button class="btn primary" data-a="regen">รับแผนสัปดาห์ถัดไป</button></div>`;
+  else if (mode === "rest") body = `<div class="card center">${stk("reading", "mascot", "width:120px")}<h2>วันนี้พักได้</h2><p class="sub">งานถัดไป: ${esc(t.day_label)}<br>${esc(t.title)}</p><button class="btn ghost" data-a="focus" data-s="${t.slot}">ทำล่วงหน้าเลย</button></div>`;
+  else body = taskCard(t, mode === "overdue" ? `งานที่ค้างจาก${esc(t.day_label)} ยังทำได้นะ` : mode === "focus" ? `งานของ${esc(t.day_label)}` : "");
+  const week = S.plan.tasks.map(x => { const st = S.status[x.slot]; return `<div class="kv" data-a="focus" data-s="${x.slot}" style="cursor:pointer"><span>${st === "done" ? "✅" : st === "skipped" ? "⏭️" : x.date === todayISO() ? "👉" : "⬜"} ${esc(x.title)}</span><span class="small">${esc(x.day_label)}</span></div>`; }).join("");
+  return `${S.plan.notice ? `<div class="notice">${esc(S.plan.notice)}</div>` : ""}
+    <div class="between" style="margin-bottom:6px"><h2>${S.plan.tasks.some(x => x.date === todayISO()) ? "วันนี้" : "สัปดาห์นี้"} <span class="chip">สัปดาห์ที่ ${S.week}</span></h2>${prog}</div>
+    ${(S.profile.personas || []).length ? `<div class="chips" style="margin:0 0 12px">${S.profile.personas.map(p => `<span class="chip a">🎯 ${esc(p.archetype)}</span>`).join("")}</div>` : ""}${body}
+    <div class="card" style="margin-top:24px">${stk("tablet", "corner")}<h3>แผนทั้งสัปดาห์</h3>${week}</div>
+    <button class="btn ghost sm" data-a="reset" style="margin:8px auto;display:flex">เริ่มใหม่</button>`;
+}
+
+/* ---------- tab: ลูกค้า ---------- */
+function renderCustomers() {
+  if (!S.personas) return loader("กำลังจับคู่จากลูกค้าจำลอง 10,000 คน…");
+  return `<div class="between"><h2>ลูกค้าที่เราแนะนำ</h2><span class="chip o">✏️ ลูกค้าจำลอง</span></div>
+    <p class="sub">เรียงตามความน่าจะเป็นที่ตรงกับร้านคุณ จากคลังลูกค้าจำลอง (Simulated) ${fmt(S.personas.personas_scored)} คน — ไม่ใช่ข้อมูลลูกค้าจริง</p>
+    ${S.personas.cards.map(c => `<div class="card"><div style="display:flex;gap:12px"><div class="avatar stkav" style="width:58px;height:58px">${stk(archStk(c), "", "width:52px;height:52px")}</div><div style="flex:1">
+      <h3><span class="rank">#${c.rank}</span> ${esc(c.archetype)}</h3><div class="small muted">${esc(c.segment)} · อายุ ${c.age_range[0]}–${c.age_range[1]} · ${pct(c.share_of_top)} ของกลุ่มที่ตรงที่สุด</div></div></div>
+      <div class="chips">${c.likes.map(l => `<span class="chip">${esc(l)}</span>`).join("")}</div>
+      <div class="kv"><span>ข้อโต้แย้งที่น่าจะมี</span><span>${esc(c.objection)}</span></div>
+      <div class="kv"><span>งบต่อครั้ง</span><span>${fmt(c.budget_per_visit[0])}–${fmt(c.budget_per_visit[1])} บาท</span></div>
+      <div class="kv"><span>ช่วงออนไลน์มากสุด</span><span>${esc(c.peak_online.days)} ${c.peak_online.hours[0]}:00–${c.peak_online.hours[1]}:00</span></div>
+      <div class="kv"><span>ควรโพสต์ช่วง</span><span>${esc(c.post_time)}</span></div>
+      <div class="kv"><span>แพลตฟอร์มที่เหมาะ</span><span>${Object.entries(c.top_platforms).map(([k, v]) => `${esc(k)} ${Math.round(v.fit)}`).join(" · ")}</span></div>
+      <div class="mini" style="margin:8px 0"><button data-a="pickp" data-arch="${esc(c.archetype)}" style="${(S.profile.personas || []).some(p => p.archetype === c.archetype) ? "background:var(--orange);color:#fff;border-color:var(--orange)" : ""}">${(S.profile.personas || []).some(p => p.archetype === c.archetype) ? "🎯 ใช้กับแผนอยู่" : "🎯 ใช้กลุ่มนี้กับแผน"}</button></div>
+      <div class="swipe"><div><button data-a="swipe" data-arch="${esc(c.archetype)}" data-v="not_my_shop">✕</button><small>ไม่ใช่ร้านฉัน</small></div>
+        <div><button data-a="swipe" data-arch="${esc(c.archetype)}" data-v="similar">☆</button><small>คล้าย</small></div>
+        <div><button class="yes" data-a="swipe" data-arch="${esc(c.archetype)}" data-v="exactly">✓</button><small>ใช่เลย</small></div></div></div>`).join("")}
+    ${S.personasChanged ? `<button class="btn primary" data-a="replan" style="margin:8px 0">สร้างแผนสัปดาห์นี้ใหม่ตามกลุ่มที่เลือก</button>` : ""}
+    <p class="small muted center">การปัดของคุณสอน Belka: ใช่เลย ×1.5 · คล้าย ×1.2 · ไม่ใช่ ×0.5</p>`;
+}
+
+/* ---------- tab: ไอเดีย ---------- */
+const FILTERS = ["ทั้งหมด", "Instagram", "TikTok", "Facebook", "LINE", "Google Maps"];
+function renderIdeas() {
+  if (!S.ideas) return loader("กำลังให้คะแนนคอนเทนต์ 34 แบบ…");
+  const wk = new Set(S.ideas.week.map(w => w.id)), tr = S.ideas.trends;
+  const list = S.ideas.ranked.filter(r => S.filter === "ทั้งหมด" || (r.channels[S.filter] || 0) >= .5);
+  const ago = tr.fetched_at ? Math.round((Date.now() / 1000 - tr.fetched_at) / 60) : null;
+  const trendCard = `<div class="card" style="margin-top:22px">${stk("growth-chart", "corner")}<div class="between"><h3>📈 เรดาร์เทรนด์</h3><button class="btn sm ghost" data-a="trends">รีเฟรช</button></div>
+    <p class="small muted" style="margin:0 0 6px">Google Trends ไทย ${tr.external_status === "offline" ? "· ออฟไลน์ ใช้ข้อมูลล่าสุด" : ago != null ? `· อัปเดต ${ago} นาทีที่แล้ว` : ""} · ปฏิทินเทศกาล · กรองข่าวเสี่ยงออกแล้ว ${tr.blocked_count} เรื่อง</p>
+    <div class="chips">${tr.signals.filter(s => s.relevance >= .5).slice(0, 6).map(s => `<span class="chip ${s.urgent ? "o" : s.source === "calendar" ? "a" : ""}">${s.urgent ? "🔥 " : ""}${esc(s.title)}${s.days_to_start ? ` · อีก ${s.days_to_start} วัน` : ""}</span>`).join("") || `<span class="small muted">ยังไม่มีเทรนด์ที่เกี่ยวกับร้าน</span>`}</div></div>`;
+  const byId = Object.fromEntries(S.ideas.ranked.map(r => [r.id, r])), pins = (S.pinned || []).filter(id => byId[id] && !byId[id].locked);
+  const planned = pins.length ? pins.map(id => byId[id]) : S.ideas.week, mins = r => 5 + 5 * Math.min(r.effort, 3);
+  const chN = new Set(planned.map(r => Object.entries(r.channels).sort((a, b) => b[1] - a[1])[0][0])).size;
+  const analyze = `<div class="card" style="margin-top:22px">${stk("growth-chart", "corner")}<h3>🧭 วิเคราะห์แผนสัปดาห์นี้</h3>
+    <p class="small muted" style="margin:0 0 4px">${pins.length ? `คุณเลือก ${pins.length}/3 · เลือกเพิ่มได้จากการ์ดด้านล่าง` : "Belka แนะนำ 3 งานนี้ จากคะแนนของร้านคุณ · กด 📌 ที่การ์ดเพื่อเลือกเอง"}</p>
+    ${planned.map(r => `<div class="arow">${stk(GROUP_STK[r.group] || "wink")}<div class="t"><b>${esc(r.name)}</b><span class="small muted">คะแนน ${r.score} · ใช้ ~${mins(r)} นาที · ตรงลูกค้า ${r.breakdown.persona} · ทำได้จริง ${r.breakdown.feasibility}${r.risk >= 15 ? " · ⚠️ เสี่ยงสูง" : ""}${r.is_price_offer ? " · ต้องมีต้นทุน" : ""}</span></div>${pins.length ? `<button class="btn sm ghost" style="border:0" data-a="pin" data-id="${r.id}" aria-label="เอาออก">✕</button>` : ""}</div>`).join("")}
+    <div class="kv"><span>รวมเวลา</span><span>~${planned.reduce((a, r) => a + mins(r), 0)} นาที/สัปดาห์</span></div>
+    <div class="kv"><span>ครอบคลุมช่องทาง</span><span>${chN} ช่องทาง</span></div>
+    <div class="kv"><span>คะแนนเฉลี่ย</span><span>${(planned.reduce((a, r) => a + r.score, 0) / Math.max(planned.length, 1)).toFixed(1)}</span></div>
+    ${pins.length ? `<div class="row" style="margin-top:10px"><button class="btn ghost" data-a="pin-clear">ล้างที่เลือก</button><button class="btn primary" data-a="replan">ใช้เป็นแผนสัปดาห์นี้</button></div>`
+      : `<button class="btn primary" style="margin-top:10px" data-a="pin-suggest">เลือกตามที่ Belka แนะนำ</button>`}</div>
+    <button class="opt" data-a="sheet-open" data-v="analyze">${stk("laptop-trend")}<span><b>ไปวิเคราะห์ร้านของคุณ</b><span class="small muted">กำไรต่อเมนู ราคาโปรที่คุ้ม วัดผลด้วยปฏิทิน</span></span></button>`;
+  return `${analyze}<div class="filters">${FILTERS.map(f => `<button class="${S.filter === f ? "on" : ""}" data-a="filter" data-v="${f}">${f}</button>`).join("")}</div>${trendCard}
+    ${list.slice(0, 14).map((r, i) => r.locked
+      ? `<div class="card lock"><div class="chips"><span class="chip r">🔒 ${esc(r.lock_reasons.join(", "))}</span></div><h3>${esc(r.id)} ${esc(r.name)}</h3><p class="small muted" style="margin:0">${esc(r.group_name)}</p></div>`
+      : `<div class="card ${wk.has(r.id) ? "hl" : ""}" style="margin-top:22px">${stk(GROUP_STK[r.id[0]] || "wink", "corner")}<div class="chips">${i === 0 && S.filter === "ทั้งหมด" ? `<span class="chip n">⭐ แนะนำที่สุด</span>` : ""}${wk.has(r.id) ? `<span class="chip a">📅 อยู่ในแผนสัปดาห์นี้</span>` : ""}${r.trend ? `<span class="chip o">📈 ${esc(r.trend)}</span>` : ""}</div>
+        <h3>${esc(r.name)}</h3>
+        <div class="chips"><span class="chip g">👍 คะแนน ${r.score}</span>${r.is_price_offer ? `<span class="chip a">ข้อเสนอราคา (ต้องมีต้นทุน)</span>` : `<span class="chip g">คุ้ม (ไม่มีต้นทุน)</span>`}<span class="chip">แรง ${r.effort}/5</span></div>
+        <div class="chips">${r.formats.slice(0, 2).map(f => `<span class="chip o">${esc(f)}</span>`).join("")}${Object.entries(r.channels).sort((a,b)=>b[1]-a[1]).slice(0, 2).map(([c]) => `<span class="chip">${esc(c)}</span>`).join("")}</div>
+        <p class="small" style="margin:6px 0">${esc(r.how)}</p>
+        <details class="why"><summary>❓ ทำไมได้คะแนนนี้</summary><p>เป้าหมายและสถานการณ์ ${r.breakdown.goal_situation} · ตรงลูกค้า ${r.breakdown.persona} · ทำได้จริง ${r.breakdown.feasibility} · หลักฐานจากร้าน ${r.breakdown.evidence} · จังหวะเวลา ${r.breakdown.timing}${r.breakdown.urgent_bonus ? " · โบนัสเร่งด่วน +12" : ""} · ความเสี่ยง −${r.breakdown.risk}${r.breakdown.interest_multiplier !== 1 ? ` · ความสนใจของร้าน ×${r.breakdown.interest_multiplier}` : ""}<br>วัดผล: ${esc(r.measure)}</p></details>
+        <div class="mini" style="margin-top:10px"><button data-a="pin" data-id="${r.id}" style="${pins.includes(r.id) ? "background:var(--orange);color:#fff;border-color:var(--orange)" : ""}">${pins.includes(r.id) ? "✔ อยู่ในแผน" : "📌 ใส่ในแผน"}</button><button data-a="save-idea" data-id="${r.id}">🔖 บันทึก</button><button data-a="ask-idea" data-name="${esc(r.name)}">💬 ถาม Belka</button></div></div>`).join("")}
+    <p class="small muted center">คะแนนตามสูตรตัดสินใจ 34 คอนเทนต์ของทีม · ทำ/ข้าม/บันทึก ทำให้ Belka จำว่าร้านนี้ชอบแบบไหน (${S.ideas.memory.events} ครั้ง)</p>`;
+}
+
+/* ---------- tab: วิเคราะห์ ---------- */
+function renderAnalysis() {
+  const items = menuItems(), mc = S.menuCalc, pr = S.promo, sb = S.sb;
+  const menuRows = items.map((it, i) => `<div class="grid3"><input data-m="${i}" data-k="0" value="${esc(it.name)}" aria-label="ชื่อเมนู"><input data-m="${i}" data-k="1" type="number" inputmode="decimal" value="${it.price ?? ""}" ${it.price > 0 ? "" : 'style="border-color:#e0a000" placeholder="ใส่ราคา"'} aria-label="ราคา"><input data-m="${i}" data-k="2" type="number" inputmode="decimal" value="${it.cost ?? ""}" placeholder="ไม่ใส่ก็ได้" aria-label="ต้นทุน"><button class="btn sm ghost" style="border:0" data-a="menu-del" data-i="${i}">✕</button></div>`).join("");
+  const chs = Object.keys(S.gp);
+  const photoBox = menuPhotoBox();
+  const table = mc ? `<table class="t"><tr><th>เมนู</th>${chs.map(c => `<th>${esc(c)}</th>`).join("")}</tr>${mc.items.map(r => `<tr><td>${esc(r.name)}</td>${r.by_channel ? chs.map(c => { const v = r.by_channel[c]; return `<td style="color:${v.loss ? "var(--red)" : v.margin < .2 ? "#b06b00" : "var(--ink)"}">${fmt(v.profit)}<br><span class="small muted">${pct(v.margin)}</span></td>`; }).join("") : `<td colspan="${chs.length}" class="small muted">ยังไม่มีต้นทุน</td>`}</tr>`).join("")}</table>
+      ${mc.items.some(r => r.loss_channels && r.loss_channels.length) ? `<div class="issues">⚠️ มีเมนูที่ขาดทุนในบางช่องทาง (ตัวแดง)</div>` : ""}${mc.items.some(r => r.low_margin_channels && r.low_margin_channels.length) ? `<p class="small muted">ตัวสีส้ม = มาร์จิ้นต่ำกว่า 20% ไม่ควรทำโปรในช่องทางนั้น</p>` : ""}` : "";
+  const gpBox = mc && mc.gp_savings ? `<div class="ok-box">ลดสัดส่วนออเดอร์ผ่านแอป → ประหยัด GP <b>${fmt(mc.gp_savings.saved_per_month)} บาท/เดือน</b> (${fmt(mc.gp_savings.saved_per_year)} บาท/ปี) · แนะนำแบ่ง 30% เป็นงบการตลาด = <b>${fmt(mc.gp_savings.marketing_budget)} บาท/เดือน</b></div>` : "";
+  const withCost = items.map((it, i) => [it, i]).filter(([it]) => it.cost != null && it.price > 0);
+  let promoBox = "";
+  if (pr) {
+    const r = pr.recommendation;
+    if (!r.eligible) promoBox = `<div class="issues">${esc(r.reason)}</div>`;
+    else {
+      const mx = Math.max(...pr.scenarios.map(s => Math.abs(s.net)), 1);
+      promoBox = `<div class="between"><div><div class="small muted">ราคาโปรที่แนะนำ</div><div class="big o">${fmt(r.promo_price)} บาท</div><div class="small muted">ปกติ ${fmt(r.price)} · ลด ${fmt(r.discount_baht)} บาท (${pct(r.discount_pct)})</div></div><span class="chip ${r.label === "คุ้ม" ? "g" : r.label === "ลุ้น" ? "a" : "r"}" style="font-size:15px">${r.label}</span></div>
+        <div class="kv"><span>กำไรต่อชิ้น</span><span>${fmt(r.unit_profit_before)} → ${fmt(r.unit_profit_after)} บาท</span></div>
+        <div class="kv"><span>ต้องขายเพิ่มเพื่อคุ้มทุน</span><span>${r.lift_needed == null ? "ไม่คุ้ม" : "+" + pct(r.lift_needed)}</span></div>
+        <div class="kv"><span>เพดานส่วนลด (คุ้ม / ลุ้น)</span><span>${fmt(r.cap_worth_baht)} / ${fmt(r.cap_maybe_baht)} บาท</span></div>
+        <p class="small muted" style="margin:10px 0 0">กำไรสุทธิต่อวัน 3 สถานการณ์ (ยอดเพิ่มต่ำ · คาด · สูง)</p>
+        <div class="bars">${pr.scenarios.map(s => `<div style="height:${Math.max(6, Math.abs(s.net) / mx * 100)}%;background:${s.net >= 0 ? "var(--orange)" : "var(--red)"}"><span>${s.net >= 0 ? "+" : ""}${fmt(s.net)}</span></div>`).join("")}</div>
+        <div class="row small muted center" style="margin-top:4px">${pr.scenarios.map(s => `<span>×${s.scenario}</span>`).join("")}</div>`;
+    }
+  }
+  const sbBox = sb ? `<div class="small muted">ลูกค้าต่อวันช่วงโปร</div><div class="between"><div><span class="big o">${fmt(sb.r.mean_promo)}</span> <span class="small muted">วันโปร</span></div><div><span class="big b">${fmt(sb.r.mean_other)}</span> <span class="small muted">วันอื่น</span></div></div>
+      <div class="small">ต่างกัน ${fmt(sb.r.diff)} คน ช่วง 95%: ${fmt(sb.r.ci_low)} ถึง ${fmt(sb.r.ci_high)}</div>
+      <div class="range">${(() => { const lo = Math.min(sb.r.ci_low, 0), hi = Math.max(sb.r.ci_high, 1), sc = v => (v - lo) / (hi - lo) * 100; return `<div class="fill" style="left:${sc(sb.r.ci_low)}%;right:${100 - sc(sb.r.ci_high)}%;background:${sb.r.ci_low > 0 ? "var(--green)" : "var(--amber)"}"></div><div class="zero" style="left:${sc(0)}%"></div><div class="mid" style="left:${sc(sb.r.diff)}%"></div>`; })()}</div>
+      <div class="chip ${sb.decision === "ทำต่อ" ? "g" : sb.decision === "ทำอีกรอบ" ? "a" : "r"}" style="display:inline-block;font-size:15px">ตัดสินใจ: ${sb.decision}</div>` : "";
+  return `<div class="card" id="a-menu" style="margin-top:22px">${stk("coin-stack", "corner")}<h3>🧮 กำไรจริงต่อเมนูแยกช่องทาง</h3><p class="small muted" style="margin:0 0 8px">ต้นทุนวัตถุดิบ ≠ GP · GP หักให้อัตโนมัติตามช่องทาง · ไม่กรอกต้นทุนก็ได้</p>
+      ${photoBox}<div class="grid3 small muted"><span>เมนู</span><span>ราคา</span><span>ต้นทุน</span><span></span></div>${menuRows}
+      <button class="btn sm ghost" style="margin:8px 0" data-a="menu-add">+ เพิ่มเมนู</button>
+      <div class="grid2">${chs.filter(c => c !== "หน้าร้าน").map(c => `<div><label class="f">GP ${esc(c)} (%)</label><input data-gp="${esc(c)}" type="number" value="${S.gp[c]}"></div>`).join("")}</div>
+      <div class="grid2"><div><label class="f">ยอดขาย/เดือน (บาท)</label><input id="ms" type="number" placeholder="เช่น 20000" value="${esc(store.get("ms", ""))}"></div><div><label class="f">ผ่านแอป ตอนนี้ → เป้า (%)</label><div class="row"><input id="sb0" type="number" value="${esc(store.get("sb0", 80))}"><input id="sb1" type="number" value="${esc(store.get("sb1", 50))}"></div></div></div>
+      <button class="btn primary" style="margin-top:10px" data-a="calc-menu">คำนวณ</button><div style="margin-top:10px">${table}${gpBox}</div></div>
+    <div class="card" id="a-promo" style="margin-top:22px">${stk("money-bag", "corner")}<h3>🏷️ ตัวคำนวณโปรรายสินค้า</h3><p class="small muted" style="margin:0 0 8px">คิดทีละเมนู ห้ามลดเท่ากันทั้งร้าน · ระบบไม่ลดเกิน 20%</p>
+      ${withCost.length ? `<label class="f">เลือกเมนู</label><select id="pi">${withCost.map(([it, i]) => `<option value="${i}" ${S.promoItem == i ? "selected" : ""}>${esc(it.name)} (${fmt(it.price)} บาท)</option>`).join("")}</select>
+      <div class="grid2"><div><label class="f">คาดว่ายอดจะเพิ่ม (%)</label><input id="lift" type="number" value="${esc(store.get("lift", 30))}"></div><div><label class="f">ขายปกติ (ชิ้น/วัน)</label><input id="q0" type="number" value="${esc(store.get("q0", 20))}"></div></div>
+      <button class="btn primary" style="margin-top:10px" data-a="calc-promo">ดูราคาโปรที่คุ้ม</button><div style="margin-top:12px">${promoBox}</div>`
+      : `<p class="small">ใส่ต้นทุนอย่างน้อย 1 เมนูด้านบนก่อน ระบบจะปลดล็อกตัวคำนวณโปร</p>`}</div>
+    <div class="card" id="a-sb" style="margin-top:22px">${stk("glasses-laptop", "corner")}<h3>📏 วัดผลโปรแบบสลับวัน</h3><p class="small muted" style="margin:0 0 8px">แตะวันที่ในปฏิทิน: แตะครั้งแรก = วันมีโปร · ครั้งที่สอง = วันไม่มีโปร · ครั้งที่สาม = ล้าง แล้วใส่จำนวนลูกค้าของแต่ละวัน</p>
+      ${renderCalendar()}
+      <button class="btn ghost" style="margin-top:10px" data-a="calc-sb">คำนวณช่วงความเชื่อมั่น</button><div style="margin-top:12px">${sbBox}</div></div>`;
+}
+function renderCalendar() {
+  const { y, m } = S.cal, first = new Date(y, m, 1).getDay(), n = new Date(y, m + 1, 0).getDate(), today = todayISO();
+  const cells = [...Array(first).fill(0), ...Array.from({ length: n }, (_, i) => i + 1)].map(d => {
+    if (!d) return `<i class="e"></i>`; const k = iso(y, m, d), st = (S.sbDays[k] || {}).t;
+    return `<button class="d ${st || ""} ${k === today ? "t" : ""}" ${k > today ? "disabled" : ""} data-a="cal-day" data-d="${k}" aria-label="${dayLabel(k)}">${d}</button>`;
+  }).join("");
+  const days = Object.entries(S.sbDays).sort(([a], [b]) => a < b ? -1 : 1);
+  return `<div class="cal"><div class="hd"><button class="btn sm ghost" data-a="cal-prev" aria-label="เดือนก่อน">‹</button><b>${TH_MON[m]} ${y + 543}</b><button class="btn sm ghost" data-a="cal-next" aria-label="เดือนถัดไป">›</button></div>
+    <div class="g">${TH_DOW.map(w => `<div class="w">${w}</div>`).join("")}${cells}</div>
+    <div class="lg"><span class="o">วันมีโปร</span><span class="n">วันไม่มีโปร</span></div></div>
+    ${days.map(([k, v]) => `<div class="dayrow"><span class="tag ${v.t}">${v.t === "o" ? "มีโปร" : "ไม่มีโปร"}</span><span>${dayLabel(k)}</span><input type="number" inputmode="numeric" min="0" data-cn="${k}" value="${v.n ?? ""}" placeholder="ลูกค้า (คน)" aria-label="จำนวนลูกค้า ${dayLabel(k)}"></div>`).join("")}`;
+}
+
+/* ---------- ถาม Belka ---------- */
+function renderChat() {
+  return `<div class="sheet" data-a="chat-close-bg"><div class="panel" data-stop="1"><div class="between" style="padding:14px 16px;border-bottom:1px solid var(--line)"><div style="display:flex;gap:10px;align-items:center"><img src="${BRAND}/belka-app-icon-192.png" style="width:34px;border-radius:10px" alt=""><b>ถาม Belka</b></div><button class="btn sm ghost" style="border:0" data-a="chat-close">ปิด</button></div>
+    <div class="chat" id="chatbox">${S.chat.length ? "" : `<div class="botrow">${stk("wink")}<div class="msg bot">ถามเรื่องการตลาดของร้านได้เลย เช่น “ลาเต้ 60 ต้นทุน 24 ลดได้เท่าไหร่” หรือ “สัปดาห์นี้ควรโพสต์อะไร”</div></div>`}${S.chat.map(m => `<div class="msg ${m.me ? "me" : "bot"}">${esc(m.t)}${m.src ? `<div class="small muted" style="margin-top:4px">${m.src === "ai" ? "✨ Bedrock · ตัวเลขจากเครื่องคิดเลขของ Belka" : "📘 คำตอบมาตรฐาน"}</div>` : ""}</div>`).join("")}${S.loading.ask ? `<div class="botrow">${stk("laptop-trend")}<div class="msg bot">กำลังคิด…</div></div>` : ""}</div>
+    <div style="display:flex;gap:8px;padding:10px 12px calc(12px + env(safe-area-inset-bottom));border-top:1px solid var(--line)"><input id="q" placeholder="พิมพ์คำถาม…" maxlength="500" value="${esc(S.qDraft)}" autocomplete="off"><button class="btn primary sm" data-a="ask">ส่ง</button></div></div></div>`;
+}
+
+/* ---------- render ---------- */
+const $ = document.getElementById("phone");
+function renderSheet() {
+  if (S.sheet !== "analyze") return "";
+  const opts = [["a-menu", "analysis", "coin-stack", "กำไรจริงต่อเมนู", "ดูกำไรแยกช่องทาง หน้าร้าน / Grab / LINE MAN"],
+    ["a-promo", "analysis", "money-bag", "ราคาโปรที่คุ้ม", "ลดได้เท่าไหร่ถึงยังไม่ขาดทุน"],
+    ["a-sb", "analysis", "glasses-laptop", "วัดผลโปรด้วยปฏิทิน", "แตะวันมีโปรและวันไม่มีโปร แล้วดูว่าได้ผลไหม"],
+    ["", "customers", "heart", "ลูกค้าจำลองของร้าน", "ดู ปัด และเลือกกลุ่มที่ใช้กับแผน"]];
+  return `<div class="sheet" data-a="sheet-close-bg"><div class="panel" data-stop="1"><div class="between" style="padding:14px 16px;border-bottom:1px solid var(--line)"><b>ไปวิเคราะห์ร้านของคุณ</b><button class="btn sm ghost" style="border:0" data-a="sheet-close">ปิด</button></div>
+    <div style="padding:14px;overflow-y:auto">${opts.map(([an, tab, st, t, sub]) => `<button class="opt" data-a="go" data-tab="${tab}" data-anchor="${an}">${stk(st)}<span><b>${t}</b><span class="small muted">${sub}</span></span></button>`).join("")}</div></div></div>`;
+}
+function render() {
+  const act = document.activeElement, keep = act && act.id === "q" ? [act.selectionStart, act.selectionEnd] : null;
+  const mEl = document.querySelector("main"), top = mEl ? mEl.scrollTop : 0, wy = window.scrollY;
+  if (!S.profile) { $.innerHTML = S.ob.started ? renderStep() : renderWelcome(); return; }
+  const body = { home: renderHome, customers: renderCustomers, ideas: renderIdeas, discounts: renderDiscounts, analysis: renderAnalysis }[S.tab]();
+  $.innerHTML = `<header class="top"><img src="${BRAND}/belka-app-icon-192.png" alt=""><h1>${TITLES[S.tab]}</h1><span class="bell">🔔${S.ideas && S.ideas.trends.signals.some(s => s.urgent) ? "<b>1</b>" : ""}</span></header>
+    <main>${body}</main><button class="fab" data-a="chat-open"><img src="${BRAND}/stickers/phone-check.png" alt="">ถาม Belka</button>
+    <nav class="tabs">${TABS.map(([k, i, l]) => `<button class="${S.tab === k ? "on" : ""}" data-a="tab" data-v="${k}"><span class="i">${stk(i)}</span>${l}</button>`).join("")}</nav>${S.chatOpen ? renderChat() : ""}${renderSheet()}`;
+  const m = document.querySelector("main"); if (m && !S.resetScroll) m.scrollTop = top; window.scrollTo(0, S.resetScroll ? 0 : wy); S.resetScroll = false;
+  if (S.chatOpen) { const c = document.getElementById("chatbox"); if (c) c.scrollTop = c.scrollHeight; }
+  const q = document.getElementById("q");
+  if (q && (keep || S.focusQ)) { q.focus(); const n = q.value.length; try { q.setSelectionRange(keep ? keep[0] : n, keep ? keep[1] : n); } catch {} S.focusQ = false; }
+}
+async function loadTab() {
+  try {
+    if (S.tab === "customers" && !S.personas) { S.personas = await api("/api/personas", shopCtx()); render(); }
+    if (S.tab === "discounts" && !S.disc && menuItems().some(i => i.price > 0 && i.cost != null)) { await calcDiscounts(); }
+    if (S.tab === "ideas" && !S.ideas) { S.ideas = await api("/api/ideas", shopCtx()); render(); }
+  } catch { toast("เชื่อมต่อ Belka ไม่ได้ ลองใหม่อีกครั้ง"); }
+}
+const ctxOf = p => ({ shop_type: p.shop_type, customer: p.customer, channels: p.channels, shop_id: S.shopId });
+async function loadObPersonas() {
+  S.error = null; S.ob.cards = null; render();
+  try { S.ob.cards = (await api("/api/personas", ctxOf(S.ob.p))).cards; } catch { S.error = "เชื่อมต่อ Belka ไม่ได้ ตรวจว่า backend เปิดอยู่ แล้วลองอีกครั้ง"; }
+  render();
+}
+/* opts: newWeek = ขึ้นสัปดาห์ใหม่ (จำงานของสัปดาห์ก่อนเพื่อไม่ให้ซ้ำ) · pinned = ไอเดียที่ร้านเลือก · personas = กลุ่มลูกค้าที่ใช้ */
+async function requestPlan(opts = {}) {
+  S.loading.plan = true; S.error = null; render();
+  try {
+    const p = S.profile || S.ob.p;
+    const picks = opts.personas || (S.profile ? (S.profile.personas || []) : (S.ob.cards || []).filter(c => (S.ob.sel || []).includes(c.archetype)).map(pickOf));
+    let hist = S.history || [], week = S.week || 1;
+    if (opts.newWeek && S.plan) { hist = [...hist, S.plan.tasks.map(t => t.kind)].slice(-12); week += 1; }
+    S.plan = await api("/api/plan", { shop_type: p.shop_type, customer: p.customer, channels: p.channels, personas: picks, history: hist, week, pinned: opts.pinned || [] });
+    S.profile = { shop_type: p.shop_type, customer: p.customer, channels: p.channels, personas: picks };
+    S.history = hist; S.week = week; S.pinned = []; S.personasChanged = false; S.status = {}; S.ticks = {}; S.focus = null; S.tab = "home"; S.ideas = null; S.personas = null; S.resetScroll = true; save();
+    if (opts.newWeek) toast(`สัปดาห์ที่ ${week}: งานชุดใหม่ ไม่ซ้ำสัปดาห์ก่อน`);
+  } catch (e) { S.error = e.status === 429 ? e.message : "เชื่อมต่อ Belka ไม่ได้ ตรวจว่า backend เปิดอยู่ แล้วลองอีกครั้ง"; if (S.profile) toast(S.error); }
+  S.loading.plan = false; render();
+}
+function remember(ev) { api(`/api/memory/${S.shopId}`, ev).then(() => { S.ideas = null; }).catch(() => {}); }
+function copyText(t) {
+  if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(t);
+  const a = document.createElement("textarea"); a.value = t; a.style.position = "fixed"; a.style.opacity = "0"; document.body.appendChild(a); a.select(); try { document.execCommand("copy"); } finally { a.remove(); } return Promise.resolve();
+}
+async function sendAsk(text) {
+  if (!text.trim()) return;
+  S.chat.push({ me: 1, t: text }); S.qDraft = ""; S.focusQ = true; S.loading.ask = true; render();
+  try { const r = await api("/api/ask", { question: text, shop: shopCtx() }); S.chat.push({ t: r.answer, src: r.source }); remember({ type: "search", text }); }
+  catch (e) { S.chat.push({ t: e.status === 429 ? e.message : "เชื่อมต่อไม่ได้ ลองใหม่อีกครั้งนะ" }); }
+  S.loading.ask = false; S.chat = S.chat.slice(-30); save(); render();
+}
+
+/* ---------- นำเข้าเมนูจากรูป: ย่อรูปในเครื่องก่อนส่ง (ไม่เก็บรูป) ---------- */
+function shrinkImage(file, maxSide = 1600, quality = 0.85) {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(file), img = new Image();
+    img.onload = () => {
+      const k = Math.min(1, maxSide / Math.max(img.width, img.height)), c = document.createElement("canvas");
+      c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url);
+      resolve(c.toDataURL("image/jpeg", quality));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("decode")); };
+    img.src = url;
+  });
+}
+async function importMenuPhoto(file) {
+  S.loading.menuPhoto = true; S.menuNote = null; render();
+  let url;
+  try { url = await shrinkImage(file); }
+  catch { S.loading.menuPhoto = false; S.menuNote = { warn: true, text: "เปิดรูปนี้ไม่ได้ ลองรูป JPG หรือ PNG" }; render(); return; }
+  await importMenuDataUrl(url);
+}
+/* รูปจากไฟล์และรูปจากกล้องใช้ทางเดียวกันตั้งแต่ตรงนี้ */
+async function importMenuDataUrl(dataUrl) {
+  S.loading.menuPhoto = true; S.menuNote = null; render();
+  try {
+    const r = await api("/api/menu/import", { image_base64: dataUrl });
+    const got = [...r.items.map(i => [i.name, i.price, null]), ...r.unpriced.map(n => [n, null, null])];
+    if (!got.length) S.menuNote = { warn: true, text: r.message || "ไม่เจอรายการเมนูในรูปนี้" };
+    else {
+      const used = m => String(m[0]).trim() || (m[1] != null && m[1] !== "") || (m[2] != null && m[2] !== "");
+      const cur = (S.menu || []).filter(used);             // ทิ้งแถวว่าง ถ้ายังเป็นเมนูตัวอย่างให้แทนที่ ถ้าร้านแก้เองแล้วให้เพิ่มต่อท้าย
+      const have = new Set(cur.map(m => String(m[0]).toLowerCase()));
+      S.menu = [...cur, ...got.filter(m => !have.has(m[0].toLowerCase()))].slice(0, 50); S.menuCalc = null; S.disc = null; save();
+      S.menuNote = { warn: true, text: `อ่านได้ ${r.items.length + r.unpriced.length} เมนู${r.unpriced.length ? ` · ${r.unpriced.length} เมนูอ่านราคาไม่ได้` : ""} · ตรวจชื่อและราคา แล้วใส่ต้นทุนในช่องที่ยังว่าง` };
+    }
+  } catch (err) {
+    S.menuNote = { warn: true, text: err.status === 429 ? err.message : "อ่านรูปไม่สำเร็จตอนนี้ พิมพ์เมนูเองในตารางด้านล่างได้เลย" };
+  }
+  S.loading.menuPhoto = false; render();
+}
+/* กล้อง: เปิดบนหน้าต่างซ้อน (นอกวงจร render) ถ่ายแล้วย่อเป็น JPEG ≤1600px ในเครื่องก่อนส่ง ไม่เก็บรูป */
+let camStream = null;
+function closeCamera() { if (camStream) { camStream.getTracks().forEach(t => t.stop()); camStream = null; } const o = document.getElementById("cam"); if (o) o.remove(); }
+async function openCamera() {
+  if (document.getElementById("cam")) return;
+  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { const f = document.getElementById("menu-cam-file"); if (f) f.click(); return; }
+  try { camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: "environment" }, width: { ideal: 1920 }, height: { ideal: 1080 } }, audio: false }); }
+  catch { S.menuNote = { warn: true, text: "เปิดกล้องไม่ได้ (ยังไม่ได้อนุญาตกล้อง หรือเครื่องนี้ไม่มีกล้อง) ลองเลือกรูปจากเครื่องแทน" }; render(); return; }
+  const o = document.createElement("div"); o.id = "cam"; o.setAttribute("role", "dialog"); o.setAttribute("aria-label", "ถ่ายรูปเมนู");
+  o.style.cssText = "position:fixed;inset:0;z-index:100;background:#000;display:flex;flex-direction:column";
+  o.innerHTML = `<video id="cam-v" playsinline muted autoplay style="flex:1;min-height:0;width:100%;object-fit:contain;background:#000"></video>
+    <p style="color:#fff;text-align:center;margin:8px 12px;font-size:14px">วางเมนูให้อยู่ในกรอบ ตัวหนังสือเห็นชัด แสงพอ</p>
+    <div style="display:flex;gap:12px;justify-content:center;padding:8px 16px calc(18px + env(safe-area-inset-bottom))"><button class="btn ghost" id="cam-x" style="background:#fff">ยกเลิก</button><button class="btn primary" id="cam-s">📸 ถ่าย</button></div>`;
+  document.body.appendChild(o);
+  const v = document.getElementById("cam-v"); v.srcObject = camStream; v.play().catch(() => {});
+  document.getElementById("cam-x").onclick = closeCamera;
+  document.getElementById("cam-s").onclick = () => {
+    if (!v.videoWidth) { toast("กล้องยังไม่พร้อม รอสักครู่"); return; }
+    const k = Math.min(1, 1600 / Math.max(v.videoWidth, v.videoHeight)), c = document.createElement("canvas");
+    c.width = Math.round(v.videoWidth * k); c.height = Math.round(v.videoHeight * k); c.getContext("2d").drawImage(v, 0, 0, c.width, c.height);
+    const url = c.toDataURL("image/jpeg", 0.85); closeCamera(); importMenuDataUrl(url);
+  };
+}
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeCamera(); });
+window.addEventListener("pagehide", closeCamera);
+document.addEventListener("change", e => {
+  if (["menu-photo", "menu-cam-file"].includes(e.target.id) && e.target.files && e.target.files[0]) { const f = e.target.files[0]; e.target.value = ""; importMenuPhoto(f); }
+});
+document.addEventListener("input", e => {
+  const m = e.target.dataset.m; if (m != null) { const items = menuItems().map(i => [i.name, i.price, i.cost]); items[+m][+e.target.dataset.k] = e.target.dataset.k === "0" ? e.target.value : (e.target.value === "" ? null : +e.target.value); S.menu = items; S.menuCalc = null; S.disc = null; save();
+    if (!S.profile) { const b = document.querySelector('[data-a="ob-plan"]'); if (b) b.disabled = !menuValid() || !!S.loading.plan; } }
+  if (e.target.dataset.gp) { S.gp[e.target.dataset.gp] = +e.target.value; save(); }
+  if (["ms","sb0","sb1","lift","q0"].includes(e.target.id)) store.set(e.target.id, e.target.value);
+  if (e.target.id === "q") S.qDraft = e.target.value;
+  const cn = e.target.dataset.cn; if (cn && S.sbDays[cn]) { S.sbDays[cn].n = e.target.value === "" ? null : +e.target.value; save(); }
+});
+document.addEventListener("keydown", e => { if (e.key === "Enter" && !e.isComposing && e.target.id === "q") { e.preventDefault(); const v = e.target.value; e.target.value = ""; sendAsk(v); } });
+$.addEventListener("click", async e => {
+  const el = e.target.closest("[data-a]"); if (!el) return;
+  if (/-bg$/.test(el.dataset.a) && e.target.closest("[data-stop]")) return;  // คลิกในแผงของหน้าต่าง ไม่ใช่ฉากหลัง
+  const a = el.dataset.a, slot = +el.dataset.s;
+  if (a === "ob-start") { S.ob.started = true; S.ob.step = 0; }
+  else if (a === "ob-back") { if (S.ob.step === 4) { S.ob.step = 3; S.error = null; } else if (S.ob.step === 0) S.ob.started = false; else { S.ob.step--; S.ob.cards = null; S.ob.sel = []; S.error = null; } }
+  else if (a === "ob-pick") { const s = STEPS[S.ob.step], v = el.dataset.v;
+    if (s.multi) { let c = S.ob.p.channels; c = v === "none" ? (c.includes("none") ? [] : ["none"]) : (c.includes(v) ? c.filter(x => x !== v) : [...c.filter(x => x !== "none"), v]); S.ob.p.channels = c; }
+    else { S.ob.p[s.key] = v; render(); setTimeout(() => { S.ob.step++; render(); }, 180); return; } }
+  else if (a === "ob-personas") { S.ob.step = 3; S.ob.sel = []; loadObPersonas(); return; }
+  else if (a === "ob-pk") { const k = el.dataset.arch, c = S.ob.sel || []; if (c.includes(k)) S.ob.sel = c.filter(x => x !== k); else if (c.length >= 3) { toast("เลือกได้สูงสุด 3 กลุ่ม"); return; } else S.ob.sel = [...c, k]; }
+  else if (a === "ob-menu") { S.ob.step = 4; S.error = null; if (!S.menu) S.menu = [["", null, null], ["", null, null], ["", null, null]]; save(); }
+  else if (a === "ob-plan") { if (!menuValid()) { toast("ใส่ชื่อ ราคา และต้นทุนอย่างน้อย 1 เมนูก่อน"); return; } requestPlan(); return; }
+  else if (a === "regen") { requestPlan({ newWeek: true }); return; }
+  else if (a === "replan") { requestPlan({ pinned: S.pinned || [], personas: S.profile.personas }); return; }
+  else if (a === "pickp") { const k = el.dataset.arch, cur = S.profile.personas || [], card = S.personas.cards.find(c => c.archetype === k);
+    if (cur.some(p => p.archetype === k)) { if (cur.length === 1) { toast("ต้องเลือกอย่างน้อย 1 กลุ่ม"); return; } S.profile.personas = cur.filter(p => p.archetype !== k); }
+    else if (cur.length >= 3) { toast("เลือกได้สูงสุด 3 กลุ่ม"); return; } else S.profile.personas = [...cur, pickOf(card)];
+    S.personasChanged = true; save(); }
+  else if (a === "pin") { const id = el.dataset.id, all = S.ideas.ranked, r = all.find(x => x.id === id); let c = (S.pinned || []).slice();
+    if (c.includes(id)) c = c.filter(x => x !== id);
+    else { if (c.length >= 3) { toast("เลือกได้สูงสุด 3 งานต่อสัปดาห์"); return; }
+      if (r.is_price_offer && c.some(x => all.find(y => y.id === x).is_price_offer)) { toast("ข้อเสนอราคาใส่ได้ 1 งานต่อสัปดาห์"); return; } c.push(id); }
+    S.pinned = c; save(); }
+  else if (a === "pin-clear") { S.pinned = []; save(); }
+  else if (a === "pin-suggest") { S.pinned = S.ideas.week.map(w => w.id); save(); }
+  else if (a === "sheet-open") { S.sheet = el.dataset.v; }
+  else if (a === "sheet-close" || a === "sheet-close-bg") { S.sheet = null; }
+  else if (a === "go") { S.sheet = null; S.tab = el.dataset.tab; S.focus = null; S.resetScroll = true; save(); render(); loadTab();
+    if (el.dataset.anchor) setTimeout(() => { const t = document.getElementById(el.dataset.anchor); if (t) t.scrollIntoView({ behavior: "smooth", block: "start" }); }, 60); return; }
+  else if (a === "cal-prev") { S.cal.m--; if (S.cal.m < 0) { S.cal.m = 11; S.cal.y--; } }
+  else if (a === "cal-next") { S.cal.m++; if (S.cal.m > 11) { S.cal.m = 0; S.cal.y++; } }
+  else if (a === "cal-day") { const k = el.dataset.d, cur = S.sbDays[k]; if (!cur) S.sbDays[k] = { t: "o", n: null }; else if (cur.t === "o") cur.t = "n"; else delete S.sbDays[k]; save(); }
+  else if (a === "tab") { S.tab = el.dataset.v; S.focus = null; S.resetScroll = true; save(); render(); loadTab(); return; }
+  else if (a === "focus") { S.focus = slot; S.tab = "home"; }
+  else if (a === "tick") { const i = +el.dataset.i, c = S.ticks[slot] || []; S.ticks[slot] = c.includes(i) ? c.filter(x => x !== i) : [...c, i]; save(); }
+  else if (a === "copy") { const t = S.plan.tasks.find(x => x.slot === slot); copyText(t.caption).then(() => toast("คัดลอกแคปชันแล้ว 📋")); return; }
+  else if (a === "ed") { S.editing = slot; S.draft = null; S.issues = null; }
+  else if (a === "ed-cancel") { S.editing = null; S.issues = null; S.draft = null; }
+  else if (a === "ed-save") { const text = document.getElementById("ed").value.trim();
+    try { const r = await api("/api/redline", { text }); if (!r.passed) { S.issues = r.issues; S.draft = text; render(); return; }
+      const t = S.plan.tasks.find(x => x.slot === slot); t.caption = text; t.redline = r; S.editing = null; S.issues = null; S.draft = null; save(); toast("บันทึกแล้ว ผ่านการตรวจ ✓"); } catch { toast("ตรวจข้อความไม่ได้"); } }
+  else if (a === "done" || a === "skip") { const t = S.plan.tasks.find(x => x.slot === slot); S.status[slot] = a === "done" ? "done" : "skipped"; S.focus = null; S.editing = null; save();
+    remember({ type: a, content_id: t.content_id, channel: t.channel_label }); if (a === "done") toast("เยี่ยมมาก! 🎉"); }
+  else if (a === "reset") { if (S._arm) { const id = S.shopId; store.clear(); store.set("shopId", id); location.reload(); return; } S._arm = true; toast("แตะ 'เริ่มใหม่' อีกครั้งเพื่อยืนยัน"); setTimeout(() => S._arm = false, 2500); return; }
+  else if (a === "swipe") { remember({ type: "swipe", archetype: el.dataset.arch, answer: el.dataset.v }); toast(el.dataset.v === "exactly" ? "จำไว้แล้ว ใช่ร้านคุณ ✓" : el.dataset.v === "similar" ? "จำไว้แล้ว คล้าย ☆" : "จำไว้แล้ว ไม่ใช่ร้านคุณ");
+    setTimeout(async () => { try { S.personas = await api("/api/personas", shopCtx()); render(); } catch {} }, 300); return; }
+  else if (a === "filter") { S.filter = el.dataset.v; }
+  else if (a === "trends") { S.ideas = null; render(); loadTab(); return; }
+  else if (a === "save-idea") { remember({ type: "save_idea", content_id: el.dataset.id }); toast("บันทึกไอเดียแล้ว 🔖"); return; }
+  else if (a === "ask-idea") { S.chatOpen = true; render(); sendAsk(`ช่วยขยายไอเดีย “${el.dataset.name}” ให้ร้านฉันหน่อย พร้อมแคปชันตัวอย่าง`); return; }
+  else if (a === "menu-photo") { document.getElementById("menu-photo").click(); return; }
+  else if (a === "menu-cam") { openCamera(); return; }
+  else if (a === "menu-sample") { const p = S.profile || S.ob.p; S.menu = (DEFAULT_MENU[p.shop_type] || []).map(r => [...r]); S.menuCalc = null; S.disc = null; S.menuNote = null; save(); }
+  else if (a === "calc-disc") { calcDiscounts(); return; }
+  else if (a === "menu-add") { const it = menuItems().map(i => [i.name, i.price, i.cost]); if (it.length < 20) it.push(S.profile ? ["เมนูใหม่", 50, null] : ["", null, null]); S.menu = it; S.disc = null; save(); }
+  else if (a === "menu-del") { const it = menuItems().map(i => [i.name, i.price, i.cost]); it.splice(+el.dataset.i, 1); S.menu = it; S.menuCalc = null; S.disc = null; save(); }
+  else if (a === "calc-menu") { const ms = +document.getElementById("ms").value || null, b0 = +document.getElementById("sb0").value / 100, b1 = +document.getElementById("sb1").value / 100;
+    const gp = Object.fromEntries(Object.entries(S.gp).map(([k, v]) => [k, (+v || 0) / 100]));
+    try { S.menuCalc = await api("/api/calc/menu", { items: menuItems().filter(i => i.price > 0 && String(i.name).trim()), gp_rates: gp, monthly_sales: ms, platform_share_before: ms ? b0 : null, platform_share_after: ms ? b1 : null }); S.ideas = null; } catch { toast("คำนวณไม่ได้ ตรวจตัวเลขอีกครั้ง"); } }
+  else if (a === "calc-promo") { const i = +document.getElementById("pi").value, it = menuItems()[i]; S.promoItem = i;
+    try { S.promo = await api("/api/calc/promo", { name: it.name, price: it.price, cost: it.cost, expected_lift: (+document.getElementById("lift").value || 30) / 100, base_units_per_day: +document.getElementById("q0").value || 20 }); } catch { toast("คำนวณไม่ได้ ตรวจตัวเลขอีกครั้ง"); } }
+  else if (a === "calc-sb") { const p = [], o = []; Object.values(S.sbDays).forEach(v => { if (v.n != null && !isNaN(v.n)) (v.t === "o" ? p : o).push(v.n); });
+    const r = welch(p, o); if (!r) { toast("เลือกวันมีโปรและวันไม่มีโปรอย่างน้อยฝั่งละ 2 วัน แล้วใส่จำนวนลูกค้า"); return; } S.sb = { r, decision: r.ci_low > 0 ? "ทำต่อ" : r.ci_high < 0 ? "หยุดหรือปรับ" : "ทำอีกรอบ" }; }
+  else if (a === "chat-open") { S.chatOpen = true; }
+  else if (a === "chat-close" || a === "chat-close-bg") { S.chatOpen = false; }
+  else if (a === "ask") { const q = document.getElementById("q"); const v = q.value; q.value = ""; sendAsk(v); return; }
+  render();
+});
+/* วัดผลแบบสลับวัน: คำนวณฝั่งหน้าจอเพื่อแสดงผลทันที สูตรเดียวกับ calc.switchback (Welch) */
+function welch(a, b) {
+  a = a.filter(x => !isNaN(x)); b = b.filter(x => !isNaN(x)); if (a.length < 2 || b.length < 2) return null;
+  const m = x => x.reduce((s, v) => s + v, 0) / x.length, v = x => { const mu = m(x); return x.reduce((s, y) => s + (y - mu) ** 2, 0) / (x.length - 1); };
+  const v1 = v(a) / a.length, v2 = v(b) / b.length, se = Math.sqrt(v1 + v2), df = se ? (v1 + v2) ** 2 / (v1 ** 2 / (a.length - 1) + v2 ** 2 / (b.length - 1)) : a.length + b.length - 2;
+  const T = [[1,12.706],[2,4.303],[3,3.182],[4,2.776],[5,2.571],[6,2.447],[7,2.365],[8,2.306],[9,2.262],[10,2.228],[12,2.179],[15,2.131],[20,2.086],[30,2.042],[60,2.0],[120,1.98]];
+  const t = (T.find(([k]) => Math.floor(df) <= k) || [0, 1.96])[1], d = m(a) - m(b);
+  return { mean_promo: m(a), mean_other: m(b), diff: d, ci_low: d - t * se, ci_high: d + t * se };
+}
+if (S.profile && !(S.profile.personas || []).length) {   // ข้อมูลเก่าที่ยังไม่เคยเลือกลูกค้า: พากลับไปเลือกก่อนทำแผน
+  const p = S.profile; S.ob = { started: true, step: 3, p: { shop_type: p.shop_type, customer: p.customer, channels: p.channels }, cards: null, sel: [] }; S.profile = null; S.plan = null; S.history = []; S.week = 1; loadObPersonas();
+} else { render(); if (S.profile) { if (!S.plan) requestPlan(); else if (S.plan.tasks.every(t => t.date < todayISO())) requestPlan({ newWeek: true }); loadTab(); } }
+</script>
+</body>
+</html>

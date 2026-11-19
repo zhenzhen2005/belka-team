@@ -1,0 +1,1505 @@
+{
+ "_meta": {
+  "source": "Belka_สูตรตัดสินใจ_ทุกคอนเทนต์.pdf (ทีม Belka, 13 ต.ค. 2569)",
+  "note": "น้ำหนักความเหมาะ 0–1 ทีมตั้งจากหลักทั่วไป ยังไม่ผ่านการทดสอบกับร้านจริง",
+  "groups": {
+   "A": "ให้คนรู้จักร้าน",
+   "B": "สร้างความไว้ใจ",
+   "C": "ให้คนมาที่ร้าน",
+   "D": "ให้ลูกค้ากลับมา",
+   "E": "ข้อเสนอด้านราคา (ต้องกรอกต้นทุนรายสินค้า)",
+   "F": "ชุมชนและความร่วมมือ",
+   "G": "ประกาศ เทศกาล และกำลังผลิตเต็ม"
+  }
+ },
+ "content_types": [
+  {
+   "id": "A1",
+   "group": "A",
+   "group_name": "ให้คนรู้จักร้าน",
+   "name": "ขั้นตอนทำ / เสียงอาหาร",
+   "goals": [
+    "หาลูกค้าใหม่"
+   ],
+   "formats": [
+    "คลิป",
+    "สไลด์ภาพ"
+   ],
+   "effort": 3,
+   "risk": 0,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ไม่มีเงื่อนไขบังคับ; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "เป้าหมายลูกค้าใหม่": 0.9,
+    "ร้านใหม่": 0.8,
+    "ช่วงเงียบ": 0.4
+   },
+   "channels": {
+    "TikTok": 1.0,
+    "Instagram": 0.9,
+    "YouTube": 0.7
+   },
+   "segments": {
+    "นักศึกษา": 1.0,
+    "วัยทำงาน": 0.7,
+    "นักท่องเที่ยว": 0.7
+   },
+   "how": "คลิปหรือสไลด์ภาพ 4–5 ใบ ขั้นตอนทำ เห็นของจริงใน 3 วินาทีแรก ปิดด้วยพิกัดและเวลาเปิด",
+   "formula": "ไม่มีการคำนวณราคา (ใช้เฉพาะสูตรคะแนนเลือกคอนเทนต์)",
+   "measure": "ดูจนจบ แชร์บันทึก และถามลูกค้าใหม่ว่ารู้จักร้านจากไหน",
+   "is_price_offer": false
+  },
+  {
+   "id": "A2",
+   "group": "A",
+   "group_name": "ให้คนรู้จักร้าน",
+   "name": "เมนูเด่นหนึ่งอย่าง",
+   "goals": [
+    "หาลูกค้าใหม่",
+    "เพิ่มยอดต่อบิล"
+   ],
+   "formats": [
+    "ภาพเดียว",
+    "โพสต์ข้อความ"
+   ],
+   "effort": 1,
+   "risk": 0,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ไม่มีเงื่อนไขบังคับ; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "ร้านใหม่": 0.7,
+    "เป้าหมายลูกค้าใหม่": 0.6,
+    "บิลต่ำ": 0.4
+   },
+   "channels": {
+    "Instagram": 0.9,
+    "Facebook": 0.8,
+    "Google Maps": 0.8
+   },
+   "segments": {
+    "นักศึกษา": 0.8,
+    "วัยทำงาน": 0.8,
+    "ครอบครัว": 0.8
+   },
+   "how": "ภาพเดียวชัด ชื่อเมนูราคาปกติขนาด ส่วนผสมสำคัญ",
+   "formula": "ไม่มีการคำนวณราคา (ใช้เฉพาะสูตรคะแนนเลือกคอนเทนต์)",
+   "measure": "จำนวนชิ้นเมนูนั้นเทียบฐานในช่วงเดียวกัน",
+   "is_price_offer": false
+  },
+  {
+   "id": "A3",
+   "group": "A",
+   "group_name": "ให้คนรู้จักร้าน",
+   "name": "เบื้องหลังร้าน",
+   "goals": [
+    "หาลูกค้าใหม่",
+    "สร้างความไว้ใจ"
+   ],
+   "formats": [
+    "สไลด์ภาพ",
+    "คลิป"
+   ],
+   "effort": 2,
+   "risk": 0,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ไม่มีเงื่อนไขบังคับ; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "แข่งด้วยราคาไม่ได้": 0.8,
+    "ร้านใหม่": 0.7,
+    "เป้าหมายลูกค้าใหม่": 0.6
+   },
+   "channels": {
+    "Instagram": 0.8,
+    "TikTok": 0.8,
+    "YouTube": 0.8
+   },
+   "segments": {
+    "สายสุขภาพ": 0.9,
+    "พรีเมียม": 0.9,
+    "ครอบครัว": 0.8
+   },
+   "how": "สไลด์ 5 ใบ เช้า เตรียมของ ครัว คนทำ เปิดร้าน",
+   "formula": "ไม่มีการคำนวณราคา (ใช้เฉพาะสูตรคะแนนเลือกคอนเทนต์)",
+   "measure": "ผู้ติดตามใหม่ข้อความที่เข้า ลูกค้าบอกว่าเห็นจากโพสต์",
+   "is_price_offer": false
+  },
+  {
+   "id": "A4",
+   "group": "A",
+   "group_name": "ให้คนรู้จักร้าน",
+   "name": "แนะนำตัวในกลุ่มชุมชน",
+   "goals": [
+    "หาลูกค้าใหม่",
+    "สร้างความไว้ใจ"
+   ],
+   "formats": [
+    "โพสต์ข้อความ",
+    "ภาพเดียว"
+   ],
+   "effort": 1,
+   "risk": 0,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ไม่มีเงื่อนไขบังคับ; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "ร้านใหม่": 1.0,
+    "เป้าหมายลูกค้าใหม่": 0.8
+   },
+   "channels": {
+    "Facebook": 1.0,
+    "LINE": 0.2,
+    "Instagram": 0.2
+   },
+   "segments": {
+    "ครอบครัว": 1.0,
+    "วัยอาวุโส": 1.0,
+    "วัยทำงาน": 0.6
+   },
+   "how": "โพสต์เล่าสั้น ๆ + ภาพ 3–5 ใบ ไม่ลิงก์ขาย ไม่เกิน 1 ครั้ง/สัปดาห์/กลุ่ม",
+   "formula": "ไม่มีการคำนวณราคา (ใช้เฉพาะสูตรคะแนนเลือกคอนเทนต์)",
+   "measure": "ลูกค้าบอกว่ามาจากกลุ่ม จำนวนคนทักไลน์",
+   "is_price_offer": false
+  },
+  {
+   "id": "A5",
+   "group": "A",
+   "group_name": "ให้คนรู้จักร้าน",
+   "name": "POV / ช่วงเวลาที่คนเข้าใจ",
+   "goals": [
+    "หาลูกค้าใหม่"
+   ],
+   "formats": [
+    "คลิป",
+    "ภาพเดียว"
+   ],
+   "effort": 3,
+   "risk": 5,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ไม่มีเงื่อนไขบังคับ; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "เป้าหมายลูกค้าใหม่": 0.7,
+    "ช่วงเงียบ": 0.4
+   },
+   "channels": {
+    "TikTok": 1.0,
+    "Instagram": 0.8,
+    "YouTube": 0.4
+   },
+   "segments": {
+    "นักศึกษา": 1.0,
+    "วัยทำงาน": 0.7,
+    "นักท่องเที่ยว": 0.6
+   },
+   "how": "ภาพเดียวหรือคลิปสั้นเล่าสถานการณ์ที่คนเข้าใจ แล้วเชื่อมกับเมนู",
+   "formula": "ไม่มีการคำนวณราคา (ใช้เฉพาะสูตรคะแนนเลือกคอนเทนต์)",
+   "measure": "แชร์คอมเมนต์บันทึก",
+   "is_price_offer": false
+  },
+  {
+   "id": "A6",
+   "group": "A",
+   "group_name": "ให้คนรู้จักร้าน",
+   "name": "ตอบคำถามลูกค้า (Q&A)",
+   "goals": [
+    "สร้างความไว้ใจ",
+    "หาลูกค้าใหม่"
+   ],
+   "formats": [
+    "ภาพเดียว",
+    "โพสต์ข้อความ",
+    "คลิป"
+   ],
+   "effort": 2,
+   "risk": 0,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ไม่มีเงื่อนไขบังคับ; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "ร้านใหม่": 0.4,
+    "รีวิวไม่ดี": 0.3
+   },
+   "channels": {
+    "Instagram": 0.8,
+    "TikTok": 0.8,
+    "Facebook": 0.7
+   },
+   "segments": {
+    "สายสุขภาพ": 0.8,
+    "นักศึกษา": 0.7,
+    "วัยทำงาน": 0.7
+   },
+   "how": "การ์ดถามตอบ 1 ภาพจากคำถามจริงของลูกค้า",
+   "formula": "ไม่มีการคำนวณราคา (ใช้เฉพาะสูตรคะแนนเลือกคอนเทนต์)",
+   "measure": "จำนวนคำถามซ้ำที่ลดลง",
+   "is_price_offer": false
+  },
+  {
+   "id": "A7",
+   "group": "A",
+   "group_name": "ให้คนรู้จักร้าน",
+   "name": "เมนู 3 ระดับ / เมนูพนักงานเลือก",
+   "goals": [
+    "เพิ่มยอดต่อบิล",
+    "หาลูกค้าใหม่"
+   ],
+   "formats": [
+    "อินโฟกราฟิก",
+    "ภาพเดียว"
+   ],
+   "effort": 2,
+   "risk": 0,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ไม่มีเงื่อนไขบังคับ; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "บิลต่ำ": 0.7
+   },
+   "channels": {
+    "Instagram": 0.9,
+    "Delivery app": 0.8,
+    "Facebook": 0.7
+   },
+   "segments": {
+    "นักศึกษา": 0.8,
+    "วัยทำงาน": 0.8,
+    "ครอบครัว": 0.8
+   },
+   "how": "อินโฟกราฟิกสามระดับ (หวาน/เผ็ด/ขนาด) พร้อมราคาแต่ละระดับ",
+   "formula": "ไม่มีการคำนวณราคา (ใช้เฉพาะสูตรคะแนนเลือกคอนเทนต์)",
+   "measure": "สัดส่วนการเลือกระดับ/ขนาด",
+   "is_price_offer": false
+  },
+  {
+   "id": "A8",
+   "group": "A",
+   "group_name": "ให้คนรู้จักร้าน",
+   "name": "โพลถามลูกค้า",
+   "goals": [
+    "ให้ลูกค้าเก่ากลับ",
+    "หาลูกค้าใหม่"
+   ],
+   "formats": [
+    "โพล",
+    "ข้อความ LINE"
+   ],
+   "effort": 1,
+   "risk": 0,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ไม่มีเงื่อนไขบังคับ; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "เป้าหมายลูกค้าเดิม": 0.6,
+    "มีลูกค้าประจำ": 0.5
+   },
+   "channels": {
+    "Instagram": 0.9,
+    "LINE": 0.8,
+    "Facebook": 0.6
+   },
+   "segments": {
+    "นักศึกษา": 0.8,
+    "วัยทำงาน": 0.8,
+    "ครอบครัว": 0.7
+   },
+   "how": "โพลสองตัวเลือกใน Stories หรือ LINE",
+   "formula": "ไม่มีการคำนวณราคา (ใช้เฉพาะสูตรคะแนนเลือกคอนเทนต์)",
+   "measure": "จำนวนคนตอบโพล เมนูที่ได้รับเลือก",
+   "is_price_offer": false
+  },
+  {
+   "id": "A9",
+   "group": "A",
+   "group_name": "ให้คนรู้จักร้าน",
+   "name": "ราคาและปริมาณที่โปร่งใส",
+   "goals": [
+    "สร้างความไว้ใจ",
+    "แจ้งข้อมูล"
+   ],
+   "formats": [
+    "อินโฟกราฟิก",
+    "ป้าย"
+   ],
+   "effort": 2,
+   "risk": 0,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ไม่มีเงื่อนไขบังคับ; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "แข่งด้วยราคาไม่ได้": 0.7,
+    "ต้องขึ้นราคา": 0.4
+   },
+   "channels": {
+    "Facebook": 0.8,
+    "Google Maps": 0.8,
+    "Delivery app": 0.6
+   },
+   "segments": {
+    "นักศึกษา": 0.9,
+    "ครอบครัว": 0.9,
+    "วัยอาวุโส": 0.9
+   },
+   "how": "ตารางราคาและภาพเทียบขนาด",
+   "formula": "ไม่มีการคำนวณราคา (ใช้เฉพาะสูตรคะแนนเลือกคอนเทนต์)",
+   "measure": "คำถามเรื่องราคาที่ลดลง ยอดลูกค้าช่วงเป้าหมาย",
+   "is_price_offer": false
+  },
+  {
+   "id": "B1",
+   "group": "B",
+   "group_name": "สร้างความไว้ใจ",
+   "name": "รีวิวจริงจากลูกค้า",
+   "goals": [
+    "สร้างความไว้ใจ",
+    "หาลูกค้าใหม่"
+   ],
+   "formats": [
+    "ป้าย",
+    "โพสต์ข้อความ"
+   ],
+   "effort": 2,
+   "risk": 10,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ไม่มีเงื่อนไขบังคับ; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "แผนที่ไม่ครบ": 0.9,
+    "ร้านใหม่": 0.8,
+    "ย่านท่องเที่ยว": 0.6,
+    "รีวิวไม่ดี": 0.5
+   },
+   "channels": {
+    "Google Maps": 1.0,
+    "Facebook": 0.7,
+    "Delivery app": 0.6
+   },
+   "segments": {
+    "นักท่องเที่ยว": 1.0,
+    "นักศึกษา": 0.8,
+    "วัยทำงาน": 0.8
+   },
+   "how": "ป้าย QR รีวิว และขอบคุณลูกค้า ห้ามให้ของแลกรีวิวหรือกำหนดดาว",
+   "formula": "ไม่มีการคำนวณราคา (ใช้เฉพาะสูตรคะแนนเลือกคอนเทนต์)",
+   "measure": "จำนวนรีวิวจริงใหม่คะแนนเฉลี่ย",
+   "is_price_offer": false
+  },
+  {
+   "id": "B2",
+   "group": "B",
+   "group_name": "สร้างความไว้ใจ",
+   "name": "ที่มาวัตถุดิบ / ครัวสะอาด / หลักฐานรับรอง",
+   "goals": [
+    "สร้างความไว้ใจ"
+   ],
+   "formats": [
+    "อินโฟกราฟิก",
+    "สไลด์ภาพ"
+   ],
+   "effort": 2,
+   "risk": 10,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ไม่มีเงื่อนไขบังคับ; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "แข่งด้วยราคาไม่ได้": 0.9,
+    "ร้านใหม่": 0.4
+   },
+   "channels": {
+    "Facebook": 0.8,
+    "Instagram": 0.8,
+    "YouTube": 0.6
+   },
+   "segments": {
+    "สายสุขภาพ": 1.0,
+    "พรีเมียม": 1.0,
+    "ครอบครัว": 0.9
+   },
+   "how": "อินโฟกราฟิกที่มา ภาพครัวจริง ใบรับรองถ้ามีห้ามอ้างฮาลาล/เจ ถ้าไม่มีหลักฐาน",
+   "formula": "ไม่มีการคำนวณราคา (ใช้เฉพาะสูตรคะแนนเลือกคอนเทนต์)",
+   "measure": "คำถามเรื่องส่วนผสมที่ลดลง",
+   "is_price_offer": false
+  },
+  {
+   "id": "B3",
+   "group": "B",
+   "group_name": "สร้างความไว้ใจ",
+   "name": "FAQ ส่วนผสม สารก่อภูมิแพ้เวลาเปิด",
+   "goals": [
+    "แจ้งข้อมูล",
+    "สร้างความไว้ใจ"
+   ],
+   "formats": [
+    "อินโฟกราฟิก",
+    "โพสต์ข้อความ"
+   ],
+   "effort": 1,
+   "risk": 0,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ไม่มีเงื่อนไขบังคับ; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "แผนที่ไม่ครบ": 0.7,
+    "ย่านท่องเที่ยว": 0.5
+   },
+   "channels": {
+    "Google Maps": 1.0,
+    "Facebook": 0.8,
+    "LINE": 0.5
+   },
+   "segments": {
+    "ครอบครัว": 0.9,
+    "สายสุขภาพ": 0.9,
+    "วัยอาวุโส": 0.9
+   },
+   "how": "อินโฟกราฟิกเวลาเปิด ที่จอดรถ ส่วนผสม สารก่อภูมิแพ้",
+   "formula": "ไม่มีการคำนวณราคา (ใช้เฉพาะสูตรคะแนนเลือกคอนเทนต์)",
+   "measure": "คำถามซ้ำที่ลดลง การนำทางใน Maps",
+   "is_price_offer": false
+  },
+  {
+   "id": "B4",
+   "group": "B",
+   "group_name": "สร้างความไว้ใจ",
+   "name": "ชี้แจงการปรับราคา",
+   "goals": [
+    "แจ้งข้อมูล",
+    "สร้างความไว้ใจ"
+   ],
+   "formats": [
+    "ข้อความ LINE",
+    "ป้าย"
+   ],
+   "effort": 1,
+   "risk": 0,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ไม่มีเงื่อนไขบังคับ; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "ต้องขึ้นราคา": 1.0
+   },
+   "channels": {
+    "LINE": 1.0,
+    "Facebook": 0.6,
+    "Google Maps": 0.4
+   },
+   "segments": {
+    "วัยอาวุโส": 0.9,
+    "องค์กร/พ่อค้าแม่ค้า": 0.9,
+    "ครอบครัว": 0.8
+   },
+   "how": "ข้อความ LINE สั้นและป้ายหน้าร้าน บอกว่าอะไรเปลี่ยน ราคาเดิม-ใหม่วันที่",
+   "formula": "มาร์จิ้นเดิม = (ราคา − ต้นทุนเดิม) ÷ ราคา; ถ้าไม่ปรับราคา = (ราคา − ต้นทุนใหม่) ÷ ราคา; หลังปรับ = (ราคาใหม่ − ต้นทุนใหม่) ÷ ราคาใหม่",
+   "measure": "จำนวนลูกค้าที่ถามเรื่องราคา ยอดต่อรายการหลังปรับ",
+   "is_price_offer": false
+  },
+  {
+   "id": "B5",
+   "group": "B",
+   "group_name": "สร้างความไว้ใจ",
+   "name": "ตอบรีวิวไม่ดี",
+   "goals": [
+    "สร้างความไว้ใจ"
+   ],
+   "formats": [
+    "ข้อความตอบ"
+   ],
+   "effort": 1,
+   "risk": 0,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ไม่มีเงื่อนไขบังคับ; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "รีวิวไม่ดี": 1.0
+   },
+   "channels": {
+    "Google Maps": 1.0,
+    "Facebook": 0.5,
+    "Delivery app": 0.3
+   },
+   "segments": {
+    "นักท่องเที่ยว": 0.9,
+    "วัยทำงาน": 0.8,
+    "ครอบครัว": 0.8
+   },
+   "how": "ข้อความสุภาพ ยอมรับสิ่งที่ผิด บอกสิ่งที่แก้ห้ามตอบโต้หรือขอให้ลบ",
+   "formula": "ไม่มีการคำนวณราคา (ใช้เฉพาะสูตรคะแนนเลือกคอนเทนต์)",
+   "measure": "คะแนนรีวิวถัดไป การตอบภายใน 48 ชั่วโมง",
+   "is_price_offer": false
+  },
+  {
+   "id": "C1",
+   "group": "C",
+   "group_name": "ให้คนมาที่ร้าน",
+   "name": "หน้า Google Maps ให้ครบ",
+   "goals": [
+    "ให้คนมาที่ร้าน",
+    "สร้างความไว้ใจ"
+   ],
+   "formats": [
+    "ภาพเดียว",
+    "โพสต์ข้อความ"
+   ],
+   "effort": 2,
+   "risk": 0,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ไม่มีเงื่อนไขบังคับ; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "แผนที่ไม่ครบ": 1.0,
+    "ร้านใหม่": 0.9,
+    "ย่านท่องเที่ยว": 0.9,
+    "เป้าหมายลูกค้าใหม่": 0.7
+   },
+   "channels": {
+    "Google Maps": 1.0,
+    "Delivery app": 0.4,
+    "Facebook": 0.1
+   },
+   "segments": {
+    "นักท่องเที่ยว": 1.0,
+    "วัยทำงาน": 0.9,
+    "พรีเมียม": 0.9
+   },
+   "how": "ชื่อ หมวด เวลาเปิด รูปหน้าร้านและเมนูที่จอดรถ โพสต์ข้อมูล 1–2 ครั้ง/สัปดาห์",
+   "formula": "ไม่มีการคำนวณราคา (ใช้เฉพาะสูตรคะแนนเลือกคอนเทนต์)",
+   "measure": "การนำทาง โทร ดูรูปใน Maps และลูกค้าใหม่ที่บอกว่ามาจากแผนที่",
+   "is_price_offer": false
+  },
+  {
+   "id": "C2",
+   "group": "C",
+   "group_name": "ให้คนมาที่ร้าน",
+   "name": "ป้ายหน้าร้านและป้ายเมนูแนะนำ",
+   "goals": [
+    "ให้คนมาที่ร้าน",
+    "เพิ่มยอดต่อบิล"
+   ],
+   "formats": [
+    "ป้าย",
+    "อินโฟกราฟิก"
+   ],
+   "effort": 2,
+   "risk": 0,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ไม่มีเงื่อนไขบังคับ; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "บิลต่ำ": 0.7,
+    "ช่วงเงียบ": 0.4,
+    "ร้านใหม่": 0.4
+   },
+   "channels": {
+    "Google Maps": 0.2,
+    "LINE": 0.1,
+    "Facebook": 0.1
+   },
+   "segments": {
+    "วัยอาวุโส": 1.0,
+    "ครอบครัว": 0.9,
+    "นักท่องเที่ยว": 0.9
+   },
+   "how": "ป้ายเมนูเด่น 1–3 อย่าง ราคาชัด ถ้ามีโปรต้องมีวันสิ้นสุดจริง",
+   "formula": "ไม่มีการคำนวณราคา (ใช้เฉพาะสูตรคะแนนเลือกคอนเทนต์)",
+   "measure": "จำนวนลูกค้าที่เดินเข้า ยอดต่อบิล",
+   "is_price_offer": false
+  },
+  {
+   "id": "C3",
+   "group": "C",
+   "group_name": "ให้คนมาที่ร้าน",
+   "name": "ออเดอร์กลุ่มล่วงหน้าสำหรับออฟฟิศ",
+   "goals": [
+    "เพิ่มยอดต่อบิล",
+    "ให้คนมาที่ร้าน"
+   ],
+   "formats": [
+    "อินโฟกราฟิก",
+    "ข้อความ LINE"
+   ],
+   "effort": 3,
+   "risk": 0,
+   "gates": {
+    "requires_cost": true,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": true,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": true,
+    "text": "ออฟฟิศห่างไม่เกิน 1 กม. และรับได้ 10 ชุด; ต้องกรอกต้นทุนสินค้าที่เกี่ยวข้อง; กำลังผลิตเต็ม: ถูกตัด"
+   },
+   "situations": {
+    "ออฟฟิศใกล้": 1.0,
+    "ช่วงเงียบ": 0.4
+   },
+   "channels": {
+    "LINE": 1.0,
+    "Facebook": 0.6,
+    "Google Maps": 0.6
+   },
+   "segments": {
+    "องค์กร/พ่อค้าแม่ค้า": 1.0,
+    "วัยทำงาน": 0.9,
+    "ครอบครัว": 0.4
+   },
+   "how": "อินโฟกราฟิกสั่ง 3 ขั้นตอน + ข้อความ LINE: ขั้นต่ำ เวลาสั่ง เวลารับ ราคาต่อชุด",
+   "formula": "ราคาต่อชุด ≥ ต้นทุน + ค่าธรรมเนียม; มาร์จิ้นราคากลุ่ม ≥ 20%; ถ้าลดจากราคาปกติ: L = δ ÷ (g − δ) และ δ ไม่เกิน เพดานของเมนูนั้น; ขั้นต่ำ 10 ชุด",
+   "measure": "จำนวนออเดอร์กลุ่มต่อสัปดาห์",
+   "is_price_offer": false
+  },
+  {
+   "id": "C4",
+   "group": "C",
+   "group_name": "ให้คนมาที่ร้าน",
+   "name": "เมนูในแอปส่งอาหาร",
+   "goals": [
+    "ให้คนมาที่ร้าน",
+    "เพิ่มยอดต่อบิล"
+   ],
+   "formats": [
+    "ภาพเดียว"
+   ],
+   "effort": 2,
+   "risk": 0,
+   "gates": {
+    "requires_cost": true,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ต้องกรอกต้นทุนสินค้าที่เกี่ยวข้อง; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "บิลต่ำ": 0.3
+   },
+   "channels": {
+    "Delivery app": 1.0,
+    "Google Maps": 0.1,
+    "LINE": 0.0
+   },
+   "segments": {
+    "นักศึกษา": 0.9,
+    "วัยทำงาน": 0.9,
+    "ครอบครัว": 0.8
+   },
+   "how": "รูปเมนูหลักก่อน ชื่อชัด ขนาดและส่วนผสม",
+   "formula": "f = อัตราคอมมิชชัน × ราคา + ค่าต่อออเดอร์; g = ราคา − ต้นทุน − f; m = g ÷ ราคา; ถ้า m < 20% ห้ามตั้งโปรในแอป; ห้ามตั้ง 'ราคาเดิม' ที่ไม่เคยขายจริง",
+   "measure": "ยอดสั่ง กำไรหลังหักค่าคอมมิชชัน เวลาเตรียม",
+   "is_price_offer": false
+  },
+  {
+   "id": "D1",
+   "group": "D",
+   "group_name": "ให้ลูกค้ากลับมา",
+   "name": "ข้อความ LINE ชวนลูกค้าเก่ากลับ",
+   "goals": [
+    "ให้ลูกค้าเก่ากลับ"
+   ],
+   "formats": [
+    "ข้อความ LINE"
+   ],
+   "effort": 1,
+   "risk": 5,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 30,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ผู้ยินยอมรับข้อความ ≥ 30 คน; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "ลูกค้าประจำหาย": 1.0,
+    "เป้าหมายลูกค้าเดิม": 0.9,
+    "มีลูกค้าประจำ": 0.5
+   },
+   "channels": {
+    "LINE": 1.0,
+    "Facebook": 0.2,
+    "Instagram": 0.0
+   },
+   "segments": {
+    "วัยอาวุโส": 1.0,
+    "วัยทำงาน": 0.9,
+    "องค์กร/พ่อค้าแม่ค้า": 0.9
+   },
+   "how": "ข้อความ LINE ไม่เกิน 3 บรรทัด พูดถึงเมนูที่เคยสั่ง มีวันสิ้นสุดและทางเลิกรับ ไม่เกิน 1 ครั้ง/เดือน/คน",
+   "formula": "ถ้ามีของแถม: ต้นทุนของแถม ต้องน้อยกว่ากำไรที่คาดจากลูกค้าที่กลับมา (m × ยอดบิล) และผ่านเพดานรายสินค้า; ถ้า ไม่มีของแถม ไม่มีการคำนวณราคา",
+   "measure": "จำนวนที่กลับมาใน 7 วัน คนเลิกรับข้อความ",
+   "is_price_offer": false
+  },
+  {
+   "id": "D2",
+   "group": "D",
+   "group_name": "ให้ลูกค้ากลับมา",
+   "name": "บัตรสะสมแต้ม",
+   "goals": [
+    "ให้ลูกค้าเก่ากลับ",
+    "เพิ่มยอดต่อบิล"
+   ],
+   "formats": [
+    "ป้าย",
+    "อินโฟกราฟิก"
+   ],
+   "effort": 2,
+   "risk": 0,
+   "gates": {
+    "requires_cost": true,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 20,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": true,
+    "text": "ลูกค้าประจำ ≥ 20 คน; ต้องกรอกต้นทุนสินค้าที่เกี่ยวข้อง; กำลังผลิตเต็ม: ถูกตัด"
+   },
+   "situations": {
+    "มีลูกค้าประจำ": 0.9,
+    "เป้าหมายลูกค้าเดิม": 0.8,
+    "ลูกค้าประจำหาย": 0.4
+   },
+   "channels": {
+    "LINE": 0.6,
+    "Facebook": 0.4,
+    "Google Maps": 0.3
+   },
+   "segments": {
+    "วัยอาวุโส": 1.0,
+    "นักศึกษา": 0.8,
+    "วัยทำงาน": 0.8
+   },
+   "how": "อินโฟกราฟิกอธิบายบัตรและป้ายที่เคาน์เตอร์",
+   "formula": "อัตราต้นทุน = ต้นทุนของแถม ÷ (N × ราคาเฉลี่ยต่อรายการ) ต้อง ≤ 10–12% (N = 8–10)",
+   "measure": "จำนวนบัตรที่ครบ ความถี่การมาซื้อ",
+   "is_price_offer": false
+  },
+  {
+   "id": "D3",
+   "group": "D",
+   "group_name": "ให้ลูกค้ากลับมา",
+   "name": "ขอบคุณและขอความเห็น",
+   "goals": [
+    "ให้ลูกค้าเก่ากลับ",
+    "สร้างความไว้ใจ"
+   ],
+   "formats": [
+    "ข้อความ LINE"
+   ],
+   "effort": 1,
+   "risk": 0,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 30,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ผู้ยินยอมรับข้อความ ≥ 30 คน; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "มีลูกค้าประจำ": 0.7,
+    "เป้าหมายลูกค้าเดิม": 0.7
+   },
+   "channels": {
+    "LINE": 1.0,
+    "Facebook": 0.3,
+    "Instagram": 0.2
+   },
+   "segments": {
+    "วัยอาวุโส": 1.0,
+    "พรีเมียม": 0.9,
+    "วัยทำงาน": 0.8
+   },
+   "how": "ข้อความ LINE ขอบคุณ ถามตอบสั้น ๆ 1-2-3",
+   "formula": "ไม่มีการคำนวณราคา (ใช้เฉพาะสูตรคะแนนเลือกคอนเทนต์)",
+   "measure": "อัตราตอบกลับ ความเห็นที่ได้",
+   "is_price_offer": false
+  },
+  {
+   "id": "D4",
+   "group": "D",
+   "group_name": "ให้ลูกค้ากลับมา",
+   "name": "เมนูใหม่ให้ลูกค้าเก่าลองก่อน",
+   "goals": [
+    "ให้ลูกค้าเก่ากลับ",
+    "เพิ่มยอดต่อบิล"
+   ],
+   "formats": [
+    "ข้อความ LINE"
+   ],
+   "effort": 1,
+   "risk": 0,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 30,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ผู้ยินยอมรับข้อความ ≥ 30 คน; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "มีลูกค้าประจำ": 0.8,
+    "เป้าหมายลูกค้าเดิม": 0.8
+   },
+   "channels": {
+    "LINE": 1.0,
+    "Facebook": 0.3,
+    "Instagram": 0.2
+   },
+   "segments": {
+    "วัยทำงาน": 0.9,
+    "วัยอาวุโส": 0.9,
+    "ครอบครัว": 0.8
+   },
+   "how": "ข้อความ LINE เมนูใหม่ให้ลองก่อน ขอความเห็นสั้น ๆ",
+   "formula": "ไม่มีการคำนวณราคา (ใช้เฉพาะสูตรคะแนนเลือกคอนเทนต์)",
+   "measure": "จำนวนคนที่ลองเมนูใหม่",
+   "is_price_offer": false
+  },
+  {
+   "id": "E1",
+   "group": "E",
+   "group_name": "ข้อเสนอด้านราคา (ต้องกรอกต้นทุนรายสินค้า)",
+   "name": "ราคาพิเศษช่วงเงียบ",
+   "goals": [
+    "หาลูกค้าใหม่",
+    "ให้คนมาที่ร้าน"
+   ],
+   "formats": [
+    "ป้าย",
+    "อินโฟกราฟิก",
+    "ข้อความ LINE",
+    "สไลด์ภาพ"
+   ],
+   "effort": 2,
+   "risk": 15,
+   "gates": {
+    "requires_cost": true,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": true,
+    "text": "ต้องกรอกต้นทุนสินค้าที่เกี่ยวข้อง; กำลังผลิตเต็ม: ถูกตัด"
+   },
+   "situations": {
+    "ช่วงเงียบ": 1.0,
+    "เป้าหมายลูกค้าใหม่": 0.5
+   },
+   "channels": {
+    "Instagram": 0.7,
+    "LINE": 0.6,
+    "Facebook": 0.6
+   },
+   "segments": {
+    "นักศึกษา": 1.0,
+    "วัยทำงาน": 0.8,
+    "ครอบครัว": 0.7
+   },
+   "how": "ป้ายหรืออินโฟกราฟิก พิมพ์ราคาโปรจริงรายเมนูวันสิ้นสุด โพสต์ก่อนช่วงเงียบ 30–60 นาที",
+   "formula": "δ_cap = ราคา × min(m/3, 0.20); δ_be = g × u ÷ (1 + u) (u = 0.5× ของยอดที่คาด); δ = min(δ_cap, δ_be) ปัดราคา โปรขึ้นเป็นบาทเต็ม; L = δ ÷ (g − δ); net = g×ΔQ − δ×(Q0+ΔQ) สามกรณี (0.5×, 1×, 1.5×)",
+   "measure": "สลับวันเปิด/ปิดโปร 14 วัน → กำไรสุทธิและช่วง 95% ในหน้าวิเคราะห์",
+   "is_price_offer": true
+  },
+  {
+   "id": "E2",
+   "group": "E",
+   "group_name": "ข้อเสนอด้านราคา (ต้องกรอกต้นทุนรายสินค้า)",
+   "name": "เซ็ตคู่ / add-on",
+   "goals": [
+    "เพิ่มยอดต่อบิล"
+   ],
+   "formats": [
+    "อินโฟกราฟิก",
+    "ป้าย",
+    "ภาพเดียว"
+   ],
+   "effort": 2,
+   "risk": 10,
+   "gates": {
+    "requires_cost": true,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": true,
+    "text": "ต้องกรอกต้นทุนสินค้าที่เกี่ยวข้อง; กำลังผลิตเต็ม: ถูกตัด"
+   },
+   "situations": {
+    "บิลต่ำ": 1.0
+   },
+   "channels": {
+    "Instagram": 0.8,
+    "Delivery app": 0.8,
+    "Facebook": 0.7
+   },
+   "segments": {
+    "ครอบครัว": 0.9,
+    "นักศึกษา": 0.8,
+    "วัยทำงาน": 0.8
+   },
+   "how": "อินโฟกราฟิกราคาแต่ละชิ้นและราคาเซ็ต บอกว่าประหยัดกี่บาทจริง",
+   "formula": "P_เต็ม = Σราคา; C = Σ(ต้นทุน+f); m_set = (P_เต็ม − C) ÷ P_เต็ม; ส่วนลดเซ็ต ≤ min(10%, เพดานคุ้มของ m_set); P_set ≥ C; L_set = δ ÷ ((P_เต็ม − C) − δ) (v1 ไม่แสดงกำไรสุทธิของเซ็ต)",
+   "measure": "สัดส่วนบิลที่ซื้อเซ็ต ยอดต่อบิล",
+   "is_price_offer": true
+  },
+  {
+   "id": "E3",
+   "group": "E",
+   "group_name": "ข้อเสนอด้านราคา (ต้องกรอกต้นทุนรายสินค้า)",
+   "name": "ครบ X แถมของ",
+   "goals": [
+    "เพิ่มยอดต่อบิล"
+   ],
+   "formats": [
+    "ป้าย",
+    "ข้อความ LINE"
+   ],
+   "effort": 2,
+   "risk": 15,
+   "gates": {
+    "requires_cost": true,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": true,
+    "text": "ต้องกรอกต้นทุนสินค้าที่เกี่ยวข้อง; กำลังผลิตเต็ม: ถูกตัด"
+   },
+   "situations": {
+    "บิลต่ำ": 0.8
+   },
+   "channels": {
+    "LINE": 0.5,
+    "Facebook": 0.5,
+    "Instagram": 0.4
+   },
+   "segments": {
+    "วัยทำงาน": 0.9,
+    "ครอบครัว": 0.8,
+    "นักศึกษา": 0.7
+   },
+   "how": "ป้าย: ครบ X รับของแถมชื่ออะไร ถึงวันที่เท่าไร",
+   "formula": "net/วัน = บิล × สัดส่วนซื้อเพิ่ม × (X − ยอดเฉลี่ย) × m − บิล × (สัดส่วนซื้อเพิ่ม + สัดส่วนที่ถึง X อยู่แล้ว) × ต้นทุนของ แถม; X สูงกว่ายอดเฉลี่ย 10–30%; ต้นทุนของแถม ≤ 10% ของ X",
+   "measure": "สัดส่วนบิลที่ถึง X ยอดเฉลี่ยต่อบิล",
+   "is_price_offer": true
+  },
+  {
+   "id": "E4",
+   "group": "E",
+   "group_name": "ข้อเสนอด้านราคา (ต้องกรอกต้นทุนรายสินค้า)",
+   "name": "ลดท้ายวัน",
+   "goals": [
+    "ระบายของ"
+   ],
+   "formats": [
+    "ป้าย",
+    "โพสต์ข้อความ",
+    "ข้อความ LINE"
+   ],
+   "effort": 1,
+   "risk": 10,
+   "gates": {
+    "requires_cost": true,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": true,
+    "blocked_when_full_capacity": true,
+    "text": "ต้องกรอกต้นทุนสินค้าที่เกี่ยวข้อง; มีของเหลือท้ายวันที่ขายข้ามวันไม่ได้ ≥ 3%; กำลังผลิตเต็ม: ถูกตัด"
+   },
+   "situations": {
+    "ของเหลือ": 1.0
+   },
+   "channels": {
+    "LINE": 0.7,
+    "Facebook": 0.6,
+    "Google Maps": 0.5
+   },
+   "segments": {
+    "นักศึกษา": 1.0,
+    "วัยทำงาน": 0.9,
+    "ครอบครัว": 0.9
+   },
+   "how": "ป้ายท้ายวัน พิมพ์ราคาปกติและราคาลดรายรายการ เวลาสิ้นสุด ห้ามเขียนเหลือไม่กี่ชิ้น ต้องกรอกต้นทุนก่อน",
+   "formula": "เป็นส่วนลดรายสินค้า ใช้พื้นราคา p_k ≥ ต้นทุน+f แทนเพดาน; ผลต่อล็อต = Σ(ขายได้_k × p_k) − เหลือ × ต้นทุน เทียบ ทิ้ง = −เหลือ × ต้นทุน; ดีขึ้น = Σ(ขายได้_k × p_k); ลดเป็นขั้น (ขั้นแรกไม่เกิน 20%) เฉพาะ 1–2 ชั่วโมงสุดท้าย; นับเป็นข้อเสนอราคา 1 รายการ ห้ามทับโปรอื่น",
+   "measure": "ของที่ทิ้งต่อวัน และยอดขายราคาเต็มของสินค้านั้นในช่วงก่อนหน้าไม่ลดเกิน 5% ติดกัน 3 วัน",
+   "is_price_offer": true
+  },
+  {
+   "id": "E5",
+   "group": "E",
+   "group_name": "ข้อเสนอด้านราคา (ต้องกรอกต้นทุนรายสินค้า)",
+   "name": "ชวนเพื่อนมา ได้ของแถมทั้งคู่",
+   "goals": [
+    "หาลูกค้าใหม่",
+    "ให้ลูกค้าเก่ากลับ"
+   ],
+   "formats": [
+    "ป้าย",
+    "ข้อความ LINE"
+   ],
+   "effort": 2,
+   "risk": 10,
+   "gates": {
+    "requires_cost": true,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 20,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": true,
+    "text": "ลูกค้าประจำ ≥ 20 คน; ต้องกรอกต้นทุนสินค้าที่เกี่ยวข้อง; กำลังผลิตเต็ม: ถูกตัด"
+   },
+   "situations": {
+    "มีลูกค้าประจำ": 0.8,
+    "เป้าหมายลูกค้าใหม่": 0.5
+   },
+   "channels": {
+    "LINE": 0.7,
+    "Facebook": 0.6,
+    "Instagram": 0.6
+   },
+   "segments": {
+    "นักศึกษา": 0.9,
+    "ครอบครัว": 0.9,
+    "วัยทำงาน": 0.8
+   },
+   "how": "ป้ายหรือข้อความ: ชวนเพื่อนมา ทั้งคู่ได้ของแถม จ่ายเมื่อเพื่อนมาจริง",
+   "formula": "ต้นทุนของแถมรวมต่อคู่ (คนชวน + คนใหม่) < 15% ของราคาเมนูหลัก และน้อยกว่ากำไรที่คาดจากลูกค้าใหม่ 1 คน = m × ยอดต่อบิล × จำนวนครั้งที่คาดว่าจะกลับมา; จ่ายเมื่อได้ลูกค้าใหม่จริง",
+   "measure": "จำนวนลูกค้าใหม่ที่ชวนมาได้จริง",
+   "is_price_offer": true
+  },
+  {
+   "id": "F1",
+   "group": "F",
+   "group_name": "ชุมชนและความร่วมมือ",
+   "name": "แลกคูปองกับร้านข้างเคียง",
+   "goals": [
+    "หาลูกค้าใหม่"
+   ],
+   "formats": [
+    "ป้าย",
+    "โพสต์ข้อความ"
+   ],
+   "effort": 3,
+   "risk": 5,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": true,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "มีร้านข้างเคียงที่ตกลงร่วมมือ; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "ร้านใหม่": 0.6,
+    "เป้าหมายลูกค้าใหม่": 0.6
+   },
+   "channels": {
+    "Facebook": 0.6,
+    "Instagram": 0.4,
+    "Google Maps": 0.4
+   },
+   "segments": {
+    "วัยทำงาน": 0.9,
+    "นักศึกษา": 0.8,
+    "ครอบครัว": 0.8
+   },
+   "how": "บัตรหรือสติกเกอร์ใบเล็กตกลงกับร้านข้างเคียง ลองหนึ่งเดือน",
+   "formula": "ถ้าคูปองลดราคา: ต้นทุนส่วนลดตกที่ร้านเรา ต้องผ่านเพดานรายสินค้าเหมือน E1; ถ้าเป็นการแนะนำร้านต่อกันเฉย ๆ ไม่มี การคำนวณ",
+   "measure": "จำนวนคูปองที่นำมาใช้ลูกค้าใหม่จากร้านข้างเคียง",
+   "is_price_offer": true
+  },
+  {
+   "id": "F2",
+   "group": "F",
+   "group_name": "ชุมชนและความร่วมมือ",
+   "name": "งานชุมชน / ตลาดนัด / กิจกรรมโรงเรียน",
+   "goals": [
+    "หาลูกค้าใหม่",
+    "สร้างความไว้ใจ"
+   ],
+   "formats": [
+    "โพสต์ข้อความ",
+    "ภาพเดียว"
+   ],
+   "effort": 3,
+   "risk": 0,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ไม่มีเงื่อนไขบังคับ; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "ร้านใหม่": 0.6,
+    "เป้าหมายลูกค้าใหม่": 0.6
+   },
+   "channels": {
+    "Facebook": 0.9,
+    "Instagram": 0.4,
+    "LINE": 0.3
+   },
+   "segments": {
+    "ครอบครัว": 1.0,
+    "วัยอาวุโส": 0.9,
+    "นักศึกษา": 0.5
+   },
+   "how": "โพสต์ข้อความ + ภาพจริง ชวนลองในงาน",
+   "formula": "ไม่มีการคำนวณราคา (ใช้เฉพาะสูตรคะแนนเลือกคอนเทนต์)",
+   "measure": "จำนวนลูกค้าใหม่ในงาน ข้อความที่ได้รับ",
+   "is_price_offer": false
+  },
+  {
+   "id": "F3",
+   "group": "F",
+   "group_name": "ชุมชนและความร่วมมือ",
+   "name": "ไมโครอินฟลูเอนเซอร์ในพื้นที่",
+   "goals": [
+    "หาลูกค้าใหม่"
+   ],
+   "formats": [
+    "คลิป",
+    "ภาพเดียว"
+   ],
+   "effort": 4,
+   "risk": 20,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": true,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": true,
+    "text": "มีร้านข้างเคียงที่ตกลงร่วมมือ; กำลังผลิตเต็ม: ถูกตัด"
+   },
+   "situations": {
+    "เป้าหมายลูกค้าใหม่": 0.6,
+    "ร้านใหม่": 0.5
+   },
+   "channels": {
+    "Instagram": 0.9,
+    "TikTok": 0.9,
+    "YouTube": 0.5
+   },
+   "segments": {
+    "นักศึกษา": 0.9,
+    "นักท่องเที่ยว": 0.8,
+    "วัยทำงาน": 0.7
+   },
+   "how": "เลือกคนในพื้นที่ต้องเปิดเผยว่าได้รับการสนับสนุน ห้ามสั่งให้ชม",
+   "formula": "ไม่มีการคำนวณราคา (ใช้เฉพาะสูตรคะแนนเลือกคอนเทนต์)",
+   "measure": "ลูกค้าใหม่ที่บอกว่ามาจากผู้รีวิว (ต้องเปิดเผยการสนับสนุน)",
+   "is_price_offer": false
+  },
+  {
+   "id": "G1",
+   "group": "G",
+   "group_name": "ประกาศ เทศกาล และกำลังผลิตเต็ม",
+   "name": "ประกาศปิด/เปิด วันหยุด",
+   "goals": [
+    "แจ้งข้อมูล"
+   ],
+   "formats": [
+    "ข้อความ LINE",
+    "ป้าย",
+    "โพสต์ข้อความ"
+   ],
+   "effort": 1,
+   "risk": 0,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ไม่มีเงื่อนไขบังคับ; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "เทศกาล": 0.5
+   },
+   "channels": {
+    "LINE": 0.9,
+    "Facebook": 0.8,
+    "Google Maps": 0.8
+   },
+   "segments": {
+    "วัยอาวุโส": 1.0,
+    "ครอบครัว": 0.9,
+    "องค์กร/พ่อค้าแม่ค้า": 0.9
+   },
+   "how": "ข้อความ LINE ป้ายประตูโพสต์บอกวันเวลาให้ชัด",
+   "formula": "ไม่มีการคำนวณราคา (ใช้เฉพาะสูตรคะแนนเลือกคอนเทนต์)",
+   "measure": "จำนวนคนที่มาในวันที่ร้านปิดลดลง",
+   "is_price_offer": false
+  },
+  {
+   "id": "G2",
+   "group": "G",
+   "group_name": "ประกาศ เทศกาล และกำลังผลิตเต็ม",
+   "name": "ของหมด / เมนูเปลี่ยน",
+   "goals": [
+    "แจ้งข้อมูล",
+    "สร้างความไว้ใจ"
+   ],
+   "formats": [
+    "ข้อความ LINE",
+    "โพสต์ข้อความ",
+    "ป้าย"
+   ],
+   "effort": 1,
+   "risk": 5,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ไม่มีเงื่อนไขบังคับ; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "กำลังผลิตเต็ม": 0.5
+   },
+   "channels": {
+    "LINE": 0.8,
+    "Facebook": 0.7,
+    "Google Maps": 0.5
+   },
+   "segments": {
+    "วัยอาวุโส": 1.0,
+    "ครอบครัว": 0.9,
+    "องค์กร/พ่อค้าแม่ค้า": 0.9
+   },
+   "how": "ข้อความตรง ๆ ว่าเมนูอะไรหมด กลับมาเมื่อไร ห้ามเขียนความหายากเท็จ",
+   "formula": "ไม่มีการคำนวณราคา (ใช้เฉพาะสูตรคะแนนเลือกคอนเทนต์)",
+   "measure": "คำถามที่ลดลง รีวิวเชิงลบเรื่องของหมด",
+   "is_price_offer": false
+  },
+  {
+   "id": "G3",
+   "group": "G",
+   "group_name": "ประกาศ เทศกาล และกำลังผลิตเต็ม",
+   "name": "เนื้อหาตามเทศกาล / ฤดูกาล",
+   "goals": [
+    "หาลูกค้าใหม่",
+    "เพิ่มยอดต่อบิล"
+   ],
+   "formats": [
+    "สไลด์ภาพ",
+    "อินโฟกราฟิก",
+    "ข้อความ LINE"
+   ],
+   "effort": 2,
+   "risk": 0,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ไม่มีเงื่อนไขบังคับ; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "เทศกาล": 1.0
+   },
+   "channels": {
+    "Instagram": 0.9,
+    "Facebook": 0.8,
+    "TikTok": 0.8
+   },
+   "segments": {
+    "ครอบครัว": 0.9,
+    "นักศึกษา": 0.8,
+    "วัยทำงาน": 0.8
+   },
+   "how": "สไลด์หรืออินโฟกราฟิกธีมเทศกาล ใช้เมนูที่มีจริงเท่านั้น",
+   "formula": "ถ้ามีราคาลดหรือเซ็ตตามเทศกาล ใช้สูตรของ E1 หรือ E2; ถ้าเป็นเนื้อหาธีมอย่างเดียว ไม่มีการคำนวณราคา",
+   "measure": "ยอดเมนูตามเทศกาลเทียบฐาน",
+   "is_price_offer": false
+  },
+  {
+   "id": "G4",
+   "group": "G",
+   "group_name": "ประกาศ เทศกาล และกำลังผลิตเต็ม",
+   "name": "เนื้อหาแบรนด์ / จองล่วงหน้า (กำลังผลิตเต็ม)",
+   "goals": [
+    "สร้างความไว้ใจ",
+    "แจ้งข้อมูล"
+   ],
+   "formats": [
+    "อินโฟกราฟิก",
+    "โพสต์ข้อความ"
+   ],
+   "effort": 2,
+   "risk": 0,
+   "gates": {
+    "requires_cost": false,
+    "min_consented_contacts": 0,
+    "min_regular_customers": 0,
+    "requires_partner": false,
+    "requires_nearby_office": false,
+    "requires_leftover": false,
+    "blocked_when_full_capacity": false,
+    "text": "ไม่มีเงื่อนไขบังคับ; ไม่ถูกตัดเมื่อกำลังผลิตเต็ม"
+   },
+   "situations": {
+    "กำลังผลิตเต็ม": 1.0,
+    "แข่งด้วยราคาไม่ได้": 0.5
+   },
+   "channels": {
+    "LINE": 0.8,
+    "Instagram": 0.7,
+    "Facebook": 0.6
+   },
+   "segments": {
+    "พรีเมียม": 1.0,
+    "องค์กร/พ่อค้าแม่ค้า": 0.8,
+    "วัยทำงาน": 0.7
+   },
+   "how": "อินโฟกราฟิกเรื่องที่มา + เปิดรับจองล่วงหน้า (กำลังผลิตเต็ม)",
+   "formula": "ไม่มีการคำนวณราคา (ใช้เฉพาะสูตรคะแนนเลือกคอนเทนต์)",
+   "measure": "จำนวนการจองล่วงหน้า",
+   "is_price_offer": false
+  }
+ ]
+}

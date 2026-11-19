@@ -1,0 +1,13 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.DS_Store
+.env
+
+# สำรองและไฟล์ชั่วคราว ไม่ต้องขึ้น repo
+_backup-*/
+*.tgz
+belka/out-*.txt
+# ชุดเว็บสำหรับแชร์ (สร้างซ้ำได้จากโฟลเดอร์ prototype) ไม่ต้องขึ้น repo
+belka/belka-share/
+*.zip

@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pre-bootcamp setup</title>
+<style>
+:root{--bg:#17151c;--card:#211e28;--card2:#2a2534;--line:#38324a;--text:#ecebf0;--muted:#a9a5b4;--acc:#c4a3f7;--accd:#2e2442;--ok:#5dcaa5;--warn:#f0c674;--code:#120f17}
+:root[data-theme="light"]{--bg:#f7f6fa;--card:#fff;--card2:#f1edf8;--line:#ddd6ea;--text:#1d1a24;--muted:#5d5869;--acc:#6b3fc4;--accd:#efe7fc;--ok:#0f6e56;--warn:#8a5a00;--code:#f3f0f8}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f7f6fa;--card:#fff;--card2:#f1edf8;--line:#ddd6ea;--text:#1d1a24;--muted:#5d5869;--acc:#6b3fc4;--accd:#efe7fc;--ok:#0f6e56;--warn:#8a5a00;--code:#f3f0f8}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:880px;margin:0 auto;padding:32px 16px 80px}
+h1{font-size:34px;line-height:1.15;margin:0 0 8px;letter-spacing:-.5px}
+h2{font-size:24px;margin:0 0 4px}
+.lead{color:var(--muted);margin:0 0 24px;max-width:680px}
+.eyebrow{font:600 12px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:1px;text-transform:uppercase;color:var(--acc);margin-bottom:8px}
+code,pre{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13.5px}
+p code,li code,.chk code{background:var(--card2);padding:1px 5px;border-radius:4px}
+a{color:var(--acc)}
+.top{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px 0}
+.top .in{max-width:880px;margin:0 auto;padding:0 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.bar{flex:1;min-width:140px;height:8px;background:var(--card2);border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--acc);transition:width .3s}
+.count{font:13px ui-monospace,Menlo,monospace;color:var(--muted);white-space:nowrap}
+.os{display:flex;gap:6px;align-items:center;font-size:13px;color:var(--muted)}
+.os button{font:inherit;color:var(--text);background:transparent;border:1px solid var(--line);border-radius:999px;padding:4px 12px;cursor:pointer}
+.os button[aria-pressed="true"]{background:var(--acc);color:#1b1428;border-color:var(--acc)}
+.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin:0 0 28px;padding:0;list-style:none}
+.flow a{display:block;text-decoration:none;color:var(--text);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px;height:100%}
+.flow b{display:block;font:600 11px ui-monospace,monospace;color:var(--acc)}
+.flow span{font-size:13px;line-height:1.3;display:block;margin-top:4px}
+.flow a.done{border-color:var(--ok)}
+.flow a.done b::after{content:" ✓";color:var(--ok)}
+@media (max-width:700px){.flow{grid-template-columns:repeat(3,1fr)}}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+@media (max-width:700px){.grid{grid-template-columns:repeat(2,1fr)}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px}
+.card h3{font-size:15px;margin:0 0 4px}.card p{margin:0;font-size:14px;color:var(--muted)}
+.note{background:var(--accd);border-radius:12px;padding:14px 16px;margin:12px 0;font-size:15px}
+.note.warn{border:1px solid var(--warn)}
+.part{display:inline-block;font:600 11px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.5px;text-transform:uppercase;border:1px solid var(--warn);color:var(--warn);border-radius:999px;padding:3px 8px;margin-right:8px;vertical-align:middle}
+section.step{margin:48px 0 0;scroll-margin-top:64px}
+.item{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin:12px 0;display:grid;grid-template-columns:32px 1fr 36px;gap:12px;transition:border-color .2s}
+.item.done{border-color:var(--ok)}
+.num{width:28px;height:28px;border-radius:50%;background:var(--acc);color:#1b1428;font-weight:700;font-size:14px;display:grid;place-items:center}
+.item.done .num{background:var(--ok)}
+.item h4{margin:2px 0 6px;font-size:16px}
+.item p{margin:0 0 8px;color:var(--muted)}
+.tick{width:32px;height:32px;border-radius:8px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;font-size:16px}
+.item.done .tick{background:var(--ok);border-color:var(--ok);color:#fff}
+.chk{font-size:14px;margin:8px 0 0}.chk b{color:var(--acc)}
+.term{background:var(--code);border:1px solid var(--line);border-radius:10px;margin:8px 0;overflow:hidden}
+.term .hd{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;border-bottom:1px solid var(--line);font:12px ui-monospace,monospace;color:var(--muted)}
+.term pre{margin:0;padding:12px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}
+.copy{font:12px system-ui;color:var(--acc);background:transparent;border:1px solid var(--line);border-radius:6px;padding:2px 8px;cursor:pointer}
+[data-os]{display:none}
+body.win [data-os="win"],body.mac [data-os="mac"]{display:block}
+table{width:100%;border-collapse:collapse;font-size:14px;margin:8px 0}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600}
+.quiz{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin:12px 0}
+.quiz button{display:block;width:100%;text-align:left;font:inherit;color:var(--text);background:var(--card2);border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin:6px 0;cursor:pointer}
+.quiz button.right{border-color:var(--ok)}.quiz button.wrong{border-color:#e24b4a}
+.quiz .fb{font-size:14px;color:var(--muted);min-height:1.2em}
+.ready{display:none;text-align:center;padding:28px;border:2px solid var(--ok);border-radius:14px;margin-top:40px}
+.ready.show{display:block}
+footer{margin-top:40px;font-size:13px;color:var(--muted)}
+.reset{font:13px system-ui;color:var(--muted);background:none;border:none;text-decoration:underline;cursor:pointer}
+.how ol{padding-left:22px}.how li{margin:8px 0}.how h3{margin:24px 0 4px;font-size:18px}.how .who{font:600 11px ui-monospace,Menlo,monospace;letter-spacing:.5px;text-transform:uppercase;color:var(--acc)}
+</style>
+</head>
+<body class="win">
+<div class="top"><div class="in">
+  <div class="os" role="group" aria-label="Your laptop">Your laptop:
+    <button type="button" data-set="win" aria-pressed="true">Windows</button>
+    <button type="button" data-set="mac" aria-pressed="false">macOS</button>
+  </div>
+  <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+  <span class="count" id="count">0 of 29 done</span>
+</div></div>
+
+<div class="wrap">
+  <div class="eyebrow">AI FOR ALL Hackathon · Before the pre-bootcamp</div>
+  <h1>Set up your laptop, in order</h1>
+  <p class="lead">Every team member who will build does this on their own laptop. Finish it <b>before the pre-bootcamp starts</b>. Tick each step as you go: your ticks are saved in this browser only.</p>
+
+  <ol class="flow" id="flow">
+    <li><a href="#s1"><b>STEP 1</b><span>Kiro + Pro upgrade</span></a></li>
+    <li><a href="#s2"><b>STEP 2</b><span>Agent tools + AWS sign-in</span></a></li>
+    <li><a href="#s3"><b>STEP 3</b><span>PostPal playground</span></a></li>
+    <li><a href="#s4"><b>STEP 4</b><span>Connect Kiro to AWS (MCP)</span></a></li>
+    <li><a href="#s5"><b>STEP 5</b><span>Your team folder</span></a></li>
+    <li><a href="#s6"><b>STEP 6</b><span>Prove it works</span></a></li>
+  </ol>
+
+  <h2>Gather these first</h2>
+  <div class="note"><b>No provided environment.</b> Kiro and your agent run on your own laptop, with your own Kiro Pro plan and the team AWS account the programme gives you. The same setup carries you through the 21 Nov build.</div>
+  <div class="grid">
+    <div class="card"><h3>A laptop</h3><p>macOS, Windows or Linux, where you are allowed to install apps and use a terminal.</p></div>
+    <div class="card"><h3>A card for Kiro Pro</h3><p>Each builder subscribes to Kiro Pro (US$20/month) with their own card. The committee reimburses it.</p></div>
+    <div class="card"><h3>Your team AWS sign-in</h3><p>One shared login for your team's AWS account, which carries the programme's AWS credit. The organisers send it to your team lead, who signs in first. You do not need it to start.</p></div>
+    <div class="card"><h3>Your Quick submission</h3><p>The <code>.md</code> file your team submitted, not the slide deck.</p></div>
+  </div>
+  <div class="note warn"><b>Keep the account safe.</b> Sign in with the start link and the team login only. Never create access keys, and never paste a key into Kiro, a file or a chat. Build in Singapore (<code>ap-southeast-1</code>); only three Regions are allowed. Keep to US$30 a day at most: the account has a spending alert and a US$500 limit per team for the whole programme. Use seed data and delete what you no longer need. Details are in <a href="#aws-signin">Team AWS sign-in</a>.</div>
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(300px,1fr))">
+    <div class="card"><div class="eyebrow">Part 1 · start now</div><h3>No AWS sign-in needed</h3><p>Step 1 (Kiro and Pro), the first three items of Step 2 (uv, the AWS CLI, Node.js and the AgentCore CLI), Step 3 (the PostPal playground and its 12 tests), Step 5 (your team folder), and in Step 4 opening the MCP Servers list and reading the connection file. In Step 6, tests 1 and 2.</p></div>
+    <div class="card"><div class="eyebrow">Part 2 · after your team has signed in</div><h3>Needs your team AWS account</h3><p>The last item of Step 2 (connect your laptop to the team AWS account; the team lead signs in first, see <a href="#aws-signin">Team AWS sign-in</a>), <code>aws-mcp</code> turning green and the question to Kiro in Step 4, and tests 3, 4 and 5 in Step 6. These items carry a <b>Part 2</b> tag.</p></div>
+  </div>
+  <div class="note warn"><b>Your team AWS account is ready.</b> The organisers send the team login to your team lead. The lead signs in first and sets up a phone check, with the team on a call: about ten minutes, steps in <a href="#aws-signin">Team AWS sign-in</a> at the end of this page. Every builder then connects their own laptop (Step 2, last item). Finish Part 1 first if you have not: it needs no AWS sign-in.</div>
+
+  <!-- STEP 1 -->
+  <section class="step" id="s1" data-step="1">
+    <div class="eyebrow">Step 1 · about 15 minutes</div>
+    <h2>Install Kiro, sign in and upgrade to Pro</h2>
+    <div class="item"><div class="num">1</div><div><h4>Download Kiro</h4>
+      <p>Go to <a href="https://kiro.dev" target="_blank" rel="noopener">kiro.dev</a> and download the installer for your laptop. Get <b>version 1.4.154 or later</b>: P5a uses a new feature that older versions do not have.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="item"><div class="num">2</div><div><h4>Install and open it</h4>
+      <p>Run the installer and follow it, then open Kiro (Windows: from the Start menu; macOS: drag it to Applications first). If your laptop is managed by your school or employer and blocks installs, <b>tell the organisers now</b>.</p>
+      <p class="chk"><b>Check:</b> Kiro opens, and Help → About shows 1.4.154 or later. If it is older, download the latest installer.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="item"><div class="num">3</div><div><h4>Sign in</h4>
+      <p>Kiro asks you to sign in on first launch. Use <b>Google</b>, <b>GitHub</b> or a personal <b>AWS Builder ID</b>: these are the sign-ins that can buy a Pro plan. A Builder ID that is linked to an AWS account cannot be upgraded, so pick Google or GitHub if unsure.</p>
+      <p class="chk"><b>Check:</b> the profile icon in Kiro shows you signed in on the <b>Free</b> plan.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="item"><div class="num">4</div><div><h4>Upgrade to Kiro Pro (US$20/month)</h4>
+      <p>You pay with your own card and the committee reimburses you (see item 6).</p>
+      <ol style="margin:0 0 8px;padding-left:20px;color:var(--muted)">
+        <li>In Kiro, click the <b>profile icon</b> and choose <b>Upgrade Plan</b>.</li>
+        <li>Select <b>Pro</b>, then choose <b>Open</b>. Your browser opens the checkout.</li>
+        <li>Confirm the plan details and enter your email.</li>
+        <li>Choose a payment method, enter your card details and click <b>Subscribe</b>. Payment is handled by Stripe for Amazon Web Services, Inc.</li>
+        <li>On the confirmation page click <b>Get started</b> to return to Kiro.</li>
+      </ol>
+      <p style="font-size:14px">Your first Pro upgrade gives you the rest of this month free plus 500 trial credits, so the first US$20 charge arrives on the 1st of next month.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="item"><div class="num">5</div><div><h4>Confirm you are on Pro</h4>
+      <p>Click the profile icon and choose <b>Manage Plan</b>.</p>
+      <p class="chk"><b>Check:</b> <b>Current Subscription</b> shows <b>Pro</b>. If the upgrade is refused, check your card's billing country is supported, or tell the organisers.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="item"><div class="num">6</div><div><h4>Keep your receipt for reimbursement</h4>
+      <p>To download your invoice: in Kiro click the <b>gear icon</b> (bottom left) → <b>Account &amp; Billing</b> → <b>Manage Subscription</b>. The portal opens in your browser with your invoices and billing history. Send the invoice to the committee to claim your US$20.</p>
+      <p class="chk"><b>Note:</b> the invoice appears after the first charge on the 1st of next month. Billing questions: <a href="mailto:billing@kiro.dev">billing@kiro.dev</a>.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+  </section>
+
+  <!-- STEP 2 -->
+  <section class="step" id="s2" data-step="2">
+    <div class="eyebrow">Step 2 · about 20 minutes</div>
+    <h2>Install the agent tools and sign in to AWS</h2>
+    <p class="lead">These are what P6 and P7 use in the session, and what 21 Nov deploys with. Run the commands in Kiro's terminal (<b>View → Terminal</b>).</p>
+    <div class="note"><b>Do the first three now.</b> Installing uv, the AWS CLI and the AgentCore CLI needs no AWS account. The last item, signing in to AWS, waits for the organisers' message: leave it unticked until then.</div>
+    <div class="item"><div class="num">1</div><div><h4>Install uv and Python 3.12</h4>
+      <p>uv installs Python and your agent's packages.</p>
+      <div class="term" data-os="win"><div class="hd">PowerShell (Windows)<button class="copy">Copy</button></div><pre>winget install --id=astral-sh.uv -e
+uv python install 3.12</pre></div>
+      <div class="term" data-os="mac"><div class="hd">Terminal (macOS)<button class="copy">Copy</button></div><pre>curl -LsSf https://astral.sh/uv/install.sh | sh
+uv python install 3.12</pre></div>
+      <p data-os="win">winget comes with current Windows 10 and 11. If your laptop has no winget, follow the <a href="https://docs.astral.sh/uv/getting-started/installation/" target="_blank" rel="noopener">uv install page</a>.</p>
+      <p class="chk"><b>Check:</b> <code>uv --version</code> prints a version. If the command is not found, close the terminal and open a new one.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="item"><div class="num">2</div><div><h4>Install the AWS CLI version 2</h4>
+      <div data-os="win"><p>Run the official installer from PowerShell. It opens the Windows installer; accept the defaults.</p>
+      <div class="term"><div class="hd">PowerShell (Windows)<button class="copy">Copy</button></div><pre>msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi</pre></div></div>
+      <div data-os="mac"><p>Download and run the official package. It asks for your laptop password.</p>
+      <div class="term"><div class="hd">Terminal (macOS)<button class="copy">Copy</button></div><pre>curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+sudo installer -pkg AWSCLIV2.pkg -target /</pre></div></div>
+      <p class="chk"><b>Check:</b> open a new terminal, then <code>aws --version</code> starts with <code>aws-cli/2</code>. Other ways to install are in the <a href="https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html" target="_blank" rel="noopener">AWS CLI install guide</a>.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="item"><div class="num">3</div><div><h4>Install Node.js and the AgentCore CLI</h4>
+      <p>Install Node.js 20 or later. Then install the AgentCore CLI at the version the AWS samples use. You need it on 21 Nov; installing it now means no installer on the day.</p>
+      <div class="term" data-os="win"><div class="hd">PowerShell (Windows)<button class="copy">Copy</button></div><pre>winget install -e --id OpenJS.NodeJS.LTS
+# or download it from https://nodejs.org/
+# open a new terminal, then:
+npm install -g @aws/agentcore@0.30.0
+agentcore --version</pre></div>
+      <div class="term" data-os="mac"><div class="hd">Terminal (macOS)<button class="copy">Copy</button></div><pre># install the LTS version from https://nodejs.org/
+# (or: brew install node)
+# open a new terminal, then:
+npm install -g @aws/agentcore@0.30.0
+agentcore --version</pre></div>
+      <p data-os="win">If PowerShell says running scripts is disabled, run the npm line in Command Prompt (cmd) instead.</p>
+      <p class="chk"><b>Check:</b> it prints <code>0.30.0</code>. Ignore the "Update available" message: stay on 0.30.0.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="item"><div class="num">4</div><div><h4><span class="part">Part 2 · after your team has signed in</span>Connect your laptop to your team AWS account</h4>
+      <p>The <b>team lead signs in first</b> and sets up the phone check, with the team on a call: follow <a href="#aws-signin">Team AWS sign-in</a> (about ten minutes; the start link is <a href="https://truecorp.awsapps.com/start">truecorp.awsapps.com/start</a>). Then every builder runs the command below on their own laptop. Answer the questions as the comments show. A browser window opens and asks for the team login and your phone, then choose <b>Allow access</b>.</p>
+      <div class="term"><div class="hd">Terminal<button class="copy">Copy</button></div><pre>aws configure sso
+# SSO session name: hackathon
+# SSO start URL: https://truecorp.awsapps.com/start
+# SSO region: ap-southeast-1
+# Default client Region: ap-southeast-1
+# Profile name: default
+aws sts get-caller-identity</pre></div>
+      <p class="chk"><b>Check:</b> the second command shows your team's account number. When the sign-in expires later, run <code>aws sso login</code>. Stuck on the phone check or the browser? See the fixes table in <a href="#aws-signin">Team AWS sign-in</a>.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+
+    <div class="note">If a command is not found right after you install it, close the terminal and open a new one.</div>
+  </section>
+
+  <!-- STEP 3 -->
+  <section class="step" id="s3" data-step="3">
+    <div class="eyebrow">Step 3</div>
+    <h2>Download and unzip the PostPal playground</h2>
+    <p class="lead">One ready-made practice project for the pre-bootcamp and for 21 Nov. Everyone has the same files, so what the trainer shows on screen is what you see.</p>
+    <div class="note"><b>Meet PostPal.</b> The sample app for the whole workshop: an AI helper inside a micro-blogging site, for an author who writes short posts in Thai or English. It finds your posts, drafts a new one (280 characters max), and publishes <b>only</b> when you confirm. It is nobody's idea, so you can change it and break it freely.</div>
+    <div class="item"><div class="num">1</div><div><h4>Download the zip</h4>
+      <p>Download <code>postpal-playground.zip</code> from the link the organisers share (under 100 KB). It holds a small finished project, the starter files for P7 and the MCP connection. It contains no keys and no personal data. Downloaded it before? Download it again: it is updated.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="item"><div class="num">2</div><div><h4>Unzip it</h4>
+      <p data-os="win">Put it somewhere you can find again, such as Documents. Right-click the zip and choose <b>Extract All</b>, then Extract. Do not open files from inside the zip: Kiro cannot use them from there.</p>
+      <p data-os="mac">Put it somewhere you can find again, such as Documents, and double-click the zip to unzip it. Do not open files from inside the zip.</p>
+      <p class="chk"><b>Check:</b> you have one folder named <code>postpal-playground</code> with <code>START-HERE.md</code> inside it, not a second <code>postpal-playground</code> folder inside the first.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="item"><div class="num">3</div><div><h4>Open it in Kiro</h4>
+      <p>In Kiro choose <b>File → Open Folder</b> and pick <code>postpal-playground</code>. If Kiro asks whether you trust the authors of the files in this folder, choose yes.</p>
+      <p class="chk"><b>Check:</b> the file list shows <code>START-HERE.md</code>, <code>agent/</code>, <code>starter/</code> and a <code>.kiro</code> folder.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="item"><div class="num">4</div><div><h4>Install the project</h4>
+      <p>Open the terminal inside Kiro (<b>View → Terminal</b>). It starts in the playground folder. Run:</p>
+      <div class="term"><div class="hd">terminal (inside postpal-playground)<button class="copy">Copy</button></div><pre>uv sync</pre></div>
+      <p class="chk"><b>Check:</b> it finishes without an error and a <code>.venv</code> folder appears. The first run downloads packages, so give it a minute.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="item"><div class="num">5</div><div><h4>Run the 12 tests</h4>
+      <div class="term"><div class="hd">terminal (inside postpal-playground)<button class="copy">Copy</button></div><pre>uv run pytest</pre></div>
+      <p class="chk"><b>Check:</b> the last line says <code>12 passed</code>. They test the finished PostPal agent's tools; none of them calls AWS.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="note">One folder to open now, one to make later. Keep your own idea out of the playground.</div>
+  </section>
+
+  <!-- STEP 4 -->
+  <section class="step" id="s4" data-step="4">
+    <div class="eyebrow">Step 4</div>
+    <h2>Connect Kiro to AWS with MCP, and see it work</h2>
+    <p class="lead">MCP is how Kiro gets tools beyond your files. The playground already holds the connection, so you do not type it. You watch it connect, then read what it says.</p>
+    <div class="grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="card"><h3>aws-mcp · on now</h3><p>Searches current AWS documentation and makes AWS calls with your team sign-in.</p></div>
+      <div class="card"><h3>strands-agents · on now</h3><p>Looks up how to use the Strands Agents library, which you meet in P7.</p></div>
+      <div class="card"><h3>agentcore-docs · off</h3><p>Shows <b>Disabled</b> on purpose. You switch it on in the 21 Nov build.</p></div>
+    </div>
+    <div class="note"><b>Part of this step waits for your AWS sign-in.</b> You can open the list, watch <code>strands-agents</code> connect and read the file now. <code>aws-mcp</code> only turns green after you sign in to AWS, so the items tagged Part 2 wait until your team lead has done the first sign-in.</div>
+    <div class="item"><div class="num">1</div><div><h4>Open the MCP Servers list</h4>
+      <p>In the left bar click the <b>Kiro</b> icon (a ghost). The panel has sections for Specs, Agent Hooks, Agent Steering &amp; Skills and <b>MCP Servers</b>. Open MCP Servers.</p>
+      <p class="chk"><b>Check:</b> you see <code>aws-mcp</code>, <code>strands-agents</code> and <code>agentcore-docs</code>. Your own MCP servers may be listed too; that is fine.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="item"><div class="num">2</div><div><h4>Wait for the connections</h4>
+      <p>Kiro starts each server for you. The first start downloads a small helper, so <i>Connecting…</i> can last a minute or two. Do not click anything meanwhile.</p>
+      <p class="chk"><b>Check:</b> <code>strands-agents</code> says Connected (2 tools) and <code>agentcore-docs</code> says Disabled. <code>aws-mcp</code> needs your AWS sign-in: until your team has signed in it may show Connection Failed, and that is expected. After you sign in (Part 2) it says Connected (8 tools).</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="item"><div class="num">3</div><div><h4>If a row says Connection Failed (after your AWS sign-in)</h4>
+      <p>Most often your AWS sign-in has expired. In the terminal run <code>aws sso login</code>. Then right-click the row and choose <b>Retry</b>. <b>Show MCP Logs</b> shows what went wrong; <b>Ask Kiro</b> lets Kiro look at the error with you. The table at the bottom of this page covers other causes.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="item"><div class="num">4</div><div><h4><span class="part">Part 2 · needs AWS sign-in</span>See the tools</h4>
+      <p>Click the small arrow beside <code>aws-mcp</code> to open its list of tools. Each tool is one thing Kiro can now do, such as searching AWS documentation or listing Regions.</p>
+      <p class="chk"><b>Check:</b> you see eight tools whose names start with <code>aws___</code>.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="item"><div class="num">5</div><div><h4>Read the connection file</h4>
+      <p>Press <b>Ctrl+Shift+P</b> (Mac: <b>Cmd+Shift+P</b>), type <code>Open Workspace MCP Config</code> and choose <b>Open Workspace MCP Config (JSON)</b>. If Kiro shows User Config and Workspace Config tabs, you want <b>Workspace Config</b>. You only read it; do not change it.</p>
+      <p class="chk"><b>Check:</b> the file lists the same three servers you saw in the panel.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="item"><div class="num">6</div><div><h4><span class="part">Part 2 · needs AWS sign-in</span>Ask Kiro a question that needs the tool</h4>
+      <p>Open the Kiro chat and paste this. Kiro should call the AWS server and tell you which documentation page it used.</p>
+      <div class="term"><div class="hd">Prompt to paste into Kiro<button class="copy">Copy</button></div><pre>Use the AWS documentation to tell me which Claude models Amazon Bedrock offers in the Asia Pacific (Singapore) Region, and name the documentation page you used.</pre></div>
+      <p class="chk"><b>Check:</b> the chat shows a tool call to <code>aws___search_documentation</code> and the answer names a page. It did not stop to ask you, because documentation search is pre-approved.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+
+    <div class="note">Green means connected. If Kiro answers an AWS question from memory instead of using the tool, start a new chat so it loads the AWS rule.</div>
+  </section>
+
+  <!-- STEP 5 -->
+  <section class="step" id="s5" data-step="5">
+    <div class="eyebrow">Step 5 · about 10 minutes</div>
+    <h2>Make your team's own folder</h2>
+    <p class="lead">The playground was practice. This folder is where your own idea gets built, so you arrive on 21 Nov with a half-built prototype, not an empty laptop.</p>
+    <div class="note"><b>Two folders, two jobs.</b> <code>postpal-playground</code> is a made-up project you can break while you learn. Your team folder holds your own idea. The folders sit <b>side by side</b>, never one inside the other.</div>
+    <div class="term"><div class="hd">side by side, for example in Documents</div><pre>postpal-playground/      ← practice (P1)
+  scripts/new_team_folder.py  ← run once
+my-team/                 ← your idea, P2 on
+  docs/submission.md     ← your Quick submission
+  agent.py               ← PostPal starter agent
+  check_bedrock.py       ← the Bedrock access test
+  pyproject.toml
+  .kiro/settings/mcp.json  ← same MCP connection
+  .kiro/steering/aws.md    ← same AWS rule</pre></div>
+    <div class="item"><div class="num">1</div><div><h4>Run the script</h4>
+      <p>In the terminal inside <code>postpal-playground</code>, run this. Replace <code>my-team</code> with a short name for your product, using letters, digits and dashes.</p>
+      <div class="term"><div class="hd">terminal (inside postpal-playground)<button class="copy">Copy</button></div><pre>uv run python scripts/new_team_folder.py my-team</pre></div>
+      <p class="chk"><b>Check:</b> it prints <code>Created</code> and lists six files. The new folder sits next to the playground, not inside it. If the folder already exists the script stops and changes nothing.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="item"><div class="num">2</div><div><h4>Add your submission</h4>
+      <p>Copy your team's Quick submission <code>.md</code> file into the new folder's <code>docs</code> folder and rename it <code>submission.md</code>. Use the <code>.md</code>, not the slide deck.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="item"><div class="num">3</div><div><h4>Open it in Kiro</h4>
+      <p>In Kiro choose <b>File → Open Folder</b> and pick your team folder. To go back to the playground use <b>File → Open Recent</b>. If Kiro asks whether you trust the folder, choose yes.</p>
+      <p class="chk"><b>Check:</b> the file list shows <code>docs/submission.md</code>, <code>agent.py</code> and <code>.kiro</code>, and the MCP Servers list shows the same three servers as before.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="note">Every builder needs the folder on their own laptop. Share it with git or a shared drive, and keep a backup copy. In P2, Kiro turns your submission into steering in this folder.</div>
+  </section>
+
+  <!-- STEP 6 -->
+  <section class="step" id="s6" data-step="6">
+    <div class="eyebrow">Step 6 · about 10 minutes</div>
+    <h2>Prove it works before the session</h2>
+    <p class="lead">Five tests. None of them changes your files. Run the first two now and the other three once your team has signed in to AWS. When all five pass, you are ready.</p>
+    <div class="note"><b>Two tests now, three later.</b> The first two tests need no AWS account. The three tagged Part 2 (Bedrock, Kiro reaching AWS, the starter agent) wait until your team has signed in to AWS. Come back to this page then.</div>
+    <div class="item"><div class="num">1</div><div><h4>Kiro reads your idea</h4>
+      <p>Open the Kiro chat (in your team folder) and paste this. It only reads, so nothing in your folder changes.</p>
+      <div class="term"><div class="hd">Prompt to paste into Kiro<button class="copy">Copy</button></div><pre>Read docs/submission.md and tell me in three sentences what this product does, who it is for, and the one feature it must have.</pre></div>
+      <p class="chk"><b>Check:</b> the three sentences match your idea.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="item"><div class="num">2</div><div><h4>The AgentCore CLI is there</h4>
+      <div class="term"><div class="hd">terminal<button class="copy">Copy</button></div><pre>agentcore --version</pre></div>
+      <p class="chk"><b>Check:</b> it prints <code>0.30.0</code>.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="item"><div class="num">3</div><div><h4><span class="part">Part 2 · needs AWS sign-in</span>Bedrock answers</h4>
+      <div class="term"><div class="hd">terminal (inside your team folder)<button class="copy">Copy</button></div><pre>uv run check_bedrock.py</pre></div>
+      <p class="chk"><b>Check:</b> it prints <code>READY</code>. An AccessDenied error means the account or model access is not set up: tell the organisers.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="item"><div class="num">4</div><div><h4><span class="part">Part 2 · needs AWS sign-in</span>Kiro reaches AWS</h4>
+      <p>Start a new chat so the AWS rule loads, then paste this. Kiro should call the AWS MCP Server and show you the result. Kiro may ask before it runs a script: read it, then approve.</p>
+      <div class="term"><div class="hd">Prompt to paste into Kiro<button class="copy">Copy</button></div><pre>Use the AWS MCP server to list the Amazon Bedrock foundation models in ap-southeast-1 that support on-demand inference and come from Anthropic, and show me the API call you made.</pre></div>
+      <p class="chk"><b>Check:</b> the answer includes <code>anthropic.claude-sonnet-5</code>, the model your agent uses. If Kiro answers without a tool call, check that <code>.kiro/steering/aws.md</code> exists in your team folder and start another new chat.</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+    <div class="item"><div class="num">5</div><div><h4><span class="part">Part 2 · needs AWS sign-in</span>The starter agent uses its tool</h4>
+      <p>Run it, then ask: <i>"What did I write about running?"</i> Type <code>exit</code> to stop.</p>
+      <div class="term"><div class="hd">terminal (inside your team folder)<button class="copy">Copy</button></div><pre>uv run agent.py</pre></div>
+      <p class="chk"><b>Check:</b> the output shows <code>Tool #1: find_posts</code> and then an answer that quotes the running posts it found (p1 and p4).</p></div><button class="tick" aria-label="Mark done">✓</button></div>
+
+    <h2 style="margin-top:32px">Quick check</h2>
+    <div class="quiz" data-right="0"><p><b>1. Which file do you put in <code>docs/</code>?</b></p>
+      <button>The .md submission from Amazon Quick</button><button>The .html slide deck</button><button>Nothing yet, we write it in the session</button>
+      <p class="fb"></p></div>
+    <div class="quiz" data-right="0"><p><b>2. <code>check_bedrock.py</code> fails with an error about credentials. What now?</b></p>
+      <button>Run aws sso login, then try again</button><button>Create an access key and paste it into the file</button><button>Wait and ask during P6</button>
+      <p class="fb"></p></div>
+
+    <div class="ready" id="ready"><h2>You're ready</h2><p style="color:var(--muted);margin:0">All steps ticked. Join the session on time. Everything after this happens live, in P1 to P7.</p></div>
+  
+</section>
+
+  <section class="step how" id="aws-signin">
+    <div class="eyebrow">Team AWS sign-in</div>
+    <h2>One team login, one phone to approve it</h2>
+    <p class="lead">Your team has one AWS sandbox account and one shared login. The first sign-in sets up a second check on a phone. The team lead does that once. Then every builder connects their own laptop. Teams never get access keys: sign-in by the link is the only way in.</p>
+    <div class="note warn"><b>Why the first sign-in is a team job.</b> The phone check is tied to the login, not to a person. Whichever phone is set up first is the phone Microsoft asks. If only the team lead has a phone registered and is asleep, nobody else can get in. So do the first sign-in together, on a call, and add more phones straight away.</div>
+
+    <h3>Team lead: first sign-in (once, about ten minutes)</h3>
+    <p class="who">Browser on your laptop, phone in your hand</p>
+    <ol>
+      <li><b>Get the team on a call.</b> Everyone who will build joins, each with a phone within reach.</li>
+      <li><b>Open <a href="https://truecorp.awsapps.com/start">truecorp.awsapps.com/start</a>.</b> It sends you to a True sign-in page from Microsoft. A private (incognito) window helps: if Microsoft offers an account you already use, for example your employer's, choose <b>Use another account</b>.</li>
+      <li><b>Sign in with the team login</b> (an email address) and the password from the organisers. Microsoft should say <b>Let's keep your account secure</b>. If it asks you to approve a sign-in instead, a phone is already set up: stop and ask the organisers whose phone it is.</li>
+      <li><b>Choose Next, then install Microsoft Authenticator.</b> Install the free app from Google Play or the App Store, then choose Next on the laptop. No smartphone? Choose <b>Other options</b>, then <b>Phone</b>: Microsoft sends a code by call or text.</li>
+      <li><b>Pair your phone.</b> Microsoft shows a code to scan with the app, then sends a test sign-in to approve. If a two-digit number appears on the laptop, type it into the app.</li>
+      <li><b>Reach the AWS access portal.</b> The page changes to the AWS access portal and lists your team's account. If the list is empty, tell the organisers your team number.</li>
+      <li><b>Add a second way in.</b> While signed in, open <a href="https://mysignins.microsoft.com/security-info">mysignins.microsoft.com/security-info</a>, choose <b>Add sign-in method</b> and add a second phone, for example your deputy's. If it will not let you, ask the organisers to reset the check.</li>
+      <li><b>Share the login in your private team chat only.</b> Never in a public channel, never in a file in your project, never in Kiro.</li>
+    </ol>
+
+    <h3>Teammates: get in, then add your own phone</h3>
+    <ol>
+      <li>Open the start link and sign in with the team login. Microsoft sends the approval to the phone that was set up first, the lead's. If a two-digit number appears on your laptop, read it to the lead, who types it into the app and approves.</li>
+      <li>While signed in, open <a href="https://mysignins.microsoft.com/security-info">mysignins.microsoft.com/security-info</a>, choose <b>Add sign-in method</b>, pick <b>Microsoft Authenticator</b> and pair your own phone.</li>
+      <li>Next time, approve on your own phone. If Microsoft asks the lead's phone, choose <b>Sign in another way</b>.</li>
+    </ol>
+
+    <h3>Every builder: connect your laptop</h3>
+    <p>Step 2, last item, has the commands: <code>aws configure sso</code> with start URL <code>https://truecorp.awsapps.com/start</code>, SSO region and default Region <code>ap-southeast-1</code>, profile <code>default</code>; then <code>aws sts get-caller-identity</code> to confirm your team's account. When it expires, run <code>aws sso login</code> (or <code>aws sso login --use-device-code</code> if the browser does not open).</p>
+    <h3>Regions you may use</h3>
+    <table>
+      <thead><tr><th>Region</th><th>Code</th><th>Use it for</th></tr></thead>
+      <tbody>
+        <tr><td>Asia Pacific (Singapore)</td><td><code>ap-southeast-1</code></td><td><b>Your default.</b> Everything in this guide uses it.</td></tr>
+        <tr><td>Asia Pacific (Thailand)</td><td><code>ap-southeast-7</code></td><td>Allowed. Check that a service is offered there before you plan around it.</td></tr>
+        <tr><td>US East (N. Virginia)</td><td><code>us-east-1</code></td><td>Allowed. The AWS MCP Server that Kiro uses is hosted here.</td></tr>
+        <tr><td colspan="3"><b>Amazon Bedrock:</b> use <code>anthropic.claude-sonnet-5</code> in <code>ap-southeast-1</code>. Model IDs that start with <code>global.</code> or <code>apac.</code> send the request on to other Regions, so your account refuses them.</td></tr>
+      </tbody>
+    </table>
+    <p>Any other Region is refused with an error that mentions a service control policy: switch the Region and run it again. Account-wide services (IAM, sign-in, CloudFront, Route 53, Budgets, Cost Explorer) are not blocked. Set the Region every time: top right in the console, <code>--region</code> in the terminal, and by name in code. You cannot create IAM users, access keys or console passwords.</p>
+
+    <h3>Budget</h3>
+    <table>
+      <thead><tr><th>What</th><th>Value</th></tr></thead>
+      <tbody>
+        <tr><td>Suggested spend</td><td><b>US$30 a day.</b> Treat it as your daily ceiling.</td></tr>
+        <tr><td>Hard limit</td><td><b>US$500 per team account</b> for the whole programme, which runs to the final on 12 Dec.</td></tr>
+        <tr><td>Alert</td><td>An email alert at <b>80%</b> of the budget.</td></tr>
+      </tbody>
+    </table>
+    <div class="note warn"><b>US$30 is a ceiling for a heavy day, not an allowance.</b> If your team goes on to the final on 12 Dec, US$500 spread over the four weeks is about US$17 a day. Spend more on build days and almost nothing on the days between.</div>
+    <div class="note warn"><b>Still being confirmed.</b> What happens when the limit is reached, and where the 80% alert goes. Until the organisers confirm, do not count on anything stopping by itself: assume what you leave running keeps costing money.</div>
+    <ol>
+      <li><b>Every morning</b>, look at yesterday: Billing and Cost Management, then Cost Explorer, if your role allows it. Figures arrive about a day late.</li>
+      <li><b>Every session</b>, delete what you finished with. Some services bill by the hour even when idle, for example the vector store behind a knowledge base.</li>
+      <li><b>Keep test runs small:</b> short prompts, a few questions at a time, and a step limit on the agent. Most of the cost is input, and it grows with every turn.</li>
+      <li><b>In agents</b>, set a maximum number of steps and keep prompts and test files short.</li>
+      <li><b>Use seed data</b> only: small made-up files.</li>
+      <li><b>Name one builder</b> who checks the spend each day and tells the team when the total passes US$250, half the limit.</li>
+    </ol>
+
+    <h3>If it goes wrong</h3>
+    <table>
+      <thead><tr><th>What you see</th><th>What to do</th></tr></thead>
+      <tbody>
+        <tr><td>Microsoft shows an account that is not the team login</td><td>Choose Use another account, or open the start link in a private window.</td></tr>
+        <tr><td>It asks you to approve a sign-in and nobody has that phone</td><td>Ask the team lead. If the phone is lost or changed, ask the organisers to reset the phone check for your team account.</td></tr>
+        <tr><td>A two-digit number appears on your laptop</td><td>Type that number into the Authenticator app on the phone that approves.</td></tr>
+        <tr><td>The approval times out</td><td>Start again from the start link and approve straight away.</td></tr>
+        <tr><td>The AWS access portal lists no account</td><td>Tell the organisers your team number.</td></tr>
+        <tr><td>The browser does not open from the terminal</td><td>Run <code>aws sso login --use-device-code</code>, open the address it prints and type the code.</td></tr>
+        <tr><td>The token has expired, or Error loading SSO Token</td><td>Run <code>aws sso login</code>.</td></tr>
+        <tr><td>An error says an action is denied in a Region</td><td>Use <code>ap-southeast-1</code>, <code>ap-southeast-7</code> or <code>us-east-1</code>.</td></tr>
+        <tr><td>Bedrock says access denied for a model</td><td>Check the model ID first: it must not start with <code>global.</code> or <code>apac.</code>, because those route to other Regions. Use <code>anthropic.claude-sonnet-5</code> in <code>ap-southeast-1</code>. Then check the Region is one of the three. If both are right, tell the organisers the exact model name and the error.</td></tr>
+        <tr><td>A service or model is not available in Singapore</td><td>Try <code>ap-southeast-7</code> or <code>us-east-1</code>, or choose another model. Tell the organisers if neither works for your idea.</td></tr>
+        <tr><td>Creating an access key or IAM user is refused</td><td>That is on purpose. Sign in with the link; never create keys.</td></tr>
+      </tbody>
+    </table>
+    <div class="note">Still stuck? Tell the organisers your team number, the screen you are on and the exact words on it. Do not send the team password or a screenshot that shows it.</div>
+  </section>
+
+  <section class="step" id="help">
+    <h2>If a server does not connect</h2>
+    <table>
+      <thead><tr><th>What you see</th><th>What to do</th></tr></thead>
+      <tbody>
+        <tr><td>Stays on <i>Connecting…</i> for more than three minutes</td><td>Right-click the row and choose Show MCP Logs. A slow first download is normal on a slow network. If the log shows a timeout reaching aws-mcp.us-east-1.api.aws, your network may block it: tell the organisers.</td></tr>
+        <tr><td>Connection Failed, and the log mentions credentials, expired or AccessDenied</td><td>Run <code>aws sso login</code> in the terminal, then right-click the row and choose Retry. Never create an access key to get around this.</td></tr>
+        <tr><td>Connection Failed, and the log says uvx was not found</td><td>Kiro cannot see where uv is installed. In the terminal run <code>which uvx</code> (Windows: <code>where uvx</code>), then ask Kiro to put that full path in the command line of the three servers in the file.</td></tr>
+        <tr><td>aws-mcp is green but Kiro answers an AWS question from memory</td><td>Start a new chat. The file <code>.kiro/steering/aws.md</code> tells Kiro to use the tool, and a new chat loads it.</td></tr>
+        <tr><td>agentcore-docs says Disabled</td><td>That is correct today. You switch it on in the 21 Nov build.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>AI FOR ALL Hackathon Bootcamp · Pre-bootcamp setup · <button class="reset" id="reset">Clear my ticks</button></footer>
+</div>
+
+<script>
+(function(){
+  var KEY='aiforall-prebootcamp-v1';
+  var items=[].slice.call(document.querySelectorAll('.item'));
+  var state={};
+  try{state=JSON.parse(localStorage.getItem(KEY)||'{}')||{}}catch(e){state={}}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+  items.forEach(function(it,i){it.dataset.id=i;if(state['i'+i])it.classList.add('done');
+    it.querySelector('.tick').addEventListener('click',function(){var on=!it.classList.contains('done');it.classList.toggle('done',on);state['i'+i]=on;save();update();});});
+  function update(){
+    var done=items.filter(function(x){return x.classList.contains('done')}).length;
+    document.getElementById('count').textContent=done+' of '+items.length+' done';
+    document.getElementById('bar').style.width=(100*done/items.length)+'%';
+    var links=document.querySelectorAll('#flow a');
+    for(var s=1;s<=6;s++){var sec=document.querySelectorAll('#s'+s+' .item');var d=[].filter.call(sec,function(x){return x.classList.contains('done')}).length;links[s-1].classList.toggle('done',sec.length&&d===sec.length);}
+    document.getElementById('ready').classList.toggle('show',done===items.length);
+  }
+  update();
+  document.getElementById('reset').addEventListener('click',function(){state={};save();items.forEach(function(x){x.classList.remove('done')});update();});
+  function setOS(os){document.body.className=os;document.querySelectorAll('.os button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.set===os)});state.os=os;save();}
+  document.querySelectorAll('.os button').forEach(function(b){b.addEventListener('click',function(){setOS(b.dataset.set)})});
+  if(state.os)setOS(state.os);else if(/Mac/i.test(navigator.platform||''))setOS('mac');
+  document.querySelectorAll('.copy').forEach(function(b){b.addEventListener('click',function(){
+    var t=b.closest('.term').querySelector('pre').textContent;
+    var done=function(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy'},1500)};
+    if(navigator.clipboard){navigator.clipboard.writeText(t).then(done,function(){})}});});
+  document.querySelectorAll('.quiz').forEach(function(q){var r=+q.dataset.right;var bs=q.querySelectorAll('button');var fb=q.querySelector('.fb');
+    var msgs=q===document.querySelectorAll('.quiz')[0]?['Right: the .md file your team submitted goes in docs/ as submission.md.','Not the deck. Kiro reads the .md submission.','It goes in now, in step 5, so Kiro can read it in P2.']:['Right: an expired sign-in is the usual cause.','Never create access keys. Run aws sso login instead.','Fix it now: run aws sso login and try again.'];
+    bs.forEach(function(b,i){b.addEventListener('click',function(){bs.forEach(function(x){x.classList.remove('right','wrong')});b.classList.add(i===r?'right':'wrong');fb.textContent=msgs[i];});});});
+})();
+</script>
+</body>
+</html>
