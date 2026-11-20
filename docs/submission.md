@@ -185,9 +185,9 @@ _Source: user interview (8 shops, Bangkok & Nonthaburi)_
 |---|---|---|
 | แพร | 🎯 Product/Owner | คุยเจ้าของร้าน จัดลำดับงาน ตัดสินใจ (+PDPA) |
 | ปัน | 📱 Mobile/Frontend | แอป + onboarding + ฟีด (+API) |
-| มี่ | ⚙️ Backend/Engine | engine ส่วนลด/คอนเทนต์/ช่องทาง (+ระบบวัดผล) |
-| ริสา | 🤖 AI/Prompt | แคปชันไทย + OCR + ตรวจคุณภาพคำตอบ AI (+red-line) |
-| แบงค์ | 🎨 Design/UX | wireframe→UI มาสคอต ป้าย/QR (+คอนเทนต์ TH) |
+| แบงค์ | ⚙️ Backend/Engine | engine ส่วนลด/คอนเทนต์/ช่องทาง (+ระบบวัดผล) |
+| มี่ | 🤖 AI/Prompt | แคปชันไทย + OCR + ตรวจคุณภาพคำตอบ AI (+red-line) |
+| ริสา | 🎨 Design/UX | wireframe→UI มาสคอต ป้าย/QR (+คอนเทนต์ TH) |
 
 ## 14·15 · ไทม์ไลน์ & วิสัยทัศน์ · Timeline & Vision
 
