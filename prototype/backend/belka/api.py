@@ -17,7 +17,7 @@ from typing import Literal
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 
 from . import calc, memory, menu_import, personas, strategy, trends
 from .config import PROJECT_DIR, config_refused, get_settings
@@ -28,6 +28,8 @@ from .security import SecurityMiddleware
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(message)s")
 log = logging.getLogger("belka.api")
+
+r2_ = calc.r2
 
 app = FastAPI(title="Belka API", version="0.2.0")
 app.add_middleware(CORSMiddleware, allow_origins=["http://127.0.0.1:8000", "http://localhost:8000"],
@@ -185,26 +187,60 @@ def calc_promo(body: PromoRequest) -> dict:
 class DiscountRequest(BaseModel):
     items: list[MenuRow] = Field(min_length=1, max_length=50)
     expected_lift: float = Field(default=0.3, gt=0, le=3)
+    # อัตรา GP ต่อช่องทาง (สัดส่วน 0–<1) ใช้หักก่อนคิดว่าลดได้เท่าไหร่ ช่องแรกคือช่องหลักที่ใช้ใน "recommendation"
+    gp_rates: dict[str, float] = {"หน้าร้าน": 0.0}
+
+    @field_validator("gp_rates")
+    @classmethod
+    def _check_rates(cls, v: dict[str, float]) -> dict[str, float]:
+        if not v or len(v) > 8:
+            raise ValueError("ใส่ช่องทางได้ 1–8 ช่องทาง")
+        if any(not 0 <= r < 1 for r in v.values()):
+            raise ValueError("GP ต้องอยู่ระหว่าง 0% ถึงต่ำกว่า 100%")
+        return v
 
 
 @app.post("/api/calc/discounts")
 def calc_discounts(body: DiscountRequest) -> dict:
-    """ส่งเมนู ราคา ต้นทุน ทีเดียว ได้คำแนะนำส่วนลดรายเมนู (ไม่มีส่วนลดเหมารวม)"""
-    rows = []
+    """ส่งเมนู ราคา ต้นทุน ทีเดียว ได้คำแนะนำส่วนลดรายเมนู แยกตามช่องทาง (หัก GP ก่อน) ไม่มีส่วนลดเหมารวม"""
+    rows, first = [], next(iter(body.gp_rates))
     for it in body.items:
         if it.cost is None:
-            rows.append({"name": it.name, "price": it.price, "cost": None, "recommendation": None,
+            rows.append({"name": it.name, "price": it.price, "cost": None, "recommendation": None, "by_channel": {},
                          "note": "ยังไม่มีต้นทุน จึงยังคำนวณส่วนลดไม่ได้"})
             continue
+        by_channel = {}
         try:
-            item = calc.Item(it.name, it.price, it.cost)
+            for ch, rate in body.gp_rates.items():
+                item = calc.Item(it.name, it.price, it.cost, commission_rate=rate)
+                by_channel[ch] = {**calc.recommend_discount(item, body.expected_lift), "gp_rate": rate,
+                                  "unit_profit_before_gp": r2_(it.price - it.cost)}
         except ValueError as exc:
             rows.append({"name": it.name, "price": it.price, "cost": it.cost, "recommendation": None,
-                         "note": str(exc)})
+                         "by_channel": {}, "note": str(exc)})
             continue
-        rows.append({"name": it.name, "price": it.price, "cost": it.cost,
-                     "recommendation": calc.recommend_discount(item, body.expected_lift)})
-    return {"items": rows, "eligible_count": sum(1 for r in rows if r["recommendation"] and r["recommendation"]["eligible"])}
+        rows.append({"name": it.name, "price": it.price, "cost": it.cost, "recommendation": by_channel[first],
+                     "by_channel": by_channel})
+    ok = sum(1 for r in rows if any(c["eligible"] for c in r["by_channel"].values()))
+    return {"items": rows, "channels": list(body.gp_rates), "eligible_count": ok}
+
+
+class AdBudgetRequest(BaseModel):
+    monthly_sales: float = Field(gt=0, le=100_000_000)
+    platform_share_before: float = Field(ge=0, le=1)
+    platform_share_after: float = Field(ge=0, le=1)
+    gp_rate: float = Field(ge=0, lt=1)
+
+
+@app.post("/api/calc/ad-budget")
+def calc_ad_budget(body: AdBudgetRequest) -> dict:
+    """งบโฆษณา = ส่วนหนึ่ง (30% ตามสูตรทีม) ของ GP ที่ประหยัดได้เมื่อลดสัดส่วนออเดอร์ผ่านแอป
+    ถ้าไม่ได้ลดสัดส่วน (ไม่มี GP ที่ประหยัด) งบเป็น 0 ไม่แนะนำให้ควักเพิ่ม"""
+    r = calc.gp_savings(body.monthly_sales, body.platform_share_before, body.platform_share_after, body.gp_rate)
+    saving = r["saved_per_month"] > 0
+    budget = r["marketing_budget"] if saving else 0.0
+    return {**r, "marketing_budget": budget, "weekly_budget": calc.r2(budget * 12 / 52), "has_saving": saving,
+            "share_of_saved": calc.MARKETING_SHARE_OF_GP_SAVED}
 
 
 @app.get("/api/memory/{shop_id}")

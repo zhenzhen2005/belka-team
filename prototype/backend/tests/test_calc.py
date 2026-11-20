@@ -42,10 +42,10 @@ def test_fee_includes_commission_and_per_order():
 
 def test_discount_not_recommended_when_delta_ge_profit():
     assert calc.lift_needed(36, 36) is None
-    assert calc.lift_label(None) == "ไม่แนะนำ"
+    assert calc.lift_label(None) == "ไม่คุ้ม"
 
 
-@pytest.mark.parametrize("L,label", [(0.3, "คุ้ม"), (0.5, "คุ้ม"), (0.8, "ลุ้น"), (1.0, "ลุ้น"), (1.2, "ไม่แนะนำ")])
+@pytest.mark.parametrize("L,label", [(0.3, "คุ้ม"), (0.5, "คุ้ม"), (0.8, "เสี่ยง"), (1.0, "เสี่ยง"), (1.2, "ไม่คุ้ม")])
 def test_lift_labels(L, label):
     assert calc.lift_label(L) == label
 

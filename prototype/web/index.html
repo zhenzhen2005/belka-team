@@ -262,26 +262,46 @@ function renderMenuStep() {
 }
 function renderDiscounts() {
   const d = S.disc, ready = menuItems().filter(i => i.price > 0 && i.cost != null).length;
-  const cards = d ? d.items.map(r => { const x = r.recommendation;
-    if (!x) return `<div class="card"><b>${esc(r.name)}</b><p class="small muted" style="margin:6px 0 0">${esc(r.note || "")}</p></div>`;
-    if (!x.eligible) return `<div class="card"><b>${esc(r.name)}</b> <span class="muted small">ราคา ${fmt(r.price)} · ต้นทุน ${fmt(r.cost)}</span><div class="issues" style="margin-top:8px">ไม่ควรลดราคา: ${esc(x.reason)}</div></div>`;
-    return `<div class="card"><div class="between"><div><b>${esc(r.name)}</b><div class="small muted">ปกติ ${fmt(x.price)} · ต้นทุน ${fmt(r.cost)} บาท</div></div><span class="chip ${x.label === "คุ้ม" ? "g" : x.label === "ลุ้น" ? "a" : "r"}" style="font-size:15px">${esc(x.label)}</span></div>
-      <div class="between" style="margin-top:8px"><div><div class="small muted">ราคาโปรที่แนะนำ</div><div class="big o">${fmt(x.promo_price)} บาท</div></div><div class="small muted" style="text-align:right">ลด ${fmt(x.discount_baht)} บาท (${pct(x.discount_pct)})</div></div>
-      <div class="kv"><span>กำไรต่อชิ้น</span><span>${fmt(x.unit_profit_before)} → ${fmt(x.unit_profit_after)} บาท</span></div>
-      <div class="kv"><span>ต้องขายเพิ่มเพื่อคุ้มทุน</span><span>${x.lift_needed == null ? "ไม่คุ้ม" : "+" + pct(x.lift_needed)}</span></div></div>`; }).join("") : "";
+  const cards = d ? d.items.map(r => {
+    if (!r.recommendation) return `<div class="card"><b>${esc(r.name)}</b><p class="small muted" style="margin:6px 0 0">${esc(r.note || "")}</p></div>`;
+    const rows = Object.entries(r.by_channel).map(([ch, x]) => x.eligible
+      ? `<div class="kv"><span>${esc(ch)}${x.gp_rate ? ` <span class="small muted">(GP ${pct(x.gp_rate)})</span>` : ""}</span><span><b class="o">โปร ${fmt(x.promo_price)} บาท</b> · ลด ${fmt(x.discount_baht)} (${pct(x.discount_pct)}) · <span class="chip ${x.label === "คุ้ม" ? "g" : x.label === "เสี่ยง" ? "a" : "r"}">${esc(x.label)}</span><br><span class="small muted">กำไรต่อชิ้น ${fmt(x.unit_profit_before)} → ${fmt(x.unit_profit_after)} · ต้องขายเพิ่ม ${x.lift_needed == null ? "ไม่คุ้ม" : "+" + pct(x.lift_needed)}</span></span></div>`
+      : `<div class="kv"><span>${esc(ch)}${x.gp_rate ? ` <span class="small muted">(GP ${pct(x.gp_rate)})</span>` : ""}</span><span style="color:var(--red)"><span class="chip r">ไม่คุ้ม</span> ไม่ควรลดราคา · มาร์จิ้น ${pct(x.margin)}${x.gp_rate ? " หลังหัก GP" : ""} ต่ำกว่า 20%</span></div>`).join("");
+    return `<div class="card"><b>${esc(r.name)}</b> <span class="muted small">ราคา ${fmt(r.price)} · ต้นทุน ${fmt(r.cost)} บาท</span>${rows}</div>`; }).join("") : "";
+  const chs = d && d.channels ? d.channels : [], base = chs[0];
+  const cell = (x, b) => { if (!x) return "–"; if (!x.eligible) return `<span class="chip r">ไม่คุ้ม</span><br><span class="small muted">มาร์จิ้น ${pct(x.margin)}</span>`;
+    const diff = b && b.eligible && x !== b ? b.discount_baht - x.discount_baht : 0;
+    return `<b class="o">${fmt(x.promo_price)}</b> <span class="chip ${x.label === "คุ้ม" ? "g" : x.label === "เสี่ยง" ? "a" : "r"}">${esc(x.label)}</span><br><span class="small muted">ลด ${fmt(x.discount_baht)} · เหลือกำไร ${fmt(x.unit_profit_after)}</span>${diff > 0 ? `<br><span class="small" style="color:#b06b00">ลดได้น้อยกว่าหน้าร้าน ${fmt(diff)}</span>` : b && !b.eligible ? "" : ""}`; };
+  const cmp = d && chs.length > 1 ? `<div class="card"><h3 style="margin-top:0">⚖️ เทียบหน้าร้าน กับหลังหัก GP</h3><p class="small" style="margin:0 0 8px;line-height:1.7"><span class="chip g">คุ้ม</span> ต้องขายเพิ่มไม่เกิน 50% ก็เท่าทุน · <span class="chip a">เสี่ยง</span> ต้องเพิ่ม 50–100% · <span class="chip r">ไม่คุ้ม</span> ต้องเพิ่มเกิน 100% หรือกำไรต่อชิ้น (หลังหัก GP) ต่ำกว่า 20%<br><span class="muted">"คุ้ม" คือเท่าทุนเมื่อยอดเพิ่มตามที่ระบุ ถ้ายอดเพิ่มน้อยกว่านั้นจะขาดทุนเทียบกับไม่ลด</span></p><p class="small muted" style="margin:0 0 8px">ราคาโปรที่แนะนำ (บาท) ของแต่ละเมนูในแต่ละช่องทาง ช่องที่ต้องจ่าย GP กำไรต่อชิ้นน้อยกว่า จึงลดได้น้อยกว่าหน้าร้าน หรือไม่ควรลดเลย</p>
+    <table class="t"><tr><th>เมนู</th>${chs.map(c => `<th>${esc(c)}</th>`).join("")}</tr>${d.items.filter(r => r.recommendation).map(r => `<tr><td>${esc(r.name)}<br><span class="small muted">ปกติ ${fmt(r.price)}</span></td>${chs.map(c => `<td>${cell(r.by_channel[c], r.by_channel[base])}</td>`).join("")}</tr>`).join("")}</table></div>` : "";
   return `<div class="card" style="margin-top:22px">${stk("money-bag", "corner")}<h3>🏷️ ส่วนลดรายเมนู</h3>
     <p class="small muted" style="margin:0 0 8px">ใส่ราคาและต้นทุนของแต่ละเมนู Belka บอกราคาโปรที่คุ้มให้ทีละเมนู ไม่ลดเท่ากันทั้งร้าน เมนูที่กำไรต่ำกว่า 20% จะไม่แนะนำให้ลด</p>
     ${menuPhotoBox()}<div class="grid3 small muted"><span>เมนู</span><span>ราคา</span><span>ต้นทุน</span><span></span></div>${menuRowsHtml(false)}
     <button class="btn sm ghost" style="margin:8px 0" data-a="menu-add">+ เพิ่มเมนู</button>
+    <p class="small muted" style="margin:6px 0 4px">ค่า GP ของแอปส่งอาหาร: ระบบหัก GP ก่อน แล้วค่อยคิดว่าลดได้เท่าไหร่ในแต่ละช่องทาง (แอปที่ GP สูงจะลดได้น้อยกว่าหน้าร้าน)</p>
+    <div class="grid2">${Object.keys(S.gp).filter(c => c !== "หน้าร้าน").map(c => `<div><label class="f">GP ${esc(c)} (%)</label><input data-gp="${esc(c)}" type="number" min="0" max="99" value="${S.gp[c]}"></div>`).join("")}</div>
     <label class="f">คาดว่ายอดจะเพิ่มเท่าไหร่ถ้าลดราคา (%)</label><input id="lift" type="number" value="${esc(store.get("lift", 30))}">
     <button class="btn primary" style="margin-top:10px" data-a="calc-disc" ${ready && !S.loading.disc ? "" : "disabled"}>ดูส่วนลดทุกเมนู${ready ? ` (${ready} เมนู)` : ""}</button>
     ${ready ? "" : `<p class="small muted" style="margin:8px 0 0">ใส่ราคาและต้นทุนอย่างน้อย 1 เมนู ปุ่มจะใช้ได้</p>`}</div>
-    ${S.loading.disc ? loader("Belka กำลังคิดราคาโปรให้ทีละเมนู…") : ""}${cards}`;
+    ${S.loading.disc ? loader("Belka กำลังคิดราคาโปรให้ทีละเมนู…") : ""}${cmp}${cards}${adBudgetCard()}`;
+}
+function adBudgetCard() {
+  const a = S.adb;
+  const out = !a ? "" : !a.has_saving ? `<div class="issues" style="margin-top:10px">ยังไม่มี GP ที่ประหยัดได้ (เป้าผ่านแอปไม่น้อยกว่าตอนนี้) จึงยังไม่แนะนำงบโฆษณาจากส่วนนี้ ลองลดสัดส่วนออเดอร์ผ่านแอปก่อน</div>`
+    : `<div class="ok-box" style="margin-top:10px">GP ที่จ่ายตอนนี้ <b>${fmt(a.gp_before)} บาท/เดือน</b> → เหลือ <b>${fmt(a.gp_after)}</b> ถ้าลดสัดส่วนผ่านแอปตามเป้า ประหยัดได้ <b>${fmt(a.saved_per_month)} บาท/เดือน</b><br>
+      แบ่งเป็นงบโฆษณา ${pct(a.share_of_saved)} ของที่ประหยัด = <b>${fmt(a.marketing_budget)} บาท/เดือน</b> (ราว ${fmt(a.weekly_budget)} บาท/สัปดาห์) ที่เหลือเก็บเป็นกำไร</div>`;
+  return `<div class="card" style="margin-top:22px">${stk("coin-stack", "corner")}<h3>💸 งบโฆษณาจาก GP</h3>
+    <p class="small muted" style="margin:0 0 8px">ไม่ต้องหาเงินก้อนใหม่ งบโฆษณามาจาก GP ที่ประหยัดได้เมื่อพาลูกค้าจากแอปมาสั่งตรง แบ่งมาเป็นงบโฆษณาเพียงส่วนหนึ่ง ไม่ใช่ทั้งหมด</p>
+    <div class="grid2"><div><label class="f">ยอดขาย/เดือน (บาท)</label><input id="ms" type="number" min="0" placeholder="เช่น 20000" value="${esc(store.get("ms", ""))}"></div><div><label class="f">ผ่านแอป ตอนนี้ → เป้า (%)</label><div class="row"><input id="sb0" type="number" min="0" max="100" value="${esc(store.get("sb0", 80))}"><input id="sb1" type="number" min="0" max="100" value="${esc(store.get("sb1", 50))}"></div></div></div>
+    <button class="btn primary" style="margin-top:10px" data-a="calc-adb">คิดงบโฆษณา</button>${out}
+    <p class="small muted" style="margin:8px 0 0">สัดส่วน 30% เป็นเกณฑ์ที่ทีมตั้งเอง ยังไม่ผ่านการทดสอบกับร้านจริง · ใช้ GP สูงสุดของแอปที่ตั้งไว้ด้านบนในการคิด</p></div>`;
 }
 async function calcDiscounts() {
   const el = document.getElementById("lift"), lift = Math.min(300, Math.max(1, +(el ? el.value : store.get("lift", 30)) || 30)) / 100;
   S.loading.disc = true; render();
-  try { S.disc = await api("/api/calc/discounts", { expected_lift: lift, items: menuItems().filter(i => String(i.name).trim() && i.price > 0).map(i => ({ name: String(i.name).trim().slice(0, 60), price: i.price, cost: i.cost })) }); }
+  const gp = Object.fromEntries(Object.entries(S.gp).map(([k, v]) => [k, Math.min(0.99, Math.max(0, (+v || 0) / 100))]));
+  if (!("หน้าร้าน" in gp)) Object.assign(gp, { "หน้าร้าน": 0 });
+  try { S.disc = await api("/api/calc/discounts", { expected_lift: lift, gp_rates: { "หน้าร้าน": 0, ...gp }, items: menuItems().filter(i => String(i.name).trim() && i.price > 0).map(i => ({ name: String(i.name).trim().slice(0, 60), price: i.price, cost: i.cost })) }); }
   catch (e) { if (e.status !== 429) toast("คำนวณไม่ได้ ตรวจตัวเลขอีกครั้ง"); }
   S.loading.disc = false; render();
 }
@@ -396,10 +416,10 @@ function renderAnalysis() {
     if (!r.eligible) promoBox = `<div class="issues">${esc(r.reason)}</div>`;
     else {
       const mx = Math.max(...pr.scenarios.map(s => Math.abs(s.net)), 1);
-      promoBox = `<div class="between"><div><div class="small muted">ราคาโปรที่แนะนำ</div><div class="big o">${fmt(r.promo_price)} บาท</div><div class="small muted">ปกติ ${fmt(r.price)} · ลด ${fmt(r.discount_baht)} บาท (${pct(r.discount_pct)})</div></div><span class="chip ${r.label === "คุ้ม" ? "g" : r.label === "ลุ้น" ? "a" : "r"}" style="font-size:15px">${r.label}</span></div>
+      promoBox = `<div class="between"><div><div class="small muted">ราคาโปรที่แนะนำ</div><div class="big o">${fmt(r.promo_price)} บาท</div><div class="small muted">ปกติ ${fmt(r.price)} · ลด ${fmt(r.discount_baht)} บาท (${pct(r.discount_pct)})</div></div><span class="chip ${r.label === "คุ้ม" ? "g" : r.label === "เสี่ยง" ? "a" : "r"}" style="font-size:15px">${r.label}</span></div>
         <div class="kv"><span>กำไรต่อชิ้น</span><span>${fmt(r.unit_profit_before)} → ${fmt(r.unit_profit_after)} บาท</span></div>
         <div class="kv"><span>ต้องขายเพิ่มเพื่อคุ้มทุน</span><span>${r.lift_needed == null ? "ไม่คุ้ม" : "+" + pct(r.lift_needed)}</span></div>
-        <div class="kv"><span>เพดานส่วนลด (คุ้ม / ลุ้น)</span><span>${fmt(r.cap_worth_baht)} / ${fmt(r.cap_maybe_baht)} บาท</span></div>
+        <div class="kv"><span>เพดานส่วนลด (คุ้ม / เสี่ยง)</span><span>${fmt(r.cap_worth_baht)} / ${fmt(r.cap_maybe_baht)} บาท</span></div>
         <p class="small muted" style="margin:10px 0 0">กำไรสุทธิต่อวัน 3 สถานการณ์ (ยอดเพิ่มต่ำ · คาด · สูง)</p>
         <div class="bars">${pr.scenarios.map(s => `<div style="height:${Math.max(6, Math.abs(s.net) / mx * 100)}%;background:${s.net >= 0 ? "var(--orange)" : "var(--red)"}"><span>${s.net >= 0 ? "+" : ""}${fmt(s.net)}</span></div>`).join("")}</div>
         <div class="row small muted center" style="margin-top:4px">${pr.scenarios.map(s => `<span>×${s.scenario}</span>`).join("")}</div>`;
@@ -580,7 +600,7 @@ document.addEventListener("change", e => {
 document.addEventListener("input", e => {
   const m = e.target.dataset.m; if (m != null) { const items = menuItems().map(i => [i.name, i.price, i.cost]); items[+m][+e.target.dataset.k] = e.target.dataset.k === "0" ? e.target.value : (e.target.value === "" ? null : +e.target.value); S.menu = items; S.menuCalc = null; S.disc = null; save();
     if (!S.profile) { const b = document.querySelector('[data-a="ob-plan"]'); if (b) b.disabled = !menuValid() || !!S.loading.plan; } }
-  if (e.target.dataset.gp) { S.gp[e.target.dataset.gp] = +e.target.value; save(); }
+  if (e.target.dataset.gp) { S.gp[e.target.dataset.gp] = +e.target.value; S.disc = null; S.menuCalc = null; save(); }
   if (["ms","sb0","sb1","lift","q0"].includes(e.target.id)) store.set(e.target.id, e.target.value);
   if (e.target.id === "q") S.qDraft = e.target.value;
   const cn = e.target.dataset.cn; if (cn && S.sbDays[cn]) { S.sbDays[cn].n = e.target.value === "" ? null : +e.target.value; save(); }
@@ -641,6 +661,10 @@ $.addEventListener("click", async e => {
   else if (a === "menu-cam") { openCamera(); return; }
   else if (a === "menu-sample") { const p = S.profile || S.ob.p; S.menu = (DEFAULT_MENU[p.shop_type] || []).map(r => [...r]); S.menuCalc = null; S.disc = null; S.menuNote = null; save(); }
   else if (a === "calc-disc") { calcDiscounts(); return; }
+  else if (a === "calc-adb") { const ms = +document.getElementById("ms").value, b0 = +document.getElementById("sb0").value / 100, b1 = +document.getElementById("sb1").value / 100;
+    const gpMax = Math.max(0, ...Object.entries(S.gp).filter(([k]) => k !== "หน้าร้าน").map(([, v]) => +v || 0)) / 100;
+    if (!(ms > 0)) { toast("ใส่ยอดขายต่อเดือนก่อน"); return; }
+    try { S.adb = await api("/api/calc/ad-budget", { monthly_sales: ms, platform_share_before: Math.min(1, Math.max(0, b0)), platform_share_after: Math.min(1, Math.max(0, b1)), gp_rate: Math.min(0.99, gpMax) }); } catch (e) { if (e.status !== 429) toast("คำนวณไม่ได้ ตรวจตัวเลขอีกครั้ง"); } }
   else if (a === "menu-add") { const it = menuItems().map(i => [i.name, i.price, i.cost]); if (it.length < 20) it.push(S.profile ? ["เมนูใหม่", 50, null] : ["", null, null]); S.menu = it; S.disc = null; save(); }
   else if (a === "menu-del") { const it = menuItems().map(i => [i.name, i.price, i.cost]); it.splice(+el.dataset.i, 1); S.menu = it; S.menuCalc = null; S.disc = null; save(); }
   else if (a === "calc-menu") { const ms = +document.getElementById("ms").value || null, b0 = +document.getElementById("sb0").value / 100, b1 = +document.getElementById("sb1").value / 100;

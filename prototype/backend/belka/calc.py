@@ -15,7 +15,7 @@ from statistics import mean, stdev
 ROI_THRESHOLD = 0.20          # ROI ≥ 20% → ทำต่อ (ทีมตั้งเอง)
 MAX_DISCOUNT = 0.20           # ระบบไม่ลดเกิน 20% (ยกเว้นลดท้ายวัน)
 MIN_MARGIN_FOR_PROMO = 0.20   # ตัดสินค้าที่ m < 20%
-LABEL_WORTH, LABEL_MAYBE, LABEL_NO = "คุ้ม", "ลุ้น", "ไม่แนะนำ"
+LABEL_WORTH, LABEL_MAYBE, LABEL_NO = "คุ้ม", "เสี่ยง", "ไม่คุ้ม"
 SCENARIOS = (0.5, 1.0, 1.5)   # สถานการณ์ต่ำ คาด สูง (คูณกับยอดที่ร้านคาด)
 MARKETING_SHARE_OF_GP_SAVED = 0.30  # แบ่ง 30% ของ GP ที่ประหยัดได้เป็นงบการตลาด (Content Document)
 
@@ -73,7 +73,7 @@ def lift_label(L: float | None) -> str:
 
 
 def discount_caps(m: float) -> tuple[float, float]:
-    """เพดานส่วนลด (สัดส่วนของราคา): คุ้ม ≤ min(m/3, 20%), ลุ้น ≤ min(m/2, 20%)"""
+    """เพดานส่วนลด (สัดส่วนของราคา): คุ้ม ≤ min(m/3, 20%), เสี่ยง ≤ min(m/2, 20%)"""
     return min(m / 3, MAX_DISCOUNT), min(m / 2, MAX_DISCOUNT)
 
 
